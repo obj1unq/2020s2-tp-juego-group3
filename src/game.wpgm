@@ -1,8 +1,15 @@
 import wollok.game.*
-import pepita.*
+import configuraciones.*
 
 program game {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	
+	//Inicializo juego
+	game.title("Wollokmon")
+	game.width(12)
+	game.height(12)
+	
+	pantallaPrincipal.iniciar()
+	
+	//Inicio
 	game.start()
 }
