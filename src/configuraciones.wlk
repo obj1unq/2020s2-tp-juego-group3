@@ -16,25 +16,30 @@ object config {
 	}
 	
 	method configurarTeclasNormal(){
-		
-		//Mover al jugador
+		// Mover al jugador
 		keyboard.left().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1)) })
 		keyboard.right().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1)) })
 		keyboard.up().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(1)) })
 		keyboard.down().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1)) })
 	}
+	method configurarTeclaAccion() {
+		// Flecha de batalla
+		keyboard.enter().onPressDo({ jugador.seleccion(jugador.position()) })
+		
+	}
 	
 	method configurarColisiones() {
-//		game.onCollideDo(
+		game.onCollideDo(jugador, { rival => rival.iniciarPelea(jugador) })
 	}
 }
 
 object pantallaPrincipal {
 	
 	method iniciar(){
+		game.boardGround("fondo.png")
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
-		game.addVisual(helloMan)
+		game.addVisual(rival)
 		
 		//Configura el movimiento del jugador
 		config.configurarTeclasNormal()
@@ -46,12 +51,14 @@ object pantallaDeBatalla {
 	
 	method iniciar(rival){
 		
-		game.clearVisual()
+		game.clear()
+		game.boardGround("forest.png")
 		//Agrega lo visual de la pantalla de batalla
 		game.addVisual(jugador.wollokmon())
 		game.addVisual(rival.wollokmon())
 		
 		//Configura los comandos para pelear
 		config.configurarTeclasBatalla()
+		config.configurarTeclaAccion()
 	}
 }

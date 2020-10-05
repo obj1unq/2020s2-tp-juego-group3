@@ -1,5 +1,6 @@
 import wollok.game.*
 import wollokmones.*
+import configuraciones.*
 
 object jugador {
 
@@ -9,7 +10,7 @@ object jugador {
 	
 	//De carga del jugador
 	method image() {
-		return "jugador.png"
+		return "prota.png"
 	}
 	
 	//De movimiento del jugador
@@ -27,18 +28,45 @@ object jugador {
 		return 	nuevaPosicion.x().between(0, game.width() - 1)
 		and		nuevaPosicion.y().between(0, game.height() - 1)
 	}
+	
+	method seleccion(posicion) {
+		// Deberia devolver el objecto ataque/defensa que esta en la posicion 
+		// a la derecha de la flecha
+		
+		// posicion x , (posicion y )+1
+	}
+	
+	method ganar() {
+		game.say(self, "¡GANASTE!")
+		self.finalizarJuego()
+	}
+	
+	method perder() {
+		game.say(self, "¡GAME OVER!")
+		self.finalizarJuego()
+	}
+	
+	method finalizarJuego() {
+		// Esto ejecuta el bloque de código una vez en 2 segundos
+		game.schedule(2000, { game.stop() })
+	}
+	
 }
 
-object helloMan {
+object rival {
 	
 	//Su wollokmon
 	var property wollokmon = helloWorldMon
 	
 	method position() {
-		return game.at(3,5)
+		return game.at(4,5)
 	}
 
 	method image() {
-		return "jugador.png"
+		return "rival.png"
+	}
+	
+	method iniciarPelea(jugador) {
+		pantallaDeBatalla.iniciar(self)
 	}
 }
