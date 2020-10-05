@@ -36,7 +36,7 @@ object config {
 object pantallaPrincipal {
 	
 	method iniciar(){
-		game.boardGround("fondo.png")
+		
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
 		game.addVisual(rival)
@@ -52,7 +52,9 @@ object pantallaDeBatalla {
 	method iniciar(rival){
 		
 		game.clear()
-		game.boardGround("forest.png")
+		
+		//cambia fondo
+		game.addVisual(self)
 		//Agrega lo visual de la pantalla de batalla
 		game.addVisual(jugador.wollokmon())
 		game.addVisual(rival.wollokmon())
@@ -60,5 +62,13 @@ object pantallaDeBatalla {
 		//Configura los comandos para pelear
 		config.configurarTeclasBatalla()
 		config.configurarTeclaAccion()
+	}
+	
+	method image(){
+		return "forest.png"
+	}
+	
+	method position(){
+		return game.origin()
 	}
 }
