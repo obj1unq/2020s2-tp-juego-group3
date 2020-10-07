@@ -56,7 +56,7 @@ object jugador {
 object rival {
 	
 	//Su wollokmon
-	var property wollokmon = helloWorldMon
+	var property wollokmon = aracne
 	
 	method position() {
 		return game.at(4,5)

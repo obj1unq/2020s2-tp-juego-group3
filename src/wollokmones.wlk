@@ -1,27 +1,33 @@
 import wollok.game.*
 
-object pepita {
+class WollockmonEnemigo{
+	var property vida = 100
+	const imagen
 	
-	method position() { 
-		//EN UN FUTURO SE TIENE QUE ADAPTAR A SI ES AMIGO O ENEMIGO
-		return game.at(0,0)
-	}
-
-	method image() {
-		return "pepita.png"
+	
+	method position(){
+		return game.at(9,9)
 	}
 	
+	method image(){
+		return imagen
+	}
 }
 
-object helloWorldMon {
+class WollockmonAmigo{
+	var property vida = 100
+	const imagen
 	
-	method position() {
-		//EN UN FUTURO SE TIENE QUE ADAPTAR A SI ES AMIGO O ENEMIGO
-		//Posición temporal pa ver que funque
-		return game.at(10,10)
+	
+	method position(){
+		return game.at(1,1)
 	}
-
-	method image() {
-		return "pepita.png"
+	
+	method image(){
+		return imagen
 	}
 }
+
+const pepita = new WollockmonAmigo(imagen = "pepita.png")
+const aracne = new WollockmonEnemigo(imagen = "aracneF.png")
+const calabazo = new WollockmonEnemigo(imagen = "calabazoF.png")
