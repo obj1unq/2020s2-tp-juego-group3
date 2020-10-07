@@ -1,9 +1,13 @@
 import wollok.game.*
+import configuraciones.*
+import entrenadores.*
 
-class WollockmonEnemigo{
+class WollokmonEnemigo{
 	var property vida = 100
 	const imagen
-	
+	const ataque
+	const defensa    
+	const especial
 	
 	method position(){
 		return game.at(9,9)
@@ -12,11 +16,26 @@ class WollockmonEnemigo{
 	method image(){
 		return imagen
 	}
+	
+	method atacar(){
+	   self.wollokmonDelJugador().recibirDanio(ataque)	
+	}
+	
+	method wollokmonDelJugador(){
+		return jugador.wollokmon()
+	}
+	
+	method recibirDanio(nivelDanio){
+		vida -= nivelDanio
+	}
 }
 
-class WollockmonAmigo{
+class WollokmonAmigo{
 	var property vida = 100
 	const imagen
+	const ataque
+	const defensa    
+	const especial
 	
 	
 	method position(){
@@ -26,8 +45,20 @@ class WollockmonAmigo{
 	method image(){
 		return imagen
 	}
+	
+	method atacar(){
+	   self.wollokmonDelEnemigo().recibirDanio(ataque)	
+	}
+	
+	method wollokmonDelEnemigo(){
+		return rival.wollokmon()
+	}
+	
+	method recibirDanio(nivelDanio){
+		vida -= nivelDanio
+	}
 }
 
-const pepita = new WollockmonAmigo(imagen = "pepita.png")
-const aracne = new WollockmonEnemigo(imagen = "aracneF.png")
-const calabazo = new WollockmonEnemigo(imagen = "calabazoF.png")
+const pepita = new WollokmonAmigo(imagen = "pepita.png", ataque = 15, defensa = 10, especial = 30)
+const aracne = new WollokmonEnemigo(imagen = "aracneF.png", ataque = 12, defensa = 12, especial = 25)
+const calabazo = new WollokmonEnemigo(imagen = "calabazoF.png", ataque = 10, defensa = 20, especial = 20)
