@@ -36,7 +36,7 @@ class WollokmonAmigo{
 	const ataque
 	const defensa    
 	const especial
-	
+
 	
 	method position(){
 		return game.at(1,1)
@@ -47,7 +47,8 @@ class WollokmonAmigo{
 	}
 	
 	method atacar(){
-	   self.wollokmonDelEnemigo().recibirDanio(ataque)	
+	   self.wollokmonDelEnemigo().recibirDanio(ataque)
+	   game.onTick(3000, "atacando", {=> self.up(4) })	
 	}
 	
 	method wollokmonDelEnemigo(){

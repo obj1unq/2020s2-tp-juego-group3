@@ -25,6 +25,9 @@ object config {
 	method configurarTeclaAccion() {
 		// Flecha de batalla
 		keyboard.enter().onPressDo({ jugador.seleccion(jugador.position()) })
+		keyboard.k().onPressDo({ game.say(jugador.wollokmon(), "Atacando")
+			jugador.wollokmon().atacar()
+		})
 		
 	}
 	
@@ -62,6 +65,7 @@ object pantallaDeBatalla {
 		//Configura los comandos para pelear
 		config.configurarTeclasBatalla()
 		config.configurarTeclaAccion()
+		game.say(self, "ATACAR CON K")
 	}
 	
 	method image(){
