@@ -53,20 +53,17 @@ object jugador {
 	
 }
 
-object rival {
+class Rival {
 	
 	//Su wollokmon
 	var property wollokmon = aracne
-	
-	method position() {
-		return game.at(4,5)
-	}
-
-	method image() {
-		return "rival.png"
-	}
+	const property position
+	const property image
 	
 	method iniciarPelea(jugador) {
 		pantallaDeBatalla.iniciar(self)
 	}
 }
+
+const fercho = new Rival(wollokmon = aracne, position = game.at(4,5), image = "rival.png")
+const juan = new Rival(wollokmon = calabazo, position = game.at(9,2), image = "rival.png")

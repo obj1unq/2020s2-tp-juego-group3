@@ -31,7 +31,8 @@ object pantallaPrincipal {
 		
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
-		game.addVisual(rival)
+		game.addVisual(fercho)
+		game.addVisual(juan)
 		
 		//Configura el movimiento del jugador
 		config.configurarTeclasNormal()
