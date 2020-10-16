@@ -53,7 +53,7 @@ object jugador {
 	
 }
 
-class Rival {
+class Entrenador {
 	
 	//Su wollokmon
 	var property wollokmon = aracne
@@ -65,5 +65,5 @@ class Rival {
 	}
 }
 
-const fercho = new Rival(wollokmon = aracne, position = game.at(4,5), image = "rival.png")
-const juan = new Rival(wollokmon = calabazo, position = game.at(9,2), image = "rival.png")
+const fercho = new Entrenador(wollokmon = aracne, position = game.at(4,5), image = "rival.png")
+const juan = new Entrenador(wollokmon = calabazo, position = game.at(9,2), image = "rival.png")
