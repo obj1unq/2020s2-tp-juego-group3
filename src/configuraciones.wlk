@@ -3,18 +3,6 @@ import entrenadores.*
 
 object config {
 	
-	method configurarTeclasBatalla(){
-		/* Podría la misma imagen de poderes q pongamos referenciar las teclas.
-		 * tipo una imagen q diga:
-		 * "Tecla A. Ataque.
-		 * Tecla D. Defender.
-		 * Tecla S. Especial."
-		 * 
-		 * Luego sería cosa de cambiar de configuración de pantalla a pantalla, creo que
-		 * se puede hacer pero hay que verlo.
-		 */
-	}
-	
 	method configurarTeclasNormal(){
 		// Mover al jugador
 		keyboard.left().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1)) })
@@ -25,7 +13,8 @@ object config {
 	method configurarTeclaAccion() {
 		// Flecha de batalla
 		keyboard.enter().onPressDo({ jugador.seleccion(jugador.position()) })
-		keyboard.k().onPressDo({ game.say(jugador.wollokmon(), "Atacando")
+		keyboard.k().onPressDo({ 
+			game.say(jugador.wollokmon(), "Atacando")
 			jugador.wollokmon().atacar()
 		})
 		
@@ -52,18 +41,25 @@ object pantallaPrincipal {
 
 object pantallaDeBatalla {
 	
-	method iniciar(rival){
+	var property wollokmonAliado
+	var property wollokmonEnemigo
+	
+	method iniciar(_rival){
 		
 		game.clear()
 		
+		//settea los wollokmones en batalla
+		wollokmonAliado = jugador.wollokmon()
+		wollokmonEnemigo = _rival.wollokmon()
+		
 		//cambia fondo
 		game.addVisual(self)
+		
 		//Agrega lo visual de la pantalla de batalla
 		game.addVisual(jugador.wollokmon())
-		game.addVisual(rival.wollokmon())
+		game.addVisual(_rival.wollokmon())
 		
 		//Configura los comandos para pelear
-		config.configurarTeclasBatalla()
 		config.configurarTeclaAccion()
 		game.say(self, "ATACAR CON K")
 	}
