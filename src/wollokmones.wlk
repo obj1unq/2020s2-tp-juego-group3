@@ -32,7 +32,11 @@ class Wollokmon{
 	
 	method recibirDanio(nivelDanio){
 		vidaActual -= nivelDanio
-		game.say(self, "Mi vida actual es " + vidaActual)
+		if(vidaActual > 0){
+			game.say(self, "Mi vida actual es " + vidaActual)
+		}else{
+			pantallaDeBatalla.terminar(self)
+		}
 	}
 	
 	method wollokmonRival(){

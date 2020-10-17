@@ -21,13 +21,21 @@ object config {
 	}
 	
 	method configurarColisiones() {
-		game.onCollideDo(jugador, { rival => rival.iniciarPelea(jugador) })
+		game.onCollideDo(jugador, { rival => 
+			if (not pantallaPrincipal.entrenadorVencido().contains(rival)){
+				rival.iniciarPelea(jugador)
+			}
+		})
 	}
 }
 
 object pantallaPrincipal {
 	
+	const property entrenadorVencido = #{}
+	
 	method iniciar(){
+		
+		game.clear()
 		
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
@@ -44,6 +52,7 @@ object pantallaDeBatalla {
 	
 	var property wollokmonAliado
 	var property wollokmonEnemigo
+	var property rivalActual
 	
 	method iniciar(_rival){
 		
@@ -52,17 +61,28 @@ object pantallaDeBatalla {
 		//settea los wollokmones en batalla
 		wollokmonAliado = jugador.wollokmon()
 		wollokmonEnemigo = _rival.wollokmon()
+		rivalActual = _rival
 		
 		//cambia fondo
 		game.addVisual(self)
 		
 		//Agrega lo visual de la pantalla de batalla
-		game.addVisual(jugador.wollokmon())
-		game.addVisual(_rival.wollokmon())
+		game.addVisual(wollokmonAliado)
+		game.addVisual(wollokmonEnemigo)
 		
 		//Configura los comandos para pelear
 		config.configurarTeclaAccion()
 		game.say(self, "ATACAR CON K")
+	}
+	
+	method terminar(wollokmon){
+		if(wollokmon == wollokmonAliado){
+			game.say(wollokmonAliado, "Me vencieron.")
+			game.schedule(5000, {=> game.stop()})
+		}else{
+			pantallaPrincipal.entrenadorVencido().add(rivalActual)
+			pantallaPrincipal.iniciar()
+		}
 	}
 	
 	method image(){
