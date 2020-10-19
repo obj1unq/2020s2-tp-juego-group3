@@ -22,7 +22,7 @@ object config {
 	
 	method configurarColisiones() {
 		game.onCollideDo(jugador, { rival => 
-			if (not pantallaPrincipal.entrenadorVencido().contains(rival)){
+			if (not pantallaPrincipal.entrenadorFueVencido(rival)){
 				rival.iniciarPelea(jugador)
 			}
 		})
@@ -45,6 +45,10 @@ object pantallaPrincipal {
 		//Configura el movimiento del jugador
 		config.configurarTeclasNormal()
 		config.configurarColisiones()
+	}
+	
+	method entrenadorFueVencido(entrenador){
+		return entrenadorVencido.contains(entrenador)
 	}
 }
 
