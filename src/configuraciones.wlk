@@ -1,5 +1,6 @@
 import wollok.game.*
 import entrenadores.*
+import wollokmones.*
 
 object config {
 	
@@ -57,6 +58,8 @@ object pantallaDeBatalla {
 	var property wollokmonAliado
 	var property wollokmonEnemigo
 	var property rivalActual
+	var property vidaAliado
+	var property vidaEnemigo
 	
 	method iniciar(_rival){
 		
@@ -67,12 +70,18 @@ object pantallaDeBatalla {
 		wollokmonEnemigo = _rival.wollokmon()
 		rivalActual = _rival
 		
+		//describe la vida
+		vidaEnemigo = new Vida(wollokmon = wollokmonEnemigo)
+		vidaAliado = new Vida(wollokmon = wollokmonAliado)
+		
 		//cambia fondo
 		game.addVisual(self)
 		
 		//Agrega lo visual de la pantalla de batalla
 		game.addVisual(wollokmonAliado)
 		game.addVisual(wollokmonEnemigo)
+		game.addVisual(vidaEnemigo)
+		game.addVisual(vidaAliado)
 		
 		//Configura los comandos para pelear
 		config.configurarTeclaAccion()

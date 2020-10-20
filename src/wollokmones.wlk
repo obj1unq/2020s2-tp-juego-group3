@@ -9,7 +9,7 @@ class Wollokmon{
 	const ataque
 	const defensa    
 	const especial
-	var esAliado //<- Booleano para saber si es del jugador
+	var property esAliado //<- Booleano para saber si es del jugador
 	
 	method position(){
 		if (esAliado){
@@ -33,7 +33,7 @@ class Wollokmon{
 	method recibirDanio(nivelDanio){
 		vidaActual -= nivelDanio
 		if(vidaActual > 0){
-			game.say(self, "Mi vida actual es " + vidaActual)
+		    game.say(self, "Mi vida actual es " + vidaActual)
 		}else{
 			pantallaDeBatalla.terminar(self)
 		}
@@ -43,7 +43,25 @@ class Wollokmon{
 		return if(esAliado){pantallaDeBatalla.wollokmonEnemigo()}
 			   else{pantallaDeBatalla.wollokmonAliado()}
 	}
+	
 }
+
+class Vida{
+	const wollokmon
+	
+	method position(){
+		return if (wollokmon.esAliado()){
+			 wollokmon.position().right(1)
+        }
+        else wollokmon.position().down(1)
+	}
+	
+	method image(){
+		return "vida_" + wollokmon.vidaActual().toString() + ".png"
+	} 	
+}
+
+
 
 const pepita = new Wollokmon(esAliado = true, imagen = "pepita.png", ataque = 15, defensa = 10, especial = 30)
 const aracne = new Wollokmon(esAliado = false, imagen = "aracneF.png", ataque = 12, defensa = 12, especial = 25)
