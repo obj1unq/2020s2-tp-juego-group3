@@ -38,17 +38,10 @@ object jugador {
 	
 	method ganar() {
 		game.say(self, "¡GANASTE!")
-		self.finalizarJuego()
 	}
 	
 	method perder() {
 		game.say(self, "¡GAME OVER!")
-		self.finalizarJuego()
-	}
-	
-	method finalizarJuego() {
-		// Esto ejecuta el bloque de código una vez en 2 segundos
-		game.schedule(2000, { game.stop() })
 	}
 	
 }

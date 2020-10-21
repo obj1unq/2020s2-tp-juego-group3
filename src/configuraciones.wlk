@@ -28,20 +28,21 @@ object config {
 			}
 		})
 		
+		//Atajo para perder de una
+		keyboard.h().onPressDo({jugador.wollokmon().recibirDanio(100)})
+		
 	}
 	
 	method configurarColisiones() {
 		game.onCollideDo(jugador, { rival => 
-			if (not pantallaPrincipal.entrenadorFueVencido(rival)){
 				rival.iniciarPelea(jugador)
-			}
 		})
 	}
 }
 
 object pantallaPrincipal {
 	
-	const property entrenadorVencido = #{}
+	const property entrenadoresAVencer = #{fercho, juan}
 	
 	method iniciar(){
 		
@@ -49,19 +50,33 @@ object pantallaPrincipal {
 		
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
-		game.addVisual(fercho)
-		// TODO: descomentar para agregar el otro rival
-		// game.addVisual(juan)
-		
-		// TODO: remover de la pantalla los entrenadoresVencidos
+		entrenadoresAVencer.forEach({entrenador => game.addVisual(entrenador)})
+		//^^^ agrega solo a los entrenadores que faltan vencer
 		
 		//Configura el movimiento del jugador
 		config.configurarTeclasNormal()
 		config.configurarColisiones()
+		
+		//Comprueba si quedan rivales a vencer o si ya se ganó el juego
+		self.comprobarVictoria()
 	}
 	
-	method entrenadorFueVencido(entrenador){
-		return entrenadorVencido.contains(entrenador)
+	method comprobarVictoria(){
+		//Si no hay rival a vencer, entonces ganar
+		if(entrenadoresAVencer.isEmpty()){
+			pantallaFinal.victoria()
+		}
+	}
+	
+	method esEntrenadorAVencer(entrenador){
+		return entrenadoresAVencer.contains(entrenador)
+	}
+	
+	method entrenadorVencido(entrenador){
+		//Quita a un entrenador que fue vencido
+		if(self.esEntrenadorAVencer(entrenador)){
+			entrenadoresAVencer.remove(entrenador)
+		}
 	}
 }
 
@@ -117,10 +132,11 @@ object pantallaDeBatalla {
 	
 	method terminar(wollokmon){
 		if (wollokmon == wollokmonAliado) {
-			game.say(wollokmonAliado, "Me vencieron.")
-			game.schedule(5000, {=> game.stop()})
+			//perdio el jugador
+			game.say(wollokmon, "Me vencieron")
+			pantallaFinal.derrota()
 		} else {
-			pantallaPrincipal.entrenadorVencido().add(rivalActual)
+			pantallaPrincipal.entrenadorVencido(rivalActual)
 			pantallaPrincipal.iniciar()
 		}
 	}
@@ -131,6 +147,37 @@ object pantallaDeBatalla {
 	
 	method position(){
 		return game.origin()
+	}
+}
+
+object pantallaFinal{
+	
+	var property imagen
+	
+	method position(){
+		return game.origin()
+	}
+	
+	method image(){
+		return imagen
+	}
+	
+	method victoria(){
+		imagen = "victoria.png"
+		jugador.ganar()
+		game.schedule(2000,{game.addVisual(self)})
+		self.finalizarJuego()
+	}
+	
+	method derrota(){
+		imagen = "derrota.png"
+		game.schedule(2000,{game.addVisual(self)})
+		self.finalizarJuego()
+	}
+	
+	method finalizarJuego() {
+		// Esto ejecuta el bloque de código una vez en 2 segundos
+		game.schedule(5000, { game.stop() })
 	}
 }
 

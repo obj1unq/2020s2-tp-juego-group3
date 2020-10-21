@@ -13,6 +13,7 @@ class Wollokmon {
 	const movimientos = [atacar, atacar, atacar, atacar]
 	var property esAliado //<- Booleano para saber si es del jugador
 	
+	//---------------PARA EL OBJECT GAME
 	method position(){
 		if (esAliado){
 			//Si el wollokmon es del jugador va acá
@@ -27,10 +28,19 @@ class Wollokmon {
 		return imagen
 	}
 	
+	//---------------ANTIGUO, aún sirve para ganar fácil con la letra "k"
 	method atacar(){
 	   self.wollokmonRival().recibirDanio(ataque)
 	   //¿Que hace esto? -> game.onTick(3000, "atacando", {=> self.up(4) })	
 	}
+	
+	// LO IMPLEMENTE EN PANTALLAS:
+	// TODO: mejorar la victoria total para que se de cuando le gana a mas de un rival
+	//method resultadoBatalla() {
+	//	if (esAliado) jugador.perder() else jugador.ganar() 
+	//}
+	
+	//------COMBATE Y OTROS
 	
 	method recibirDanio(nivelDanio){
 		vidaActual -= nivelDanio
@@ -41,11 +51,6 @@ class Wollokmon {
 			//self.resultadoBatalla()
 			pantallaDeBatalla.terminar(self)
 		}
-	}
-	
-	// TODO: mejorar la victoria total para que se de cuando le gana a mas de un rival
-	method resultadoBatalla() {
-		if (esAliado) jugador.perder() else jugador.ganar() 
 	}
 	
 	method curarse(nivelCura){
@@ -72,6 +77,7 @@ class Wollokmon {
 
 class Vida{
 	const wollokmon
+	
 	method categoriaVida(numero) {
 		return if (numero > 96) {
 			"plena"
