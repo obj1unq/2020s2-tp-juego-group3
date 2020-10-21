@@ -4,6 +4,8 @@ import wollokmones.*
 
 object config {
 	
+	var property turno = true
+	
 	method configurarTeclasNormal(){
 		// Mover al jugador
 		keyboard.left().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1)) })
@@ -17,6 +19,11 @@ object config {
 		keyboard.k().onPressDo({ 
 			game.say(jugador.wollokmon(), "Atacando")
 			jugador.wollokmon().atacar()
+		})
+		keyboard.j().onPressDo({
+			if(turno){
+				pantallaDeBatalla.turno(0)
+			}
 		})
 		
 	}
@@ -86,6 +93,20 @@ object pantallaDeBatalla {
 		//Configura los comandos para pelear
 		config.configurarTeclaAccion()
 		game.say(self, "ATACAR CON K")
+	}
+	
+	method turno(numero){
+		
+		//Impide apretar teclas
+		config.turno(false)
+		
+		//actua el wollokmonaliado y 5 segundos despues el enemigo
+		wollokmonAliado.ejecutarMovimiento(wollokmonAliado.movimientoNumero(numero))
+		game.schedule(4000,{wollokmonEnemigo.ejecutarMovimiento(wollokmonEnemigo.movimientoAlAzar())})
+		
+		//luego destraba teclas para que pueda seguir jugando el jugador
+		game.schedule(6000,{config.turno(true)})
+		
 	}
 	
 	method terminar(wollokmon){

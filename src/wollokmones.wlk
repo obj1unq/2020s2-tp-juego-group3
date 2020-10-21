@@ -6,9 +6,10 @@ class Wollokmon{
 	var property vida = 100
 	var property vidaActual = 100
 	const imagen
-	const ataque
-	const defensa    
-	const especial
+	const property ataque
+	const property defensa    
+	const property especial
+	const movimientos = [atacar, atacar, atacar, atacar]
 	var property esAliado //<- Booleano para saber si es del jugador
 	
 	method position(){
@@ -39,11 +40,26 @@ class Wollokmon{
 		}
 	}
 	
+	method curarse(nivelCura){
+		vidaActual = (vidaActual + nivelCura).min(vida)
+	}
+	
 	method wollokmonRival(){
 		return if(esAliado){pantallaDeBatalla.wollokmonEnemigo()}
 			   else{pantallaDeBatalla.wollokmonAliado()}
 	}
 	
+	method movimientoAlAzar(){
+		return movimientos.anyOne()
+	}
+	
+	method movimientoNumero(n){
+		return movimientos.get(n)
+	}
+	
+	method ejecutarMovimiento(movimiento){
+		movimiento.ejecutar(self, self.wollokmonRival())
+	}
 }
 
 class Vida{
@@ -61,7 +77,21 @@ class Vida{
 	} 	
 }
 
-
+//ESTO SE TIENE Q TRANSFORMAR EN CLASE E IRSE A OTRO LADO PARA MAS ORDEN
+object atacar {
+	
+	const nombre = "ataque"
+	
+	method ejecutar(ejecutor, rival){
+		game.say(ejecutor, "uso " + nombre)
+		game.schedule(2000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))}))
+	}
+	
+	method danioEjercido(ejecutor, rival){
+		return 10 + ejecutor.ataque() - rival.defensa()
+	}
+	
+}
 
 const pepita = new Wollokmon(esAliado = true, imagen = "pepita.png", ataque = 15, defensa = 10, especial = 30)
 const aracne = new Wollokmon(esAliado = false, imagen = "aracneF.png", ataque = 12, defensa = 12, especial = 25)
