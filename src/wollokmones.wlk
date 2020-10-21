@@ -34,9 +34,7 @@ class Wollokmon {
 	
 	method recibirDanio(nivelDanio){
 		vidaActual -= nivelDanio
-		if (vidaActual > 0) {
-		    game.say(self, "Mi vida actual es " + vidaActual)
-		} else {
+		if (vidaActual <= 0) {
 			// TODO: Implementar una logica que verifique la condicion de victoria/derrota
 			//self.resultadoBatalla()
 			pantallaDeBatalla.terminar(self)
@@ -72,27 +70,13 @@ class Wollokmon {
 
 class Vida{
 	const wollokmon
-	method categoriaVida(numero) {
-		return if (numero > 96) {
-			"plena"
-		} else if (numero > 60) {
-			"verde"
-		} else if (numero > 30) {
-			"naranja"
-		} else {
-			"rojo"
-		}
-	}
 	
 	method position(){
-		return if (wollokmon.esAliado()){
-			 wollokmon.position().right(1)
-        }
-        else wollokmon.position().down(1)
+		return wollokmon.position().down(1)
 	}
 	
 	method image(){
-		return "vida_" + self.categoriaVida(wollokmon.vidaActual()) + ".png"
+		return "vida_" + wollokmon.vidaActual().toString() + ".png"
 	} 	
 }
 
