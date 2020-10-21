@@ -2,7 +2,8 @@ import wollok.game.*
 import configuraciones.*
 import entrenadores.*
 
-class Wollokmon{
+class Wollokmon {
+
 	var property vida = 100
 	var property vidaActual = 100
 	const imagen
@@ -15,7 +16,7 @@ class Wollokmon{
 	method position(){
 		if (esAliado){
 			//Si el wollokmon es del jugador va acá
-			return game.at(1,1)
+			return game.at(1,5)
 		}else{
 			//Si no es rival, y va a acá
 			return game.at(9,9)
@@ -33,11 +34,18 @@ class Wollokmon{
 	
 	method recibirDanio(nivelDanio){
 		vidaActual -= nivelDanio
-		if(vidaActual > 0){
+		if (vidaActual > 0) {
 		    game.say(self, "Mi vida actual es " + vidaActual)
-		}else{
+		} else {
+			// TODO: Implementar una logica que verifique la condicion de victoria/derrota
+			//self.resultadoBatalla()
 			pantallaDeBatalla.terminar(self)
 		}
+	}
+	
+	// TODO: mejorar la victoria total para que se de cuando le gana a mas de un rival
+	method resultadoBatalla() {
+		if (esAliado) jugador.perder() else jugador.ganar() 
 	}
 	
 	method curarse(nivelCura){
@@ -64,6 +72,17 @@ class Wollokmon{
 
 class Vida{
 	const wollokmon
+	method categoriaVida(numero) {
+		return if (numero > 96) {
+			"plena"
+		} else if (numero > 60) {
+			"verde"
+		} else if (numero > 30) {
+			"naranja"
+		} else {
+			"rojo"
+		}
+	}
 	
 	method position(){
 		return if (wollokmon.esAliado()){
@@ -73,18 +92,24 @@ class Vida{
 	}
 	
 	method image(){
-		return "vida_" + wollokmon.vidaActual().toString() + ".png"
+		return "vida_" + self.categoriaVida(wollokmon.vidaActual()) + ".png"
 	} 	
 }
 
-//ESTO SE TIENE Q TRANSFORMAR EN CLASE E IRSE A OTRO LADO PARA MAS ORDEN
+// TODO: ESTO SE TIENE Q TRANSFORMAR EN CLASE E IRSE A OTRO LADO PARA MAS ORDEN
 object atacar {
 	
 	const nombre = "ataque"
 	
 	method ejecutar(ejecutor, rival){
 		game.say(ejecutor, "uso " + nombre)
+		game.schedule(500, ({ 
+			mensaje.mostrarAtaque(ejecutor, rival)
+			game.addVisual(mensaje)
+		}))
 		game.schedule(2000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))}))
+		game.schedule(2000, ({game.removeVisual(mensaje)}))
+	
 	}
 	
 	method danioEjercido(ejecutor, rival){
@@ -93,6 +118,21 @@ object atacar {
 	
 }
 
+object mensaje {
+	var property imagen = ""
+	method mostrarAtaque(ejecutor, rival) {
+		imagen = ("ataque_pepita_pikawu.png")
+		// TODO: hacer funcionar la logica para tomar la imagen que corresponde para el mensaje
+		// imagen = ("ataque_" + ejecutor.toString() + "_" + rival.toString() + ".png")
+	}
+	method image() {
+		return imagen
+	}
+	method position() {
+		return game.at(1,1)
+	}
+}
+
 const pepita = new Wollokmon(esAliado = true, imagen = "pepita.png", ataque = 15, defensa = 10, especial = 30)
-const aracne = new Wollokmon(esAliado = false, imagen = "aracneF.png", ataque = 12, defensa = 12, especial = 25)
+const pikawu = new Wollokmon(esAliado = false, imagen = "pikawu.png", ataque = 12, defensa = 12, especial = 25)
 const calabazo = new Wollokmon(esAliado = false, imagen = "calabazoF.png", ataque = 10, defensa = 20, especial = 20)

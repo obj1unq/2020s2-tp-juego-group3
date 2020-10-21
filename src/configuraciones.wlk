@@ -16,6 +16,8 @@ object config {
 	method configurarTeclaAccion() {
 		// Flecha de batalla
 		keyboard.enter().onPressDo({ jugador.seleccion(jugador.position()) })
+		
+		// TODO: Revisar funcionamiento
 		keyboard.k().onPressDo({ 
 			game.say(jugador.wollokmon(), "Atacando")
 			jugador.wollokmon().atacar()
@@ -48,7 +50,10 @@ object pantallaPrincipal {
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
 		game.addVisual(fercho)
-		game.addVisual(juan)
+		// TODO: descomentar para agregar el otro rival
+		// game.addVisual(juan)
+		
+		// TODO: remover de la pantalla los entrenadoresVencidos
 		
 		//Configura el movimiento del jugador
 		config.configurarTeclasNormal()
@@ -92,7 +97,8 @@ object pantallaDeBatalla {
 		
 		//Configura los comandos para pelear
 		config.configurarTeclaAccion()
-		game.say(self, "ATACAR CON K")
+
+		game.addVisual(tutorialTeclas)
 	}
 	
 	method turno(numero){
@@ -110,10 +116,10 @@ object pantallaDeBatalla {
 	}
 	
 	method terminar(wollokmon){
-		if(wollokmon == wollokmonAliado){
+		if (wollokmon == wollokmonAliado) {
 			game.say(wollokmonAliado, "Me vencieron.")
 			game.schedule(5000, {=> game.stop()})
-		}else{
+		} else {
 			pantallaPrincipal.entrenadorVencido().add(rivalActual)
 			pantallaPrincipal.iniciar()
 		}
@@ -125,5 +131,14 @@ object pantallaDeBatalla {
 	
 	method position(){
 		return game.origin()
+	}
+}
+
+object tutorialTeclas {
+	method image() {
+		return "teclaAtaque.png"
+	}
+	method position() {
+		return game.at(1,9)
 	}
 }
