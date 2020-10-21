@@ -81,9 +81,13 @@ class Vida{
 	}
 	
 	method image(){
-		return "vida_" + wollokmon.vidaActual().toString() + ".png"
-	} 	
-}
+		return if (wollokmon.vidaActual() > 0){
+			 "vida_" + wollokmon.vidaActual().toString() + ".png"
+			 }
+			 else "vida_0.png"
+	    }
+} 	
+
 
 // TODO: ESTO SE TIENE Q TRANSFORMAR EN CLASE E IRSE A OTRO LADO PARA MAS ORDEN
 object atacar {
