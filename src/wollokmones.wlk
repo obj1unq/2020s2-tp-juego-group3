@@ -43,7 +43,7 @@ class Wollokmon {
 	//------COMBATE Y OTROS
 	
 	method recibirDanio(nivelDanio){
-		vidaActual -= nivelDanio
+		vidaActual = (vidaActual - nivelDanio).max(0)
 		if (vidaActual <= 0) {
 			// TODO: Implementar una logica que verifique la condicion de victoria/derrota
 			//self.resultadoBatalla()
@@ -81,11 +81,9 @@ class Vida{
 	}
 	
 	method image(){
-		return if (wollokmon.vidaActual() > 0){
-			 "vida_" + wollokmon.vidaActual().toString() + ".png"
-			 }
-			 else "vida_0.png"
-	    }
+		return "vida_" + wollokmon.vidaActual().toString() + ".png" 
+	}
+	
 } 	
 
 
