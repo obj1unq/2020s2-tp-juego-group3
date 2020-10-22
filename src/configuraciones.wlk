@@ -19,8 +19,8 @@ object config {
 		
 		// TODO: Revisar funcionamiento
 		keyboard.k().onPressDo({ 
-			game.say(jugador.wollokmon(), "Atacando")
-			jugador.wollokmon().atacar()
+			game.say(jugador.wollokmon(), "Hago trampa")
+			pantallaDeBatalla.wollokmonEnemigo().recibirDanio(50)
 		})
 		keyboard.j().onPressDo({
 			if(turno){
@@ -141,14 +141,21 @@ object pantallaDeBatalla inherits Pantalla {
 		game.addVisual(tutorialTeclas)
 	}
 	
+	method posicionDeWollokmon(wollokmon){
+		return if (wollokmon == wollokmonEnemigo) {game.at(9,9)} else {game.at(1,5)}
+	}
+	
 	method turno(numero){
 		
 		//Impide apretar teclas
 		config.turno(false)
 		
 		//actua el wollokmonaliado y 5 segundos despues el enemigo
-		wollokmonAliado.ejecutarMovimiento(wollokmonAliado.movimientoNumero(numero))
-		game.schedule(4000,{wollokmonEnemigo.ejecutarMovimiento(wollokmonEnemigo.movimientoAlAzar())})
+		var movimiento = wollokmonAliado.movimientoNumero(numero)
+		movimiento.ejecutar(wollokmonAliado, wollokmonEnemigo)
+		
+		movimiento = wollokmonEnemigo.movimientoAlAzar()
+		game.schedule(4000,{movimiento.ejecutar(wollokmonEnemigo, wollokmonAliado)})
 		
 		//luego destraba teclas para que pueda seguir jugando el jugador
 		game.schedule(6000,{config.turno(true)})
@@ -161,6 +168,7 @@ object pantallaDeBatalla inherits Pantalla {
 			game.say(wollokmon, "Me vencieron")
 			game.schedule(2000, {pantallaDeDerrota.iniciar()})
 		} else {
+			config.turno(true)
 			pantallaPrincipal.entrenadorVencido(rivalActual)
 			pantallaPrincipal.iniciar()
 		}

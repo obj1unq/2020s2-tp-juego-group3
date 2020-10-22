@@ -11,27 +11,14 @@ class Wollokmon {
 	const property defensa    
 	const property especial
 	const movimientos = [atacar, atacar, atacar, atacar]
-	var property esAliado //<- Booleano para saber si es del jugador
 	
 	//---------------PARA EL OBJECT GAME
 	method position(){
-		if (esAliado){
-			//Si el wollokmon es del jugador va acá
-			return game.at(1,5)
-		}else{
-			//Si no es rival, y va a acá
-			return game.at(9,9)
-		}
+		return pantallaDeBatalla.posicionDeWollokmon(self)
 	}
 	
 	method image(){
 		return imagen
-	}
-	
-	//---------------ANTIGUO, aún sirve para ganar fácil con la letra "k"
-	method atacar(){
-	   self.wollokmonRival().recibirDanio(ataque)
-	   //¿Que hace esto? -> game.onTick(3000, "atacando", {=> self.up(4) })	
 	}
 	
 	// LO IMPLEMENTE EN PANTALLAS:
@@ -55,11 +42,6 @@ class Wollokmon {
 		vidaActual = (vidaActual + nivelCura).min(vida)
 	}
 	
-	method wollokmonRival(){
-		return if(esAliado){pantallaDeBatalla.wollokmonEnemigo()}
-			   else{pantallaDeBatalla.wollokmonAliado()}
-	}
-	
 	method movimientoAlAzar(){
 		return movimientos.anyOne()
 	}
@@ -67,10 +49,7 @@ class Wollokmon {
 	method movimientoNumero(n){
 		return movimientos.get(n)
 	}
-	
-	method ejecutarMovimiento(movimiento){
-		movimiento.ejecutar(self, self.wollokmonRival())
-	}
+
 }
 
 class Vida{
@@ -124,6 +103,6 @@ object mensaje {
 	}
 }
 
-const pepita = new Wollokmon(esAliado = true, imagen = "pepita.png", ataque = 15, defensa = 10, especial = 30)
-const pikawu = new Wollokmon(esAliado = false, imagen = "pikawu.png", ataque = 12, defensa = 12, especial = 25)
-const calabazo = new Wollokmon(esAliado = false, imagen = "calabazoF.png", ataque = 10, defensa = 20, especial = 20)
+const pepita = new Wollokmon(imagen = "pepita.png", ataque = 15, defensa = 10, especial = 30)
+const pikawu = new Wollokmon(imagen = "pikawu.png", ataque = 12, defensa = 12, especial = 25)
+const calabazo = new Wollokmon(imagen = "calabazoF.png", ataque = 10, defensa = 20, especial = 20)
