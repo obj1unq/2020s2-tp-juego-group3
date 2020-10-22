@@ -40,13 +40,35 @@ object config {
 	}
 }
 
-object pantallaPrincipal {
+class Pantalla {
+	
+	//Se carga a si misma y su contenido
+	method iniciar() { 
+		game.clear()
+		// self.configurarTeclas()
+		game.addVisual(self)
+	}
+	
+	//Siempre es la misma posicion de fondo
+	method position(){return game.origin()}
+	
+	//Todas tienen que declarar su imagen
+	method image()
+	
+	//La configuración de sus teclas
+	//method configurarTeclas()
+
+}
+
+object pantallaPrincipal inherits Pantalla {
 	
 	const property entrenadoresAVencer = #{fercho, juan}
 	
-	method iniciar(){
+	override method image(){ return "pantallaPrincipal.png"}
+	
+	override method iniciar(){
 		
-		game.clear()
+		super()
 		
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
@@ -64,7 +86,8 @@ object pantallaPrincipal {
 	method comprobarVictoria(){
 		//Si no hay rival a vencer, entonces ganar
 		if(entrenadoresAVencer.isEmpty()){
-			pantallaFinal.victoria()
+			jugador.ganar()
+			game.schedule(2000,{pantallaDeVictoria.iniciar()})
 		}
 	}
 	
@@ -80,7 +103,7 @@ object pantallaPrincipal {
 	}
 }
 
-object pantallaDeBatalla {
+object pantallaDeBatalla inherits Pantalla {
 	
 	var property wollokmonAliado
 	var property wollokmonEnemigo
@@ -88,21 +111,23 @@ object pantallaDeBatalla {
 	var property vidaAliado
 	var property vidaEnemigo
 	
+	//A CAMBIAR EN BASE A LO QUE LOS PROFES DIGAN
 	method iniciar(_rival){
+		rivalActual = _rival
+		self.iniciar()
+	}
+	
+	override method iniciar(){ //(_rival)
 		
-		game.clear()
+		super()
 		
 		//settea los wollokmones en batalla
 		wollokmonAliado = jugador.wollokmon()
-		wollokmonEnemigo = _rival.wollokmon()
-		rivalActual = _rival
+		wollokmonEnemigo = rivalActual.wollokmon()
 		
 		//describe la vida
 		vidaEnemigo = new Vida(wollokmon = wollokmonEnemigo)
 		vidaAliado = new Vida(wollokmon = wollokmonAliado)
-		
-		//cambia fondo
-		game.addVisual(self)
 		
 		//Agrega lo visual de la pantalla de batalla
 		game.addVisual(wollokmonAliado)
@@ -134,51 +159,43 @@ object pantallaDeBatalla {
 		if (wollokmon == wollokmonAliado) {
 			//perdio el jugador
 			game.say(wollokmon, "Me vencieron")
-			pantallaFinal.derrota()
+			game.schedule(2000, {pantallaDeDerrota.iniciar()})
 		} else {
 			pantallaPrincipal.entrenadorVencido(rivalActual)
 			pantallaPrincipal.iniciar()
 		}
 	}
 	
-	method image(){
+	override method image(){
 		return "forest.png"
 	}
 	
-	method position(){
-		return game.origin()
-	}
 }
 
-object pantallaFinal{
-	
-	var property imagen
-	
-	method position(){
-		return game.origin()
-	}
-	
-	method image(){
-		return imagen
-	}
-	
-	method victoria(){
-		imagen = "victoria.png"
-		jugador.ganar()
-		game.schedule(2000,{game.addVisual(self)})
-		self.finalizarJuego()
-	}
-	
-	method derrota(){
-		imagen = "derrota.png"
-		game.schedule(2000,{game.addVisual(self)})
-		self.finalizarJuego()
-	}
+class PantallaFinal inherits Pantalla {
 	
 	method finalizarJuego() {
 		// Esto ejecuta el bloque de código una vez en 2 segundos
 		game.schedule(5000, { game.stop() })
 	}
+	
+	override method iniciar(){
+		super()
+		self.finalizarJuego()
+	}
+	
+}
+
+object pantallaDeVictoria inherits PantallaFinal {
+	
+	override method image(){ return "victoria.png"}
+	
+}
+
+object pantallaDeDerrota inherits PantallaFinal {
+	
+	override method image(){ return "derrota.png"}
+	
 }
 
 object tutorialTeclas {
