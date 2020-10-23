@@ -35,7 +35,7 @@ object config {
 	
 	method configurarColisiones() {
 		game.onCollideDo(jugador, { rival => 
-				rival.iniciarPelea(jugador)
+				rival.iniciarPelea()
 		})
 	}
 }
@@ -111,13 +111,7 @@ object pantallaDeBatalla inherits Pantalla {
 	var property vidaAliado
 	var property vidaEnemigo
 	
-	//A CAMBIAR EN BASE A LO QUE LOS PROFES DIGAN
-	method iniciar(_rival){
-		rivalActual = _rival
-		self.iniciar()
-	}
-	
-	override method iniciar(){ //(_rival)
+	override method iniciar(){ 
 		
 		super()
 		

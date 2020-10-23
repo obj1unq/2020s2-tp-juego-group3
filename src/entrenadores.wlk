@@ -53,8 +53,9 @@ class Entrenador {
 	const property position
 	const property image
 	
-	method iniciarPelea(jugador) {
-		pantallaDeBatalla.iniciar(self)
+	method iniciarPelea() {
+		pantallaDeBatalla.rivalActual(self)
+		pantallaDeBatalla.iniciar()
 	}
 }
 
