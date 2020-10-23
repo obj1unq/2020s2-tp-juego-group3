@@ -6,19 +6,11 @@ class Wollokmon {
 
 	var property vida = 100
 	var property vidaActual = 100
-	const imagen
-	const property ataque
-	const property defensa    
-	const property especial
 	const movimientos = [atacar, atacar, atacar, atacar]
 	
 	//---------------PARA EL OBJECT GAME
 	method position(){
 		return pantallaDeBatalla.posicionDeWollokmon(self)
-	}
-	
-	method image(){
-		return imagen
 	}
 	
 	// LO IMPLEMENTE EN PANTALLAS:
@@ -49,7 +41,70 @@ class Wollokmon {
 	method movimientoNumero(n){
 		return movimientos.get(n)
 	}
+	
+	// Métodos Abstractos
+	method image()
+	method ataque()
+	method defensa()
+	method especial()
 
+}
+
+class Pepita inherits Wollokmon{
+	
+	override method image(){
+		return "pepita.png"
+	}
+	
+	override method ataque(){
+		return 15
+	}
+	
+	override method defensa(){
+		return 10
+	}
+	
+	override method especial(){
+		
+	}
+}
+
+class Calabazo inherits Wollokmon{
+	
+	override method image(){
+		return "calabazoF.png"
+	}
+	
+	override method ataque(){
+		return 10
+	}
+	
+	override method defensa(){
+		return 18
+	}
+	
+	override method especial(){
+		
+	}
+}
+
+class Pikawu inherits Wollokmon{
+	
+	override method image(){
+		return "pikawu.png"
+	}
+	
+	override method ataque(){
+		return 10
+	}
+	
+	override method defensa(){
+		return 12
+	}
+	
+	override method especial(){
+		
+	}
 }
 
 class Vida{
@@ -103,6 +158,6 @@ object mensaje {
 	}
 }
 
-const pepita = new Wollokmon(imagen = "pepita.png", ataque = 15, defensa = 10, especial = 30)
-const pikawu = new Wollokmon(imagen = "pikawu.png", ataque = 12, defensa = 12, especial = 25)
-const calabazo = new Wollokmon(imagen = "calabazoF.png", ataque = 10, defensa = 20, especial = 20)
+const pikawu = new Pikawu()
+const pepita = new Pepita()
+const calabazo = new Calabazo()
