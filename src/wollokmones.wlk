@@ -1,12 +1,13 @@
 import wollok.game.*
 import configuraciones.*
 import entrenadores.*
+import ataques.*
 
 class Wollokmon {
 
 	var property vida = 100
 	var property vidaActual = 100
-	const movimientos = [atacar, atacar, atacar, atacar]
+	const movimientos = [ataqueBase, ataqueBase, ataqueBase, ataqueBase]
 	
 	//---------------PARA EL OBJECT GAME
 	method position(){
@@ -28,6 +29,10 @@ class Wollokmon {
 			//self.resultadoBatalla()
 			pantallaDeBatalla.terminar(self)
 		}
+	}
+	
+	method sufrirAtaqueEspecial(efecto){
+		
 	}
 	
 	method curarse(nivelCura){
@@ -67,7 +72,7 @@ class Pepita inherits Wollokmon{
 	}
 	
 	override method especial(){
-		
+		return 10
 	}
 }
 
@@ -88,8 +93,9 @@ class Warmander inherits Wollokmon{
 	}
 	
 	override method especial(){
-		
+		return 14
 	}
+	
 }
 
 class Pikawu inherits Wollokmon{
@@ -109,7 +115,7 @@ class Pikawu inherits Wollokmon{
 	}
 	
 	override method especial(){
-		
+		return 12
 	}
 }
 
@@ -130,10 +136,9 @@ class Swirtle inherits Wollokmon{
 	}
 	
 	override method especial(){
-		
+		return 10
 	}
 }
-
 
 class Vida{
 	const wollokmon
@@ -149,27 +154,8 @@ class Vida{
 } 	
 
 
-// TODO: ESTO SE TIENE Q TRANSFORMAR EN CLASE E IRSE A OTRO LADO PARA MAS ORDEN
-object atacar {
-	
-	const nombre = "ataque"
-	
-	method ejecutar(ejecutor, rival){
-		game.say(ejecutor, "uso " + nombre)
-		game.schedule(500, ({ 
-			mensaje.mostrarAtaque(ejecutor, rival)
-			game.addVisual(mensaje)
-		}))
-		game.schedule(2000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))}))
-		game.schedule(2000, ({game.removeVisual(mensaje)}))
-	
-	}
-	
-	method danioEjercido(ejecutor, rival){
-		return 10 + ejecutor.ataque() - rival.defensa()
-	}
-	
-}
+
+
 
 object mensaje {
 	var property imagen = ""

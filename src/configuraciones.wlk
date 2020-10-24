@@ -1,6 +1,7 @@
 import wollok.game.*
 import entrenadores.*
 import wollokmones.*
+import ataques.*
 
 object config {
 	
