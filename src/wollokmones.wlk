@@ -52,6 +52,8 @@ class Wollokmon {
 
 class Pepita inherits Wollokmon{
 	
+	const property nombre = "pepita"
+	
 	override method image(){
 		return "pepita.png"
 	}
@@ -70,6 +72,8 @@ class Pepita inherits Wollokmon{
 }
 
 class Warmander inherits Wollokmon{
+	
+	const property nombre = "warmander"	
 	
 	override method image(){
 		return "warmander.png"
@@ -90,6 +94,8 @@ class Warmander inherits Wollokmon{
 
 class Pikawu inherits Wollokmon{
 	
+	const property nombre = "pikawu"
+	
 	override method image(){
 		return "pikawu.png"
 	}
@@ -108,6 +114,8 @@ class Pikawu inherits Wollokmon{
 }
 
 class Swirtle inherits Wollokmon{
+	
+	const property nombre = "swirtle"
 	
 	override method image(){
 		return "swirtle.png"
@@ -166,9 +174,7 @@ object atacar {
 object mensaje {
 	var property imagen = ""
 	method mostrarAtaque(ejecutor, rival) {
-		imagen = ("ataque_pepita_pikawu.png")
-		// TODO: hacer funcionar la logica para tomar la imagen que corresponde para el mensaje
-		// imagen = ("ataque_" + ejecutor.toString() + "_" + rival.toString() + ".png")
+		imagen = ("ataque_" + ejecutor.nombre() + "_" + rival.nombre() + ".png")
 	}
 	method image() {
 		return imagen
