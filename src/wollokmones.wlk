@@ -69,10 +69,10 @@ class Pepita inherits Wollokmon{
 	}
 }
 
-class Calabazo inherits Wollokmon{
+class Warmander inherits Wollokmon{
 	
 	override method image(){
-		return "calabazoF.png"
+		return "warmander.png"
 	}
 	
 	override method ataque(){
@@ -106,6 +106,26 @@ class Pikawu inherits Wollokmon{
 		
 	}
 }
+
+class Swirtle inherits Wollokmon{
+	
+	override method image(){
+		return "swirtle.png"
+	}
+	
+	override method ataque(){
+		return 10
+	}
+	
+	override method defensa(){
+		return 12
+	}
+	
+	override method especial(){
+		
+	}
+}
+
 
 class Vida{
 	const wollokmon
@@ -160,4 +180,5 @@ object mensaje {
 
 const pikawu = new Pikawu()
 const pepita = new Pepita()
-const calabazo = new Calabazo()
+const warmander = new Warmander()
+const swirtle = new Swirtle()

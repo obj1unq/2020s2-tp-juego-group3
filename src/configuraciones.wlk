@@ -62,7 +62,7 @@ class Pantalla {
 
 object pantallaPrincipal inherits Pantalla {
 	
-	const property entrenadoresAVencer = #{fercho, juan}
+	const property entrenadoresAVencer = #{fercho, juan, walt}
 	
 	override method image(){ return "pantallaPrincipal.png"}
 	
@@ -136,7 +136,7 @@ object pantallaDeBatalla inherits Pantalla {
 	}
 	
 	method posicionDeWollokmon(wollokmon){
-		return if (wollokmon == wollokmonEnemigo) {game.at(9,9)} else {game.at(1,5)}
+		return if (wollokmon == wollokmonEnemigo) {game.at(8,8)} else {game.at(1,5)}
 	}
 	
 	method turno(numero){
