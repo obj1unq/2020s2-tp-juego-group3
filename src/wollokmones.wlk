@@ -4,10 +4,11 @@ import entrenadores.*
 import ataques.*
 
 class Wollokmon {
-
+    var property ataque
+    var property defensa
+    var property especial
 	var property vida = 100
 	var property vidaActual = 100
-	const movimientos = [ataqueBase, ataqueBase, ataqueBase, ataqueBase]
 	
 	//---------------PARA EL OBJECT GAME
 	method position(){
@@ -40,18 +41,16 @@ class Wollokmon {
 	}
 	
 	method movimientoAlAzar(){
-		return movimientos.anyOne()
+		return self.movimientos().anyOne()
 	}
 	
 	method movimientoNumero(n){
-		return movimientos.get(n)
+		return self.movimientos().get(n)
 	}
 	
 	// Métodos Abstractos
 	method image()
-	method ataque()
-	method defensa()
-	method especial()
+	method movimientos()
 
 }
 
@@ -63,17 +62,10 @@ class Pepita inherits Wollokmon{
 		return "pepita.png"
 	}
 	
-	override method ataque(){
-		return 15
+	override method movimientos(){
+		return [ataqueBase,rayo]
 	}
 	
-	override method defensa(){
-		return 10
-	}
-	
-	override method especial(){
-		return 10
-	}
 }
 
 class Warmander inherits Wollokmon{
@@ -84,18 +76,10 @@ class Warmander inherits Wollokmon{
 		return "warmander.png"
 	}
 	
-	override method ataque(){
-		return 10
+	override method movimientos(){
+		return [ataqueBase]
 	}
-	
-	override method defensa(){
-		return 18
-	}
-	
-	override method especial(){
-		return 14
-	}
-	
+
 }
 
 class Pikawu inherits Wollokmon{
@@ -106,16 +90,8 @@ class Pikawu inherits Wollokmon{
 		return "pikawu.png"
 	}
 	
-	override method ataque(){
-		return 10
-	}
-	
-	override method defensa(){
-		return 12
-	}
-	
-	override method especial(){
-		return 12
+	override method movimientos(){
+		return [ataqueBase]
 	}
 }
 
@@ -127,17 +103,10 @@ class Swirtle inherits Wollokmon{
 		return "swirtle.png"
 	}
 	
-	override method ataque(){
-		return 10
+	override method movimientos(){
+		return [ataqueBase]
 	}
 	
-	override method defensa(){
-		return 12
-	}
-	
-	override method especial(){
-		return 10
-	}
 }
 
 class Vida{
@@ -170,7 +139,7 @@ object mensaje {
 	}
 }
 
-const pikawu = new Pikawu()
-const pepita = new Pepita()
-const warmander = new Warmander()
-const swirtle = new Swirtle()
+const pikawu = new Pikawu(ataque =10, defensa = 11, especial = 12)
+const pepita = new Pepita(ataque =15, defensa = 10, especial = 10)
+const warmander = new Warmander(ataque = 10, defensa = 15, especial = 14)
+const swirtle = new Swirtle(ataque = 13, defensa = 12, especial = 10)
