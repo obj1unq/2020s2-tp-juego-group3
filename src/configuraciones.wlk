@@ -29,6 +29,12 @@ object config {
 			}
 		})
 		
+		// especial
+		keyboard.l().onPressDo({
+			if(turno){
+				pantallaDeBatalla.turno(1)
+			}})
+		
 		//Atajo para perder de una
 		keyboard.h().onPressDo({jugador.wollokmon().recibirDanio(100)})
 		
@@ -70,6 +76,7 @@ object pantallaPrincipal inherits Pantalla {
 	override method iniciar(){
 		
 		super()
+		
 		
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
@@ -148,9 +155,14 @@ object pantallaDeBatalla inherits Pantalla {
 		//actua el wollokmonaliado y 5 segundos despues el enemigo
 		var movimiento = wollokmonAliado.movimientoNumero(numero)
 		movimiento.ejecutar(wollokmonAliado, wollokmonEnemigo)
+		especialesEnBatalla.agregarEspecial(movimiento, wollokmonEnemigo)
 		
 		movimiento = wollokmonEnemigo.movimientoAlAzar()
 		game.schedule(4000,{movimiento.ejecutar(wollokmonEnemigo, wollokmonAliado)})
+		especialesEnBatalla.agregarEspecial(movimiento, wollokmonAliado)
+		
+		//baja la ronda de la lista de efectos en 1 y si esta llega a 0, el efecto se revierte
+		especialesEnBatalla.cumplirRonda()
 		
 		//luego destraba teclas para que pueda seguir jugando el jugador
 		game.schedule(6000,{config.turno(true)})
@@ -164,6 +176,7 @@ object pantallaDeBatalla inherits Pantalla {
 			game.schedule(2000, {pantallaDeDerrota.iniciar()})
 		} else {
 			config.turno(true)
+			especialesEnBatalla.terminarBatalla() // debería cumplirse
 			pantallaPrincipal.entrenadorVencido(rivalActual)
 			pantallaPrincipal.iniciar()
 		}
@@ -173,6 +186,49 @@ object pantallaDeBatalla inherits Pantalla {
 		return "forest.png"
 	}
 	
+}
+
+object especialesEnBatalla{
+	var property ataquesEspeciales = []
+	
+	// si se ejecuta un movimiento especial lo agrega a la lista
+	method agregarEspecial(movimiento, _wollokmonAfectado){
+		if (self.esEspecial(movimiento)){
+			movimiento.wollokmonAfectado(_wollokmonAfectado)
+		    ataquesEspeciales.add(movimiento)
+		}
+	}
+	
+	method cumplirRonda(){
+		self.sacarEspecialesTerminados()
+		self.restarRondaDeEspeciales() 	// hace que cada especial de la lista tenga una ronda menos
+		self.cumplirEfectoDeEspeciales() // si las rondas llegan a 0 ejecuta el deshacer efecto
+		 // saca los especialescon rondas en 0 para q no se sigan ejecutando
+	}
+	
+	method restarRondaDeEspeciales(){
+		ataquesEspeciales.forEach({ especial => especial.restarRonda() })
+	}
+	
+	method cumplirEfectoDeEspeciales(){
+		ataquesEspeciales.forEach({ especial => especial.cumplirEfecto() })
+	}
+	
+	method sacarEspecialesTerminados(){
+		ataquesEspeciales.removeAllSuchThat({ especial => especial.finalizoEfecto() })
+	}
+	
+	//indica si un movimiento es especial (por ahora solo está el rayo)
+	method esEspecial(movimiento){
+		const especiales = #{rayo}
+		return especiales.contains(movimiento)
+	}
+	
+	// deshace todos los efectos y limpia la lista de Especiales (para que se ejecute cuando termina la batalla) 
+	method terminarBatalla(){
+		ataquesEspeciales.forEach({ especial => especial.deshacerEfecto() })
+		ataquesEspeciales.clear()
+	}
 }
 
 class PantallaFinal inherits Pantalla {
