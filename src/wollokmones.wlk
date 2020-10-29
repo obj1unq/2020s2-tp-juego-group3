@@ -4,10 +4,16 @@ import entrenadores.*
 import ataques.*
 
 class Wollokmon {
-    var property ataque
-    var property defensa
-    var property especial
-	var property vida = 100
+	const property nombre
+	const property image
+    const property ataque
+    const property defensa
+    const property especial
+	const property vida = 100
+	const property movimientos = []
+	var property ataqueActual = ataque
+    var property defensaActual = defensa
+    var property especialActual = especial
 	var property vidaActual = 100
 	
 	//---------------PARA EL OBJECT GAME
@@ -15,19 +21,11 @@ class Wollokmon {
 		return pantallaDeBatalla.posicionDeWollokmon(self)
 	}
 	
-	// LO IMPLEMENTE EN PANTALLAS:
-	// TODO: mejorar la victoria total para que se de cuando le gana a mas de un rival
-	//method resultadoBatalla() {
-	//	if (esAliado) jugador.perder() else jugador.ganar() 
-	//}
-	
 	//------COMBATE Y OTROS
 	
 	method recibirDanio(nivelDanio){
 		vidaActual = (vidaActual - nivelDanio).max(0)
 		if (vidaActual <= 0) {
-			// TODO: Implementar una logica que verifique la condicion de victoria/derrota
-			//self.resultadoBatalla()
 			pantallaDeBatalla.terminar(self)
 		}
 	}
@@ -54,61 +52,6 @@ class Wollokmon {
 
 }
 
-class Pepita inherits Wollokmon{
-	
-	const property nombre = "pepita"
-	
-	override method image(){
-		return "pepita.png"
-	}
-	
-	override method movimientos(){
-		return [ataqueBase,rayo]
-	}
-	
-}
-
-class Warmander inherits Wollokmon{
-	
-	const property nombre = "warmander"	
-	
-	override method image(){
-		return "warmander.png"
-	}
-	
-	override method movimientos(){
-		return [ataqueBase]
-	}
-
-}
-
-class Pikawu inherits Wollokmon{
-	
-	const property nombre = "pikawu"
-	
-	override method image(){
-		return "pikawu.png"
-	}
-	
-	override method movimientos(){
-		return [ataqueBase]
-	}
-}
-
-class Swirtle inherits Wollokmon{
-	
-	const property nombre = "swirtle"
-	
-	override method image(){
-		return "swirtle.png"
-	}
-	
-	override method movimientos(){
-		return [ataqueBase]
-	}
-	
-}
-
 class Vida{
 	const wollokmon
 
@@ -121,10 +64,6 @@ class Vida{
 	}
 	
 } 	
-
-
-
-
 
 object mensaje {
 	var property imagen = ""
@@ -139,7 +78,7 @@ object mensaje {
 	}
 }
 
-const pikawu = new Pikawu(ataque =10, defensa = 11, especial = 12)
-const pepita = new Pepita(ataque =15, defensa = 10, especial = 10)
-const warmander = new Warmander(ataque = 10, defensa = 15, especial = 14)
-const swirtle = new Swirtle(ataque = 13, defensa = 12, especial = 10)
+const pikawu = new Wollokmon(nombre = "pikawu", image = "pikawu.png", ataque = 10, defensa = 11, especial = 12, movimientos = [ataqueBase, rayo])
+const pepita = new Wollokmon(nombre = "pepita", image = "pepita.png", ataque =15, defensa = 10, especial = 10, movimientos = [ataqueBase, rayo])
+const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 15, especial = 14, movimientos = [ataqueBase])
+const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 13, defensa = 12, especial = 10, movimientos = [ataqueBase])
