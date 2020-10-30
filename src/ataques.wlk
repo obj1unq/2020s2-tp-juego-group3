@@ -53,7 +53,7 @@ object rayo inherits Atacar{
 	
     // baja la defensa del wollokmonAfectado a la mitad
 	override method efecto(){
-		wollokmonAfectado.defensa((wollokmonAfectado.defensa() / 2 ).roundUp())
+		wollokmonAfectado.defensa((wollokmonAfectado.defensa() / 2 ).abs())
 	}
 	
 	// si las rondas restantes del efecto son igual a 0, deshace el efecto causado
