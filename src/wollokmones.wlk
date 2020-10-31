@@ -11,10 +11,12 @@ class Wollokmon {
     const property especial
 	const property vida = 100
 	const property movimientos = []
-	var property ataqueActual = ataque
-    var property defensaActual = defensa
-    var property especialActual = especial
+	var property efectosRecibidos = []
+	var property ataqueActual
+    var property defensaActual 
+    var property especialActual
 	var property vidaActual = 100
+	
 	
 	//---------------PARA EL OBJECT GAME
 	method position(){
@@ -30,10 +32,6 @@ class Wollokmon {
 		}
 	}
 	
-	method sufrirAtaqueEspecial(efecto){
-		
-	}
-	
 	method curarse(nivelCura){
 		vidaActual = (vidaActual + nivelCura).min(vida)
 	}
@@ -46,10 +44,35 @@ class Wollokmon {
 		return self.movimientos().get(n)
 	}
 	
-	// Métodos Abstractos
-	method image()
-	method movimientos()
-
+	// si se ejecuta un movimiento especial añade su efecto a la lista de efectos recibido y sufre el mismo.
+	method recibirEfecto(_efecto){
+		efectosRecibidos.add(_efecto)  //añade efecto a la lista
+		efectosRecibidos.last().efectoASufrir(self)  //sufre el efecto 
+	}
+    
+    method cumplirRonda(){
+		self.restarRondaDeEfectos()   // hace que cada efecto de la lista tenga una ronda menos
+		self.cumplirEfectos()         // si las rondas llegan a 0 ejecuta el deshacer efecto
+		self.sacarEfectosTerminados() // saca los efectos en 0 para que no se sigan ejecutando
+	}
+	
+	method restarRondaDeEfectos(){
+		efectosRecibidos.forEach({ efecto => efecto.restarRonda() })
+	}
+	
+	method cumplirEfectos(){
+		efectosRecibidos.forEach({ efecto => efecto.deshacerEfectoFinalizado(self) })
+	}
+	
+	method sacarEfectosTerminados(){
+		efectosRecibidos.removeAllSuchThat({ efecto => efecto.finalizoEfecto() })
+	}
+	
+	// termina todos los efectos recibidos (para cuando termina una batalla no siga teniendo efecto en la siguiente)
+	method terminarEfectos(){
+		efectosRecibidos.forEach({ efecto => efecto.deshacerEfecto(self) })
+		efectosRecibidos.clear()
+	}
 }
 
 class Vida{
@@ -78,7 +101,7 @@ object mensaje {
 	}
 }
 
-const pikawu = new Wollokmon(nombre = "pikawu", image = "pikawu.png", ataque = 10, defensa = 11, especial = 12, movimientos = [ataqueBase, rayo])
-const pepita = new Wollokmon(nombre = "pepita", image = "pepita.png", ataque =15, defensa = 10, especial = 10, movimientos = [ataqueBase, rayo])
-const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 15, especial = 14, movimientos = [ataqueBase])
-const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 13, defensa = 12, especial = 10, movimientos = [ataqueBase])
+const pikawu = new Wollokmon(nombre = "pikawu", image = "pikawu.png", ataque = 10, defensa = 11, especial = 12, movimientos = [ataqueBase], ataqueActual = 10, defensaActual = 11, especialActual = 12)
+const pepita = new Wollokmon(nombre = "pepita", image = "pepita.png", ataque =15, defensa = 12, especial = 10, movimientos = [ataqueBase, rayo], ataqueActual = 15, defensaActual = 12, especialActual = 10)
+const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 15, especial = 14, movimientos = [ataqueBase], ataqueActual = 10, defensaActual = 15, especialActual = 14)
+const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 13, defensa = 12, especial = 10, movimientos = [ataqueBase], ataqueActual = 13, defensaActual = 12, especialActual = 10)
