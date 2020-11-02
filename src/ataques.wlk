@@ -36,8 +36,14 @@ object ataqueBase inherits Atacar{
 	override method efecto(rival){}
 }
 
+class Especiales inherits Atacar{
+	
+	override method danioEjercido(ejecutor, rival){
+		return (10 + ejecutor.especialActual()) - rival.defensaActual()
+	}	
+}
 
-object rayo inherits Atacar{
+object rayo inherits Especiales{
 	 
 	override method nombre(){
 		return "rayo"
@@ -49,9 +55,29 @@ object rayo inherits Atacar{
 	}
 	
 	// el ataque especial produce daño como un ataque base pero con el valor del especial
-	override method danioEjercido(ejecutor, rival){
-		return (10 + ejecutor.especialActual()) - rival.defensaActual()
-	}    
+	    
+}
+
+object fuego  inherits Especiales{
+	
+	override method nombre(){
+		return "fuego"
+	} 
+	
+	override method efecto(rival){
+		rival.recibirEfecto(new EfectoFuego(turnosRestantes = 4))
+	}
+}
+
+object agua inherits Especiales{
+	
+	override method nombre(){
+		return "agua"
+	}
+	
+	override method efecto(rival){
+		rival.recibirEfecto(new EfectoAgua(turnosRestantes = 2))
+	}
 }
 
 class Efectos {
@@ -89,3 +115,31 @@ class EfectoRayo inherits Efectos{
     	wollokmonAfectado.defensaActual(wollokmonAfectado.defensa())
     }
 }
+
+class EfectoFuego inherits Efectos{
+	// el efecto de fuego quita 7 puntos de vida al oponente al finalizar cada ronda
+	
+	method efectoASufrir(wollokmonAfectado){
+		wollokmonAfectado.vidaActual(wollokmonAfectado.vidaActual() - 5)
+	}
+	
+	override method deshacerEfecto(wollokmonAfectado){}
+	// como no altera los valores de ataque, defensa o especial y solo reduce la vida del oponente
+	// no hay que deshacer ningun efecto
+}
+
+class EfectoAgua inherits Efectos{
+	// el efecto de agual reduce el ataque del oponente a la mitad
+	
+	method efectoASufrir(wollokmonAfectado){
+		wollokmonAfectado.ataqueActual((wollokmonAfectado.ataque() / 2).roundUp())
+	}
+	
+	override method deshacerEfecto(wollokmonAfectado){
+		wollokmonAfectado.ataqueActual(wollokmonAfectado.ataque())
+	}
+}
+
+
+
+
