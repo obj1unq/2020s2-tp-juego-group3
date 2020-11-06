@@ -9,7 +9,6 @@ class Atacar {
 		game.schedule(500, ({ 
 			mensaje.mostrarAtaque(ejecutor, rival)
 			game.addVisual(mensaje)
-			//self.actualizarMana(ejecutor, rival)
 		}))
 		game.schedule(2000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))
 			                
