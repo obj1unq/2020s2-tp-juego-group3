@@ -19,7 +19,7 @@ class Atacar {
 	
 	method danioEjercido(ejecutor, rival)
     method nombre()
-    method efecto(rival)
+    method efecto(rival){}
 }
 
 
@@ -32,27 +32,30 @@ object ataqueBase inherits Atacar{
 	override method danioEjercido(ejecutor, rival){
 		return (10 + ejecutor.ataqueActual()) - rival.defensaActual()
 	}
-	
-	override method efecto(rival){}
 }
 
 class Especiales inherits Atacar{
 	
+	method efecto()
+	
 	override method danioEjercido(ejecutor, rival){
 		return (10 + ejecutor.especialActual()) - rival.defensaActual()
+	}
+	
+	override method efecto(rival){
+		rival.recibirEfecto(self.efecto())
 	}	
 }
 
 object rayo inherits Especiales{
+	
+	override method efecto() { 
+		return new EfectoRayo(turnosRestantes = 4)
+	}
 	 
 	override method nombre(){
 		return "rayo"
 	} 
-	
-	// se instancia el efecto correspondiente al especial con sus turnos de duracion restantes
-	override method efecto(rival){
-		rival.recibirEfecto(new EfectoRayo(turnosRestantes = 4))
-	}
 	
 	// el ataque especial produce daño como un ataque base pero con el valor del especial
 	    
@@ -60,23 +63,23 @@ object rayo inherits Especiales{
 
 object fuego  inherits Especiales{
 	
+	override method efecto() { 
+		return new EfectoFuego(turnosRestantes = 4)
+	}
+	
 	override method nombre(){
 		return "fuego"
 	} 
-	
-	override method efecto(rival){
-		rival.recibirEfecto(new EfectoFuego(turnosRestantes = 4))
-	}
 }
 
 object agua inherits Especiales{
 	
-	override method nombre(){
-		return "agua"
+	override method efecto() { 
+		return new EfectoAgua(turnosRestantes = 2)
 	}
 	
-	override method efecto(rival){
-		rival.recibirEfecto(new EfectoAgua(turnosRestantes = 2))
+	override method nombre(){
+		return "agua"
 	}
 }
 
@@ -100,13 +103,21 @@ class Efectos {
     }
     
     method deshacerEfecto(wollokmonAfectado)
+    
+    method efectoASufrir(wollokmonAfectado)
+    
+    method efectoASufrirPorTurno(wollokmonAfectado)
 }
 
 class EfectoRayo inherits Efectos{
 	// el efecto del rayo baja la defensa del oponente a la mitad haciendo q reciba mas daños
 	// durante dos rondas de la batalla
 	
-	method efectoASufrir(wollokmonAfectado){
+	override method efectoASufrir(wollokmonAfectado){
+		wollokmonAfectado.defensaActual((wollokmonAfectado.defensa() / 2 ).roundUp())
+	}
+	
+	override method efectoASufrirPorTurno(wollokmonAfectado) {
 		wollokmonAfectado.defensaActual((wollokmonAfectado.defensa() / 2 ).roundUp())
 	}
 	
@@ -119,8 +130,12 @@ class EfectoRayo inherits Efectos{
 class EfectoFuego inherits Efectos{
 	// el efecto de fuego quita 7 puntos de vida al oponente al finalizar cada ronda
 	
-	method efectoASufrir(wollokmonAfectado){
-		wollokmonAfectado.vidaActual(wollokmonAfectado.vidaActual() - 5)
+	override method efectoASufrir(wollokmonAfectado){
+		
+	}
+	
+	override method efectoASufrirPorTurno(wollokmonAfectado){
+		wollokmonAfectado.recibirDanio(7)
 	}
 	
 	override method deshacerEfecto(wollokmonAfectado){}
@@ -131,8 +146,12 @@ class EfectoFuego inherits Efectos{
 class EfectoAgua inherits Efectos{
 	// el efecto de agual reduce el ataque del oponente a la mitad
 	
-	method efectoASufrir(wollokmonAfectado){
+	override method efectoASufrir(wollokmonAfectado){
 		wollokmonAfectado.ataqueActual((wollokmonAfectado.ataque() / 2).roundUp())
+	}
+	
+	override method efectoASufrirPorTurno(wollokmonAfectado) {
+		wollokmonAfectado.ataqueActual((wollokmonAfectado.ataque() / 2 ).roundUp())
 	}
 	
 	override method deshacerEfecto(wollokmonAfectado){

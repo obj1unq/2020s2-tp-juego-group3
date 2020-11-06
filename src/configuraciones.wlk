@@ -163,11 +163,12 @@ object pantallaDeBatalla inherits Pantalla {
 		movimiento.efecto(wollokmonAliado)
 		
 		//baja la ronda de la lista de efectos en 1 y si esta llega a 0, el efecto se revierte
-		wollokmonEnemigo.cumplirRonda()
-		wollokmonAliado.cumplirRonda()
-		
 		//luego destraba teclas para que pueda seguir jugando el jugador
-		game.schedule(6000,{config.turno(true)})
+		game.schedule(6000,{
+			wollokmonEnemigo.cumplirRonda()
+			wollokmonAliado.cumplirRonda()
+			config.turno(true)
+		})
 		
 	}
 	

@@ -61,7 +61,9 @@ class Wollokmon {
 	}
 	
 	method cumplirEfectos(){
-		efectosRecibidos.forEach({ efecto => efecto.deshacerEfectoFinalizado(self) })
+		efectosRecibidos.forEach({ efecto => efecto.efectoASufrirPorTurno(self) 
+			efecto.deshacerEfectoFinalizado(self)
+		})
 	}
 	
 	method sacarEfectosTerminados(){
@@ -101,7 +103,7 @@ object mensaje {
 	}
 }
 
-const pikawu = new Wollokmon(nombre = "pikawu", image = "pikawu.png", ataque = 10, defensa = 11, especial = 12, movimientos = [ataqueBase], ataqueActual = 10, defensaActual = 11, especialActual = 12)
-const pepita = new Wollokmon(nombre = "pepita", image = "pepita.png", ataque =15, defensa = 12, especial = 10, movimientos = [ataqueBase, rayo], ataqueActual = 15, defensaActual = 12, especialActual = 10)
-const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 15, especial = 14, movimientos = [ataqueBase], ataqueActual = 10, defensaActual = 15, especialActual = 14)
-const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 13, defensa = 12, especial = 10, movimientos = [ataqueBase], ataqueActual = 13, defensaActual = 12, especialActual = 10)
+const pikawu = new Wollokmon(nombre = "pikawu", image = "pikawu.png", ataque = 10, defensa = 20, especial = 12, movimientos = [ataqueBase], ataqueActual = 10, defensaActual = 20, especialActual = 12)
+const pepita = new Wollokmon(nombre = "pepita", image = "pepita.png", ataque =10, defensa = 12, especial = 10, movimientos = [ataqueBase, rayo], ataqueActual = 10, defensaActual = 12, especialActual = 10)
+const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 15, especial = 14, movimientos = [ataqueBase, fuego], ataqueActual = 10, defensaActual = 15, especialActual = 14)
+const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 13, defensa = 12, especial = 10, movimientos = [ataqueBase, agua], ataqueActual = 13, defensaActual = 12, especialActual = 10)
