@@ -106,7 +106,9 @@ class Efectos {
     
     method efectoASufrir(wollokmonAfectado)
     
-    method efectoASufrirPorTurno(wollokmonAfectado)
+    method efectoASufrirPorTurno(wollokmonAfectado) {
+    	self.efectoASufrir(wollokmonAfectado)
+    }
 }
 
 class EfectoRayo inherits Efectos{
@@ -114,10 +116,6 @@ class EfectoRayo inherits Efectos{
 	// durante dos rondas de la batalla
 	
 	override method efectoASufrir(wollokmonAfectado){
-		wollokmonAfectado.defensaActual((wollokmonAfectado.defensa() / 2 ).roundUp())
-	}
-	
-	override method efectoASufrirPorTurno(wollokmonAfectado) {
 		wollokmonAfectado.defensaActual((wollokmonAfectado.defensa() / 2 ).roundUp())
 	}
 	
@@ -148,10 +146,6 @@ class EfectoAgua inherits Efectos{
 	
 	override method efectoASufrir(wollokmonAfectado){
 		wollokmonAfectado.ataqueActual((wollokmonAfectado.ataque() / 2).roundUp())
-	}
-	
-	override method efectoASufrirPorTurno(wollokmonAfectado) {
-		wollokmonAfectado.ataqueActual((wollokmonAfectado.ataque() / 2 ).roundUp())
 	}
 	
 	override method deshacerEfecto(wollokmonAfectado){
