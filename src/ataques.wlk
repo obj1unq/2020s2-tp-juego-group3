@@ -9,6 +9,7 @@ class Atacar {
 		game.schedule(500, ({ 
 			mensaje.mostrarAtaque(ejecutor, rival)
 			game.addVisual(mensaje)
+			//self.actualizarMana(ejecutor, rival)
 		}))
 		game.schedule(2000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))
 			                
@@ -20,6 +21,8 @@ class Atacar {
 	method danioEjercido(ejecutor, rival)
     method nombre()
     method efecto(rival)
+    method actualizarMana(ejecutor)
+    method esEspecial()
 }
 
 
@@ -34,13 +37,29 @@ object ataqueBase inherits Atacar{
 	}
 	
 	override method efecto(rival){}
+	
+	override method actualizarMana(ejecutor) {
+		if(ejecutor.manaActual() < 3) {
+			ejecutor.manaActual(ejecutor.manaActual() + 1)
+		}
+	}
+	
+	override method esEspecial() { return false }
 }
 
 class Especiales inherits Atacar{
 	
 	override method danioEjercido(ejecutor, rival){
 		return (10 + ejecutor.especialActual()) - rival.defensaActual()
-	}	
+	}
+	
+	override method actualizarMana(ejecutor) {
+		if(ejecutor.manaActual() > 0) {
+			ejecutor.manaActual(ejecutor.manaActual() - 1)
+		}
+	}
+	
+	override method esEspecial() { return true }
 }
 
 object rayo inherits Especiales{

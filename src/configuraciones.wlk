@@ -119,6 +119,8 @@ object pantallaDeBatalla inherits Pantalla {
 	var property rivalActual
 	var property vidaAliado
 	var property vidaEnemigo
+	var property manaAliado
+	var property manaEnemigo
 	
 	override method iniciar(){ 
 		
@@ -132,11 +134,20 @@ object pantallaDeBatalla inherits Pantalla {
 		vidaEnemigo = new Vida(wollokmon = wollokmonEnemigo)
 		vidaAliado = new Vida(wollokmon = wollokmonAliado)
 		
+		//describe el mana, la cantidad de usos posibles de ataque especial
+		manaEnemigo = new Mana(wollokmon = wollokmonEnemigo)
+		manaAliado = new Mana(wollokmon = wollokmonAliado)
+		
+		//resetea el mana del wollokmon aliado en el caso de que no sea la primera batalla
+		wollokmonAliado.resetearMana()
+		
 		//Agrega lo visual de la pantalla de batalla
 		game.addVisual(wollokmonAliado)
 		game.addVisual(wollokmonEnemigo)
 		game.addVisual(vidaEnemigo)
 		game.addVisual(vidaAliado)
+		game.addVisual(manaEnemigo)
+		game.addVisual(manaAliado)
 		
 		//Configura los comandos para pelear
 		config.configurarTeclaAccion()
@@ -155,12 +166,9 @@ object pantallaDeBatalla inherits Pantalla {
 		
 		//actua el wollokmonaliado y 5 segundos despues el enemigo
 		var movimiento = wollokmonAliado.movimientoNumero(numero)
-		movimiento.ejecutar(wollokmonAliado, wollokmonEnemigo)
-		movimiento.efecto(wollokmonEnemigo)
-		
+		self.realizarAtaqueSegunMana(movimiento, wollokmonAliado, wollokmonEnemigo)
 		movimiento = wollokmonEnemigo.movimientoAlAzar()
-		game.schedule(4000,{movimiento.ejecutar(wollokmonEnemigo, wollokmonAliado)})
-		movimiento.efecto(wollokmonAliado)
+		game.schedule(4000,{self.realizarAtaqueSegunMana(movimiento, wollokmonEnemigo, wollokmonAliado)})
 		
 		//baja la ronda de la lista de efectos en 1 y si esta llega a 0, el efecto se revierte
 		wollokmonEnemigo.cumplirRonda()
@@ -169,6 +177,19 @@ object pantallaDeBatalla inherits Pantalla {
 		//luego destraba teclas para que pueda seguir jugando el jugador
 		game.schedule(6000,{config.turno(true)})
 		
+	}
+	
+	//Si se quiere hacer ataque especial y no hay mana se realiza un ataque base
+	method realizarAtaqueSegunMana(movimiento, ejecutor, rival) {
+		if (movimiento.esEspecial() and ejecutor.manaActual() == 0) {
+			game.say(ejecutor, "No tengo mana para especial, uso ataque basico")
+			ataqueBase.ejecutar(ejecutor, rival)
+			ataqueBase.actualizarMana(ejecutor)
+		} else {
+			movimiento.ejecutar(ejecutor, rival)
+			movimiento.efecto(rival)
+			movimiento.actualizarMana(ejecutor)
+		}
 	}
 	
 	method terminar(wollokmon){

@@ -16,6 +16,7 @@ class Wollokmon {
     var property defensaActual 
     var property especialActual
 	var property vidaActual = 100
+	var property manaActual = 3
 	
 	
 	//---------------PARA EL OBJECT GAME
@@ -73,6 +74,9 @@ class Wollokmon {
 		efectosRecibidos.forEach({ efecto => efecto.deshacerEfecto(self) })
 		efectosRecibidos.clear()
 	}
+	method resetearMana() {
+		manaActual = 3
+	}
 }
 
 class Vida{
@@ -86,7 +90,21 @@ class Vida{
 		return "vida_" + wollokmon.vidaActual().toString() + ".png" 
 	}
 	
+}
+
+class Mana {
+	const wollokmon
+
+	method position(){
+		return wollokmon.position().down(1).right(2)
+	}
+	
+	method image(){
+		return "mana_" + wollokmon.manaActual().toString() + ".png" 
+	}
+	
 } 	
+
 
 object mensaje {
 	var property imagen = ""
