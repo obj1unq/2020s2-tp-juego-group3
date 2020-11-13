@@ -20,6 +20,9 @@ class Atacar {
 	method danioEjercido(ejecutor, rival)
     method nombre()
     method efecto(rival){}
+    method actualizarMana(ejecutor)
+    method esEspecial()
+
 }
 
 
@@ -32,6 +35,18 @@ object ataqueBase inherits Atacar{
 	override method danioEjercido(ejecutor, rival){
 		return (10 + ejecutor.ataqueActual()) - rival.defensaActual()
 	}
+	
+ 
+	override method efecto(rival){}
+	
+	override method actualizarMana(ejecutor) {
+		if(ejecutor.manaActual() < 3) {
+			ejecutor.manaActual(ejecutor.manaActual() + 1)
+		}
+	}
+	
+	override method esEspecial() { return false }
+  
 }
 
 class Especiales inherits Atacar{
@@ -42,9 +57,18 @@ class Especiales inherits Atacar{
 		return (10 + ejecutor.especialActual()) - rival.defensaActual()
 	}
 	
-	override method efecto(rival){
+  override method efecto(rival){
 		rival.recibirEfecto(self.efecto())
-	}	
+	}
+  
+	override method actualizarMana(ejecutor) {
+		if(ejecutor.manaActual() > 0) {
+			ejecutor.manaActual(ejecutor.manaActual() - 1)
+		}
+	}
+	
+	override method esEspecial() { return true }
+
 }
 
 object rayo inherits Especiales{
