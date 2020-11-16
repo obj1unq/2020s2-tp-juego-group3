@@ -2,7 +2,7 @@ import wollok.game.*
 import wollokmones.*
 
 
-class Atacar {
+class Movimiento {
 	
 	method ejecutar(ejecutor, rival){
 		game.say(ejecutor, "uso " + self.nombre())
@@ -26,7 +26,7 @@ class Atacar {
 }
 
 
-object ataqueBase inherits Atacar{
+object ataqueBase inherits Movimiento {
 	
 	override method nombre(){
 		return "ataque"
@@ -49,7 +49,7 @@ object ataqueBase inherits Atacar{
   
 }
 
-class Especiales inherits Atacar{
+class Especiales inherits Movimiento {
 	
 	method efecto()
 	
@@ -71,7 +71,7 @@ class Especiales inherits Atacar{
 
 }
 
-object rayo inherits Especiales{
+object rayo inherits Especiales {
 	
 	override method efecto() { 
 		return new EfectoRayo(turnosRestantes = 4)
@@ -85,7 +85,7 @@ object rayo inherits Especiales{
 	    
 }
 
-object fuego  inherits Especiales{
+object fuego  inherits Especiales {
 	
 	override method efecto() { 
 		return new EfectoFuego(turnosRestantes = 4)
@@ -96,7 +96,7 @@ object fuego  inherits Especiales{
 	} 
 }
 
-object agua inherits Especiales{
+object agua inherits Especiales {
 	
 	override method efecto() { 
 		return new EfectoAgua(turnosRestantes = 2)
