@@ -10,16 +10,16 @@ class Atacar {
 			mensaje.mostrarAtaque(ejecutor, rival)
 			game.addVisual(mensaje)
 		}))
-		game.schedule(2000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))
+		game.schedule(1000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))
 			                
 		}))
-		game.schedule(2000, ({game.removeVisual(mensaje)}))
+		game.schedule(1500, ({game.removeVisual(mensaje)}))
 	    
 	}
 	
 	method danioEjercido(ejecutor, rival)
     method nombre()
-    method efecto(rival){}
+    method efecto(ejecutor, rival){}
     method actualizarMana(ejecutor)
     method esEspecial()
 
@@ -37,7 +37,7 @@ object ataqueBase inherits Atacar{
 	}
 	
  
-	override method efecto(rival){}
+	override method efecto(ejecutor, rival){}
 	
 	override method actualizarMana(ejecutor) {
 		if(ejecutor.manaActual() < 3) {
@@ -57,7 +57,7 @@ class Especiales inherits Atacar{
 		return (10 + ejecutor.especialActual()) - rival.defensaActual()
 	}
 	
-  override method efecto(rival){
+  override method efecto(ejecutor, rival){
 		rival.recibirEfecto(self.efecto())
 	}
   
@@ -104,6 +104,25 @@ object agua inherits Especiales{
 	
 	override method nombre(){
 		return "agua"
+	}
+}
+
+object viento inherits Especiales {
+	
+	override method efecto(){
+		return new EfectoViento(turnosRestantes = 0)
+	}
+	
+	override method danioEjercido(ejecutor, rival){
+		return 0
+	}
+	
+	override method nombre(){
+		return "brisa curativa"
+	}
+	
+	override method efecto(ejecutor, rival){
+		ejecutor.recibirEfecto(self.efecto())
 	}
 }
 
@@ -177,6 +196,16 @@ class EfectoAgua inherits Efectos{
 	}
 }
 
-
+class EfectoViento inherits Efectos{
+	
+	override method efectoASufrir(wollokmonAfectado){
+		wollokmonAfectado.curarse(20)
+	}
+	
+	override method efectoASufrirPorTurno(wollokmonAfectado){}
+	
+	override method deshacerEfecto(wollokmonAfectado){}
+	
+}
 
 

@@ -168,11 +168,11 @@ object pantallaDeBatalla inherits Pantalla {
 		var movimiento = wollokmonAliado.movimientoNumero(numero)
 		self.realizarAtaqueSegunMana(movimiento, wollokmonAliado, wollokmonEnemigo)
 		movimiento = wollokmonEnemigo.movimientoAlAzar()
-		game.schedule(4000,{self.realizarAtaqueSegunMana(movimiento, wollokmonEnemigo, wollokmonAliado)})
+		game.schedule(2000,{self.realizarAtaqueSegunMana(movimiento, wollokmonEnemigo, wollokmonAliado)})
 		
 		//baja la ronda de la lista de efectos en 1 y si esta llega a 0, el efecto se revierte
 		//luego destraba teclas para que pueda seguir jugando el jugador
-		game.schedule(6000,{
+		game.schedule(4000,{
 			wollokmonEnemigo.cumplirRonda()
 			wollokmonAliado.cumplirRonda()
 			config.turno(true)
@@ -188,7 +188,7 @@ object pantallaDeBatalla inherits Pantalla {
 			ataqueBase.actualizarMana(ejecutor)
 		} else {
 			movimiento.ejecutar(ejecutor, rival)
-			movimiento.efecto(rival)
+			movimiento.efecto(ejecutor, rival)
 			movimiento.actualizarMana(ejecutor)
 		}
 	}
