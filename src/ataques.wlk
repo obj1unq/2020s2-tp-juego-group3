@@ -14,7 +14,8 @@ class Movimiento {
 			                
 		}))
 		game.schedule(1500, ({game.removeVisual(mensaje)}))
-	    
+	    self.efecto(ejecutor,rival)
+	    self.actualizarMana(ejecutor)
 	}
 	
 	method danioEjercido(ejecutor, rival)
@@ -40,9 +41,7 @@ object ataqueBase inherits Movimiento {
 	override method efecto(ejecutor, rival){}
 	
 	override method actualizarMana(ejecutor) {
-		if(ejecutor.manaActual() < 3) {
-			ejecutor.manaActual(ejecutor.manaActual() + 1)
-		}
+		ejecutor.alterarMana(1)
 	}
 	
 	override method esEspecial() { return false }
@@ -62,9 +61,7 @@ class Especiales inherits Movimiento {
 	}
   
 	override method actualizarMana(ejecutor) {
-		if(ejecutor.manaActual() > 0) {
-			ejecutor.manaActual(ejecutor.manaActual() - 1)
-		}
+		ejecutor.alterarMana(-1)
 	}
 	
 	override method esEspecial() { return true }
@@ -135,7 +132,7 @@ class Efectos {
     }
     
     method finalizoEfecto(){
-    	return turnosRestantes == 0
+    	return turnosRestantes <= 0
     }
     
     // si las rondas restantes del efecto son igual a 0, deshace el efecto causado
@@ -208,4 +205,35 @@ class EfectoViento inherits Efectos{
 	
 }
 
+object defensa inherits Movimiento {
+	override method danioEjercido(ejecutor, rival){
+		return 0
+	}
+    override method nombre(){
+    	return "Defensa"
+    }
+    override method efecto(ejecutor, rival){
+    	ejecutor.recibirEfecto(self.efecto())
+    }
+    override method actualizarMana(ejecutor) {
+    	ejecutor.alterarMana(1)
+    }
+    override method esEspecial(){ return false}
+    
+    method efecto(){
+    	return new DefensaTemporal(turnosRestantes = 0)
+    }
+}
+
+class DefensaTemporal inherits Efectos {
+	
+    override method deshacerEfecto(wollokmonAfectado){
+    	wollokmonAfectado.defensaActual(wollokmonAfectado.defensa())
+    }
+    
+    method efectoASufrir(wollokmonAfectado){
+    	wollokmonAfectado.defensaActual(wollokmonAfectado.defensaActual() * 2)
+    }
+    
+}
 

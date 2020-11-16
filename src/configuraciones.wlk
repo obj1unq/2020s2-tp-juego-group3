@@ -37,7 +37,11 @@ object config {
 		})
 		
 		//Atajo para perder de una
-		keyboard.h().onPressDo({jugador.wollokmon().recibirDanio(100)})
+		keyboard.h().onPressDo({
+			if(turno){
+				pantallaDeBatalla.turno(2)
+			}
+		})
 		
 	}
 	
@@ -185,11 +189,8 @@ object pantallaDeBatalla inherits Pantalla {
 		if (movimiento.esEspecial() and ejecutor.manaActual() == 0) {
 			game.say(ejecutor, "No tengo mana para especial, uso ataque basico")
 			ataqueBase.ejecutar(ejecutor, rival)
-			ataqueBase.actualizarMana(ejecutor)
 		} else {
 			movimiento.ejecutar(ejecutor, rival)
-			movimiento.efecto(ejecutor, rival)
-			movimiento.actualizarMana(ejecutor)
 		}
 	}
 	
