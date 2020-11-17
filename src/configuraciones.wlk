@@ -15,8 +15,6 @@ object config {
 		keyboard.down().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1)) })
 	}
 	method configurarTeclaAccion() {
-		// Flecha de batalla
-		keyboard.enter().onPressDo({ jugador.seleccion(jugador.position()) })
 		
 		// TODO: Revisar funcionamiento
 		keyboard.k().onPressDo({ 
@@ -42,6 +40,11 @@ object config {
 				pantallaDeBatalla.turno(2)
 			}
 		})
+		
+		// Teclas definitivas de combate. Borrar las anteriores y dejar estas:
+		// keyboard.a().onPressDo({ ATAQUE BASICO })
+		//keyboard.s().onPressDo({ ATAQUE ESPECIAL })
+		//keyboard.d().onPressDo({ DEFENSA })
 		
 	}
 	
@@ -293,6 +296,6 @@ object tutorialTeclas {
 		return "teclaAtaque.png"
 	}
 	method position() {
-		return game.at(1,9)
+		return game.at(1,10)
 	}
 }
