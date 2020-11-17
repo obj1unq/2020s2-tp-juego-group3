@@ -45,6 +45,16 @@ object config {
 		
 	}
 	
+	method configurarTeclasMenu() {
+		keyboard.num1().onPressDo({ pantallaPrincipal.iniciar() })
+		keyboard.num2().onPressDo({ pantallaTutorial.iniciar() })
+		keyboard.num3().onPressDo({ pantallaCreditos.iniciar() })
+	}
+	
+	method configurarTeclaVolverAMenu() {
+		keyboard.any().onPressDo({ menuInicial.iniciar() })
+	}
+	
 	method configurarColisiones() {
 		game.onCollideDo(jugador, { rival => 
 				rival.iniciarPelea()
@@ -70,6 +80,45 @@ class Pantalla {
 	//La configuración de sus teclas
 	//method configurarTeclas()
 
+}
+
+object menuInicial inherits Pantalla {
+	
+	override method image(){ return "menuInicial.png"}
+	
+	override method iniciar() {
+		
+		super()
+		
+		config.configurarTeclasMenu()
+		
+	}
+}
+
+object pantallaTutorial inherits Pantalla {
+	
+	override method image(){ return "pantallaTutorial.png"}
+	
+	override method iniciar() {
+		
+		super()
+		
+		config.configurarTeclaVolverAMenu()
+		
+	}
+}
+
+object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar el juego
+	
+	override method image(){ return "pantallaCreditos.png"}
+	
+	override method iniciar() {
+		
+		super()
+		
+		config.configurarTeclaVolverAMenu()
+		
+	}
 }
 
 object pantallaPrincipal inherits Pantalla {

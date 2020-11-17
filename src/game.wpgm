@@ -7,9 +7,9 @@ program game {
 	game.title("Wollokmon")
 	game.width(12)
 	game.height(12)
-	game.boardGround("fondo.png")
+	game.boardGround("menuInicial.png")
 	
-	pantallaPrincipal.iniciar()
+	menuInicial.iniciar()
 	
 	//Inicio
 	game.start()
