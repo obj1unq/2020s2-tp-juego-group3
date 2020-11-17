@@ -13,6 +13,7 @@ object config {
 		keyboard.right().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1)) })
 		keyboard.up().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(1)) })
 		keyboard.down().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1)) })
+		keyboard.enter().onPressDo({ pantallaWollokmones.iniciar() })
 	}
 	method configurarTeclaAccion() {
 		
@@ -62,6 +63,14 @@ object config {
 		game.onCollideDo(jugador, { rival => 
 				rival.iniciarPelea()
 		})
+	}
+	
+	method configurarTeclasCambioWollokmon(){
+		keyboard.num1().onPressDo({ pantallaWollokmones.cambiarWollokmonA(pepita) })
+		keyboard.num2().onPressDo({ pantallaWollokmones.cambiarWollokmonA(pikawu) })
+		keyboard.num3().onPressDo({ pantallaWollokmones.cambiarWollokmonA(swirtle) })
+		keyboard.num4().onPressDo({ pantallaWollokmones.cambiarWollokmonA(warmander) })
+		keyboard.space().onPressDo({ pantallaPrincipal.iniciar() })
 	}
 }
 
@@ -255,6 +264,7 @@ object pantallaDeBatalla inherits Pantalla {
 			config.turno(true)
 			wollokmonAliado.terminarEfectos() // deshace los efectos hacia el wollokmon aliado cuanto termina la batalla
 			pantallaPrincipal.entrenadorVencido(rivalActual)
+			self.ganarWollokmon(rivalActual)
 			pantallaPrincipal.iniciar()
 		}
 	}
@@ -263,6 +273,34 @@ object pantallaDeBatalla inherits Pantalla {
 		return "forest.png"
 	}
 	
+	method ganarWollokmon(entrenador){
+		jugador.ganarWollokmon(entrenador.wollokmon())
+	}
+	
+}
+
+object pantallaWollokmones inherits Pantalla {
+	
+	override method image(){ return "seleccionWollokmones.png"}
+	
+	override method iniciar() {
+		
+		super()
+		
+		config.configurarTeclasCambioWollokmon()
+		
+	}
+	
+	method cambiarWollokmonA(_wollokmon){
+		if (jugador.tieneElWollokmon(_wollokmon)){
+			pantallaPrincipal.iniciar()
+			jugador.wollokmon(_wollokmon)
+		}
+		else {
+			pantallaPrincipal.iniciar()
+		    game.say(jugador, "Aún no has ganado ese Wollokmon"  )
+		}
+    }
 }
 
 class PantallaFinal inherits Pantalla {

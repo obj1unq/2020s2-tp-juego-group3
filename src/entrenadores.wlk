@@ -6,6 +6,7 @@ object jugador {
 
 	//Su wollokmon
 	var property wollokmon = pepita
+	var property wollokmonesGanados = #{pepita}
 	var property position = game.center()
 	
 	//De carga del jugador
@@ -41,12 +42,20 @@ object jugador {
 		// posicion x , (posicion y )+1
 	}
 	
+	method ganarWollokmon(_wollokmon){
+		wollokmonesGanados.add(_wollokmon)
+	}
+	
 	method ganar() {
 		game.say(self, "¡GANASTE!")
 	}
 	
 	method perder() {
 		game.say(self, "¡GAME OVER!")
+	}
+	
+	method tieneElWollokmon(_wollokmon){
+		return wollokmonesGanados.contains(_wollokmon)
 	}
 	
 }
