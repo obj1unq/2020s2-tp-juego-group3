@@ -22,30 +22,26 @@ object config {
 			game.say(jugador.wollokmon(), "Hago trampa")
 			pantallaDeBatalla.wollokmonEnemigo().recibirDanio(50)
 		})
-		keyboard.j().onPressDo({
+		
+		// Teclas definitivas de combate. Borrar las anteriores y dejar estas:
+		// keyboard.a().onPressDo({ ATAQUE BASICO })
+		keyboard.a().onPressDo({
 			if(turno){
 				pantallaDeBatalla.turno(0)
 			}
 		})
-		
-		// especial
-		keyboard.l().onPressDo({
+		//keyboard.s().onPressDo({ ATAQUE ESPECIAL })
+		keyboard.s().onPressDo({
 			if(turno){
 				pantallaDeBatalla.turno(1)
 			}
 		})
-		
-		//Atajo para perder de una
-		keyboard.h().onPressDo({
+		//keyboard.d().onPressDo({ DEFENSA })
+		keyboard.d().onPressDo({
 			if(turno){
 				pantallaDeBatalla.turno(2)
 			}
 		})
-		
-		// Teclas definitivas de combate. Borrar las anteriores y dejar estas:
-		// keyboard.a().onPressDo({ ATAQUE BASICO })
-		//keyboard.s().onPressDo({ ATAQUE ESPECIAL })
-		//keyboard.d().onPressDo({ DEFENSA })
 		
 	}
 	
@@ -264,6 +260,7 @@ object pantallaDeBatalla inherits Pantalla {
 			wollokmonAliado.terminarEfectos() // deshace los efectos hacia el wollokmon aliado cuanto termina la batalla
 			pantallaPrincipal.entrenadorVencido(rivalActual)
 			self.ganarWollokmon(rivalActual)
+			self.curarWollokmones()
 			pantallaPrincipal.iniciar()
 		}
 	}
@@ -276,6 +273,10 @@ object pantallaDeBatalla inherits Pantalla {
 		jugador.ganarWollokmon(entrenador.wollokmon())
 	}
 	
+	method curarWollokmones(){
+		wollokmonAliado.curarse(100)
+		wollokmonEnemigo.curarse(100)
+	}
 }
 
 object pantallaWollokmones inherits Pantalla {

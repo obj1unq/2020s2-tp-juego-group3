@@ -116,7 +116,7 @@ object viento inherits Especiales {
 	}
 	
 	override method nombre(){
-		return "brisaCurativa"
+		return "brisa curativa"
 	}
 	
 	override method efecto(ejecutor, rival){
