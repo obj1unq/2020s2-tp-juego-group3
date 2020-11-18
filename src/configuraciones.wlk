@@ -242,7 +242,6 @@ object pantallaDeBatalla inherits Pantalla {
 			wollokmonAliado.cumplirRonda()
 			config.turno(true)
 		})
-		
 	}
 	
 	//Si se quiere hacer ataque especial y no hay mana se realiza un ataque base

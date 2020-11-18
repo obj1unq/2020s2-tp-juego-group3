@@ -7,13 +7,13 @@ class Movimiento {
 	method ejecutar(ejecutor, rival){
 		game.say(ejecutor, "uso " + self.nombre())
 		game.schedule(500, ({ 
-			mensaje.mostrarAtaque(ejecutor, rival)
-			game.addVisual(mensaje)
+			cartel.mostrarCartel(ejecutor, rival, self)
+			game.addVisual(cartel)
 		}))
 		game.schedule(1000,({rival.recibirDanio(self.danioEjercido(ejecutor, rival))
 			                
 		}))
-		game.schedule(1500, ({game.removeVisual(mensaje)}))
+		game.schedule(1500, ({game.removeVisual(cartel)}))
 	    self.efecto(ejecutor,rival)
 	    self.actualizarMana(ejecutor)
 	}
@@ -23,6 +23,7 @@ class Movimiento {
     method efecto(ejecutor, rival){}
     method actualizarMana(ejecutor)
     method esEspecial()
+    method esDefensa() = false
 
 }
 
@@ -115,7 +116,7 @@ object viento inherits Especiales {
 	}
 	
 	override method nombre(){
-		return "brisa curativa"
+		return "brisaCurativa"
 	}
 	
 	override method efecto(ejecutor, rival){
@@ -210,7 +211,7 @@ object defensa inherits Movimiento {
 		return 0
 	}
     override method nombre(){
-    	return "Defensa"
+    	return "defensa"
     }
     override method efecto(ejecutor, rival){
     	ejecutor.recibirEfecto(self.efecto())
@@ -218,11 +219,12 @@ object defensa inherits Movimiento {
     override method actualizarMana(ejecutor) {
     	ejecutor.alterarMana(1)
     }
-    override method esEspecial(){ return false}
+    override method esEspecial() { return false }
     
     method efecto(){
     	return new DefensaTemporal(turnosRestantes = 0)
     }
+    override method esDefensa() { return true }
 }
 
 class DefensaTemporal inherits Efectos {
@@ -231,9 +233,25 @@ class DefensaTemporal inherits Efectos {
     	wollokmonAfectado.defensaActual(wollokmonAfectado.defensa())
     }
     
-    method efectoASufrir(wollokmonAfectado){
+    override method efectoASufrir(wollokmonAfectado){
     	wollokmonAfectado.defensaActual(wollokmonAfectado.defensaActual() * 2)
     }
-    
+}
+
+object cartel {
+	var property imagen = ""
+	method image() {
+		return imagen
+	}
+	method position() {
+		return game.at(1,1)
+	}
+	method mostrarCartel(ejecutor, rival, movimiento) {
+		if (movimiento.esEspecial() or movimiento.esDefensa()) {
+			imagen = ("ataque_" + ejecutor.nombre() + "_" + movimiento.nombre() + ".png")
+		} else {
+			imagen = ("ataque_" + ejecutor.nombre() + "_" + rival.nombre() + ".png")
+		}
+	}
 }
 
