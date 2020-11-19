@@ -3,73 +3,6 @@ import entrenadores.*
 import wollokmones.*
 import ataques.*
 
-object config {
-	
-	var property turno = true
-	
-	method configurarTeclasNormal(){
-		// Mover al jugador
-		keyboard.left().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1)) })
-		keyboard.right().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1)) })
-		keyboard.up().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(1)) })
-		keyboard.down().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1)) })
-		keyboard.enter().onPressDo({ pantallaWollokmones.iniciar() })
-	}
-	method configurarTeclaAccion() {
-		
-		// TODO: Revisar funcionamiento
-		keyboard.k().onPressDo({ 
-			game.say(jugador.wollokmon(), "Hago trampa")
-			pantallaDeBatalla.wollokmonEnemigo().recibirDanio(50)
-		})
-		
-		// Teclas definitivas de combate. Borrar las anteriores y dejar estas:
-		// keyboard.a().onPressDo({ ATAQUE BASICO })
-		keyboard.a().onPressDo({
-			if(turno){
-				pantallaDeBatalla.turno(0)
-			}
-		})
-		//keyboard.s().onPressDo({ ATAQUE ESPECIAL })
-		keyboard.s().onPressDo({
-			if(turno){
-				pantallaDeBatalla.turno(1)
-			}
-		})
-		//keyboard.d().onPressDo({ DEFENSA })
-		keyboard.d().onPressDo({
-			if(turno){
-				pantallaDeBatalla.turno(2)
-			}
-		})
-		
-	}
-	
-	method configurarTeclasMenu() {
-		keyboard.num1().onPressDo({ pantallaPrincipal.iniciar() })
-		keyboard.num2().onPressDo({ pantallaTutorial.iniciar() })
-		keyboard.num3().onPressDo({ pantallaCreditos.iniciar() })
-	}
-	
-	method configurarTeclaVolverAMenu() {
-		keyboard.any().onPressDo({ menuInicial.iniciar() })
-	}
-	
-	method configurarColisiones() {
-		game.onCollideDo(jugador, { rival => 
-				rival.iniciarPelea()
-		})
-	}
-	
-	method configurarTeclasCambioWollokmon(){
-		keyboard.num1().onPressDo({ pantallaWollokmones.cambiarWollokmonA(pepita) })
-		keyboard.num2().onPressDo({ pantallaWollokmones.cambiarWollokmonA(pikawu) })
-		keyboard.num3().onPressDo({ pantallaWollokmones.cambiarWollokmonA(swirtle) })
-		keyboard.num4().onPressDo({ pantallaWollokmones.cambiarWollokmonA(warmander) })
-		keyboard.space().onPressDo({ pantallaPrincipal.iniciar() })
-	}
-}
-
 class Pantalla {
 	
 	//Se carga a si misma y su contenido
@@ -77,6 +10,7 @@ class Pantalla {
 		game.clear()
 		// self.configurarTeclas()
 		game.addVisual(self)
+		self.configTeclas()
 	}
 	
 	//Siempre es la misma posicion de fondo
@@ -85,6 +19,7 @@ class Pantalla {
 	//Todas tienen que declarar su imagen
 	method image()
 	
+	method configTeclas()
 	//La configuración de sus teclas
 	//method configurarTeclas()
 
@@ -94,38 +29,30 @@ object menuInicial inherits Pantalla {
 	
 	override method image(){ return "menuInicial.png"}
 	
-	override method iniciar() {
-		
-		super()
-		
-		config.configurarTeclasMenu()
-		
+	override method configTeclas() {
+		keyboard.num1().onPressDo({ pantallaPrincipal.iniciar() })
+		keyboard.num2().onPressDo({ pantallaTutorial.iniciar() })
+		keyboard.num3().onPressDo({ pantallaCreditos.iniciar() })
 	}
+	
 }
 
 object pantallaTutorial inherits Pantalla {
 	
 	override method image(){ return "pantallaTutorial.png"}
 	
-	override method iniciar() {
-		
-		super()
-		
-		config.configurarTeclaVolverAMenu()
-		
+	override method configTeclas() {
+		keyboard.any().onPressDo({ menuInicial.iniciar() })
 	}
+	
 }
 
 object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar el juego
 	
 	override method image(){ return "pantallaCreditos.png"}
 	
-	override method iniciar() {
-		
-		super()
-		
-		config.configurarTeclaVolverAMenu()
-		
+	override method configTeclas() {
+		keyboard.any().onPressDo({ menuInicial.iniciar() })
 	}
 }
 
@@ -146,8 +73,7 @@ object pantallaPrincipal inherits Pantalla {
 		//^^^ agrega solo a los entrenadores que faltan vencer
 		
 		//Configura el movimiento del jugador
-		config.configurarTeclasNormal()
-		config.configurarColisiones()
+		self.configurarColisiones()
 		
 		//Comprueba si quedan rivales a vencer o si ya se ganó el juego
 		self.comprobarVictoria()
@@ -171,6 +97,21 @@ object pantallaPrincipal inherits Pantalla {
 			entrenadoresAVencer.remove(entrenador)
 		}
 	}
+	
+	method configurarColisiones() {
+		game.onCollideDo(jugador, { rival => 
+				rival.iniciarPelea()
+		})
+	}
+	
+	override method configTeclas(){
+		// Mover al jugador
+		keyboard.left().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1)) })
+		keyboard.right().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1)) })
+		keyboard.up().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(1)) })
+		keyboard.down().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1)) })
+		keyboard.enter().onPressDo({ pantallaWollokmones.iniciar() })
+	}
 }
 
 object pantallaDeBatalla inherits Pantalla {
@@ -182,6 +123,7 @@ object pantallaDeBatalla inherits Pantalla {
 	var property vidaEnemigo
 	var property manaAliado
 	var property manaEnemigo
+	var turno = true
 	
 	override method iniciar(){ 
 		
@@ -209,9 +151,6 @@ object pantallaDeBatalla inherits Pantalla {
 		game.addVisual(vidaAliado)
 		game.addVisual(manaEnemigo)
 		game.addVisual(manaAliado)
-		
-		//Configura los comandos para pelear
-		config.configurarTeclaAccion()
 
 		game.addVisual(tutorialTeclas)
 	}
@@ -223,7 +162,7 @@ object pantallaDeBatalla inherits Pantalla {
 	method turno(numero){
 		
 		//Impide apretar teclas
-		config.turno(false)
+		turno = false
 		
 		//actua el wollokmonaliado y 5 segundos despues el enemigo
 		var movimiento = wollokmonAliado.movimientoNumero(numero)
@@ -236,7 +175,7 @@ object pantallaDeBatalla inherits Pantalla {
 		game.schedule(4000,{
 			wollokmonEnemigo.cumplirRonda()
 			wollokmonAliado.cumplirRonda()
-			config.turno(true)
+			turno = true
 		})
 	}
 	
@@ -256,7 +195,7 @@ object pantallaDeBatalla inherits Pantalla {
 			game.say(wollokmon, "Me vencieron")
 			game.schedule(2000, {pantallaDeDerrota.iniciar()})
 		} else {
-			config.turno(true)
+			turno = true
 			wollokmonAliado.terminarEfectos() // deshace los efectos hacia el wollokmon aliado cuanto termina la batalla
 			pantallaPrincipal.entrenadorVencido(rivalActual)
 			self.ganarWollokmon(rivalActual)
@@ -277,18 +216,48 @@ object pantallaDeBatalla inherits Pantalla {
 		wollokmonAliado.curarse(100)
 		wollokmonEnemigo.curarse(100)
 	}
+	
+	override method configTeclas() {
+		
+		// TODO: Revisar funcionamiento
+		keyboard.k().onPressDo({ 
+			game.say(jugador.wollokmon(), "Hago trampa")
+			self.wollokmonEnemigo().recibirDanio(50)
+		})
+		
+		// Teclas definitivas de combate. Borrar las anteriores y dejar estas:
+		// keyboard.a().onPressDo({ ATAQUE BASICO })
+		keyboard.a().onPressDo({
+			if(turno){
+				self.turno(0)
+			}
+		})
+		//keyboard.s().onPressDo({ ATAQUE ESPECIAL })
+		keyboard.s().onPressDo({
+			if(turno){
+				self.turno(1)
+			}
+		})
+		//keyboard.d().onPressDo({ DEFENSA })
+		keyboard.d().onPressDo({
+			if(turno){
+				self.turno(2)
+			}
+		})
+		
+	}
 }
 
 object pantallaWollokmones inherits Pantalla {
 	
 	override method image(){ return "seleccionWollokmones.png"}
 	
-	override method iniciar() {
-		
-		super()
-		
-		config.configurarTeclasCambioWollokmon()
-		
+	override method configTeclas(){
+		keyboard.num1().onPressDo({ self.cambiarWollokmonA(pepita) })
+		keyboard.num2().onPressDo({ self.cambiarWollokmonA(pikawu) })
+		keyboard.num3().onPressDo({ self.cambiarWollokmonA(swirtle) })
+		keyboard.num4().onPressDo({ self.cambiarWollokmonA(warmander) })
+		keyboard.space().onPressDo({ pantallaPrincipal.iniciar() })
 	}
 	
 	method cambiarWollokmonA(_wollokmon){
@@ -314,6 +283,8 @@ class PantallaFinal inherits Pantalla {
 		super()
 		self.finalizarJuego()
 	}
+	
+	override method configTeclas(){}
 	
 }
 
