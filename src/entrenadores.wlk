@@ -92,5 +92,5 @@ class Entrenador {
 }
 
 const fercho = new Entrenador(wollokmon = pikawu, position = game.at(4,5), image = "fercho.png")
-const juan = new Entrenador(wollokmon = warmander, position = game.at(9,2), image = "rival.png")
+const juan = new Entrenador(wollokmon = warmander, position = game.at(9,2), image = "juan.png")
 const ivi = new Entrenador(wollokmon = swirtle, position = game.at(7,10), image = "ivi.png")
