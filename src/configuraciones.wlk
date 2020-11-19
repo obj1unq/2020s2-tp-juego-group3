@@ -11,6 +11,7 @@ class Pantalla {
 		// self.configurarTeclas()
 		game.addVisual(self)
 		self.configTeclas()
+		rocola.cambiarTrack(self.pista())
 	}
 	
 	//Siempre es la misma posicion de fondo
@@ -22,7 +23,8 @@ class Pantalla {
 	method configTeclas()
 	//La configuración de sus teclas
 	//method configurarTeclas()
-
+	
+	method pista() //<-- es el número de pista de la rocola
 }
 
 object menuInicial inherits Pantalla {
@@ -35,6 +37,7 @@ object menuInicial inherits Pantalla {
 		keyboard.num3().onPressDo({ pantallaCreditos.iniciar() })
 	}
 	
+	override method pista() {return 0}
 }
 
 object pantallaTutorial inherits Pantalla {
@@ -45,6 +48,7 @@ object pantallaTutorial inherits Pantalla {
 		keyboard.any().onPressDo({ menuInicial.iniciar() })
 	}
 	
+	override method pista() {return 0}
 }
 
 object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar el juego
@@ -54,6 +58,8 @@ object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar 
 	override method configTeclas() {
 		keyboard.any().onPressDo({ menuInicial.iniciar() })
 	}
+	
+	override method pista() {return 0}
 }
 
 object pantallaPrincipal inherits Pantalla {
@@ -61,6 +67,8 @@ object pantallaPrincipal inherits Pantalla {
 	const property entrenadoresAVencer = #{fercho, juan, ivi}
 	
 	override method image(){ return "pantallaPrincipal.png"}
+	
+	override method pista() {return 1}
 	
 	override method iniciar(){
 		
@@ -124,6 +132,8 @@ object pantallaDeBatalla inherits Pantalla {
 	var property manaAliado
 	var property manaEnemigo
 	var turno = true
+	
+	override method pista(){return 2}
 	
 	override method iniciar(){ 
 		
@@ -252,6 +262,8 @@ object pantallaWollokmones inherits Pantalla {
 	
 	override method image(){ return "seleccionWollokmones.png"}
 	
+	override method pista(){ return 1 }
+	
 	override method configTeclas(){
 		keyboard.num1().onPressDo({ self.cambiarWollokmonA(pepita) })
 		keyboard.num2().onPressDo({ self.cambiarWollokmonA(pikawu) })
@@ -286,6 +298,7 @@ class PantallaFinal inherits Pantalla {
 	
 	override method configTeclas(){}
 	
+	override method pista(){return 0}
 }
 
 object pantallaDeVictoria inherits PantallaFinal {
@@ -306,5 +319,54 @@ object tutorialTeclas {
 	}
 	method position() {
 		return game.at(1,10)
+	}
+}
+
+object rocola {
+	
+	const tracks = [
+		game.sound("pSound_menu1.wav"),
+		game.sound("pSound_principal.mp3"),
+		game.sound("pSound_fight.wav")
+	]
+	var track = tracks.get(0)
+	
+	method iniciar(){
+		track.shouldLoop(true)
+		track.volume(1)
+		game.schedule(100,{track.play()})
+	}
+	
+	method cambiarTrack(n){
+		if(self.hayTrackSonando()){
+			if(self.hayCambioDeTrack(n)){
+				track.pause()
+				track = tracks.get(n)
+				track.shouldLoop(true)
+				self.reproducirTrack()
+			}
+		}else{
+			self.iniciar()
+		}
+	}
+	
+	method hayCambioDeTrack(n) {
+		return track != tracks.get(n) 
+	}
+	
+	method hayTrackSonando(){
+		return track.played() and not track.paused()
+	}
+	
+	method trackEstaPausada(){
+		return track.played() and track.paused()
+	}
+	
+	method reproducirTrack() {
+		if(self.trackEstaPausada()){
+			track.resume()
+		}else{
+			track.play()
+		}
 	}
 }

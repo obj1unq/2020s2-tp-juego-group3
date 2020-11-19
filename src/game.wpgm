@@ -9,6 +9,7 @@ program game {
 	game.height(12)
 	game.boardGround("menuInicial.png")
 	
+	//rocola.iniciar() ROMPE ¿PORQUE? PREGUNTAR
 	menuInicial.iniciar()
 	
 	//Inicio
