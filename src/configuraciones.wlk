@@ -131,7 +131,7 @@ object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar 
 
 object pantallaPrincipal inherits Pantalla {
 	
-	const property entrenadoresAVencer = #{fercho, juan, walt}
+	const property entrenadoresAVencer = #{fercho, juan, ivi}
 	
 	override method image(){ return "pantallaPrincipal.png"}
 	
