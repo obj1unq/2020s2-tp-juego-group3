@@ -142,6 +142,7 @@ object pantallaDeBatalla inherits Pantalla {
 		
 		// Setea los wollokmones en batalla
 		wollokmonAliado = jugador.wollokmon()
+		jugador.wollokmon().image(jugador.wollokmon().nombre() + "Jugable.png") // Setea la visual del wollokmon que corresponde de espaldas
 		wollokmonEnemigo = rivalActual.wollokmon()
 		
 		// Describe la vida

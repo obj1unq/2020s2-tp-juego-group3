@@ -5,7 +5,7 @@ import ataques.*
 
 class Wollokmon {
 	const property nombre
-	const property image
+	var property image
     const property ataque
     const property defensa
     const property especial

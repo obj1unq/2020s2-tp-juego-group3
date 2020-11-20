@@ -4,17 +4,17 @@ import configuraciones.*
 
 object jugador {
 
-	//Su wollokmon
+	// Su wollokmon
 	var property wollokmon = pepita
 	var property wollokmonesGanados = #{pepita}
 	var property position = game.center()
 	
-	//De carga del jugador
+	// De carga del jugador
 	method image() {
 		return "prota.png"
 	}
 	
-	//De movimiento del jugador
+	// De movimiento del jugador
 	method irASiSeMantieneEnLaPantalla(nuevaPosicion) {
 		if (self.estaDentroDeLaPantalla(nuevaPosicion)) {
 			self.irA(nuevaPosicion)
@@ -33,13 +33,6 @@ object jugador {
 	method estaDentroDeLaPantalla(nuevaPosicion) {
 		return 	nuevaPosicion.x().between(0, game.width() - 1)
 		and		nuevaPosicion.y().between(0, game.height() - 1)
-	}
-	
-	method seleccion(posicion) {
-		// Deberia devolver el objecto ataque/defensa que esta en la posicion 
-		// a la derecha de la flecha
-		
-		// posicion x , (posicion y )+1
 	}
 	
 	method ganarWollokmon(_wollokmon){
@@ -80,7 +73,7 @@ object posicionesProhibidas{
 
 class Entrenador {
 	
-	//Su wollokmon
+	// Su wollokmon
 	var property wollokmon
 	const property position
 	const property image
