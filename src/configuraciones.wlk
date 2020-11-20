@@ -77,6 +77,8 @@ object pantallaPrincipal inherits Pantalla {
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
 		
+		game.addVisual(seleccion)
+		
 		// Agrega solo a los entrenadores que faltan vencer
 		entrenadoresAVencer.forEach({entrenador => game.addVisual(entrenador)})
 		
@@ -90,6 +92,8 @@ object pantallaPrincipal inherits Pantalla {
 	method comprobarVictoria(){
 		// Si no hay rival a vencer, entonces ganar
 		if(entrenadoresAVencer.isEmpty()){
+			// TODO: acomodar el mensaje
+			game.addVisual(mensajeCasa)
 			jugador.ganar()
 			game.schedule(2000,{ pantallaDeVictoria.iniciar() })
 		}
@@ -318,6 +322,24 @@ object tutorialTeclas {
 	}
 	method position() {
 		return game.at(1,10)
+	}
+}
+
+object seleccion {
+	method image() {
+		return "seleccion.png"
+	}
+	method position() {
+		return game.at(0,0)
+	}
+}
+
+object mensajeCasa {
+	method image() {
+		return "mensajeCasa.png"
+	}
+	method position() {
+		return game.at(1,1)
 	}
 }
 
