@@ -69,6 +69,10 @@ object pantallaPrincipal inherits Pantalla {
 	
 	override method pista() {return 1}
 	
+	method reset(){
+		entrenadoresAVencer.addAll(#{fercho, ivi, juan})
+	}
+	
 	override method iniciar(){
 		
 		super()
@@ -208,7 +212,10 @@ object pantallaDeBatalla inherits Pantalla {
 		if (wollokmon == wollokmonAliado) {
 			// Perdio el jugador
 			game.say(wollokmon, "Me vencieron")
-			game.schedule(2000, {pantallaDeDerrota.iniciar()})
+			game.schedule(2000, {
+				self.curarWollokmones()
+				pantallaDeDerrota.iniciar()
+			})
 		} else {
 			turno = true
 			wollokmonAliado.terminarEfectos() // Deshace los efectos hacia el wollokmon aliado cuanto termina la batalla
@@ -292,6 +299,9 @@ class PantallaFinal inherits Pantalla {
 		// Esto ejecuta el bloque de código una vez en 2 segundos
 		// game.schedule(5000, { game.stop() })
 		game.schedule(5000, { pantallaCreditos.iniciar() })
+		//reset
+		pantallaPrincipal.reset()
+		jugador.reset()
 	}
 	
 	override method iniciar(){

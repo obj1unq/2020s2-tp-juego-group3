@@ -9,6 +9,13 @@ object jugador {
 	var property wollokmonesGanados = #{pepita}
 	var property position = game.center()
 	
+	method reset(){
+		position = game.center()
+		wollokmon = pepita
+		wollokmonesGanados.clear()
+		wollokmonesGanados.add(wollokmon)
+	}
+	
 	// De carga del jugador
 	method image() {
 		return "prota.png"
