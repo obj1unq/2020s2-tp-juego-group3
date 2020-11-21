@@ -116,3 +116,4 @@ const pepita = new Wollokmon(nombre = "pepita", image = "pepita.png", ataque =10
 const pikawu = new Wollokmon(nombre = "pikawu", image = "pikawu.png", ataque = 10, defensa = 10, especial = 12, movimientos = [ataqueBase, rayo, defensa], ataqueActual = 10, defensaActual = 10, especialActual = 12)
 const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 15, especial = 14, movimientos = [ataqueBase, fuego, defensa], ataqueActual = 10, defensaActual = 15, especialActual = 14)
 const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 13, defensa = 12, especial = 10, movimientos = [ataqueBase, agua, defensa], ataqueActual = 13, defensaActual = 12, especialActual = 10)
+const silvestre = new Wollokmon(nombre = "silverstre", image = "silvestre.png", ataque = 15, defensa = 15, especial = 15, movimientos = [ataqueBase, rayo, defensa], ataqueActual = 15, defensaActual = 15, especialActual = 15)

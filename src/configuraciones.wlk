@@ -61,17 +61,9 @@ object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar 
 	override method pista() {return 0}
 }
 
-object pantallaPrincipal inherits Pantalla {
-	
-	const property entrenadoresAVencer = #{fercho, juan, ivi}
-	
-	override method image(){ return "pantallaPrincipal.png"}
+class PantallaDeExploracion inherits Pantalla {
 	
 	override method pista() {return 1}
-	
-	method reset(){
-		entrenadoresAVencer.addAll(#{fercho, ivi, juan})
-	}
 	
 	override method iniciar(){
 		
@@ -84,7 +76,7 @@ object pantallaPrincipal inherits Pantalla {
 		game.addVisual(seleccion)
 		
 		// Agrega solo a los entrenadores que faltan vencer
-		entrenadoresAVencer.forEach({entrenador => game.addVisual(entrenador)})
+		self.entrenadoresAVencer().forEach({entrenador => game.addVisual(entrenador)})
 		
 		// Configura el movimiento del jugador
 		self.configurarColisiones()
@@ -93,30 +85,23 @@ object pantallaPrincipal inherits Pantalla {
 		self.comprobarVictoria()
 	}
 	
-	method comprobarVictoria(){
-		// Si no hay rival a vencer, entonces ganar
-		if(entrenadoresAVencer.isEmpty()){
-			// TODO: acomodar el mensaje
-			game.addVisual(mensajeCasa)
-			jugador.ganar()
-			game.schedule(2000,{ pantallaDeVictoria.iniciar() })
-		}
-	}
-	
 	method esEntrenadorAVencer(entrenador){
-		return entrenadoresAVencer.contains(entrenador)
+		return self.entrenadoresAVencer().contains(entrenador)
 	}
 	
 	method entrenadorVencido(entrenador){
 		// Quita a un entrenador que fue vencido
 		if(self.esEntrenadorAVencer(entrenador)){
-			entrenadoresAVencer.remove(entrenador)
+			self.entrenadoresAVencer().remove(entrenador)
 		}
 	}
 	
 	method configurarColisiones() {
 		game.onCollideDo(jugador, { rival => 
-				rival.iniciarPelea()
+				rival.iniciarPelea(self)
+		})
+		game.onCollideDo(jugador, { rival =>
+			    pantallaInteriorCasa.iniciar()
 		})
 	}
 	
@@ -129,10 +114,60 @@ object pantallaPrincipal inherits Pantalla {
 		// Mostrar la pantala de seleccion de wollokmones
 		keyboard.enter().onPressDo({ pantallaWollokmones.iniciar() })
 	}
+	
+	method comprobarVictoria()
+	method entrenadoresAVencer()
+	method reset()
+}
+
+object pantallaPrincipal inherits PantallaDeExploracion{
+	var property image = "pantallaPrincipal.png"
+	
+	var property entrenadoresAVencer = #{fercho, ivi, juan}
+	
+	override method comprobarVictoria(){
+		if(entrenadoresAVencer.isEmpty()){
+		    game.addVisual(mensajeCasa)
+		    game.addVisual(puerta)
+		    self.desbloquearPuerta()
+		}
+	}
+	
+	method desbloquearPuerta(){
+		self.image("pantallaPrincipalFinal.png")
+	}
+	
+	
+	
+	override method reset(){
+		entrenadoresAVencer.addAll(#{fercho, ivi, juan})
+		self.image("pantallaPrincipal.png")
+	}
+}
+
+object pantallaInteriorCasa inherits PantallaDeExploracion{
+	var property entrenadoresAVencer = #{nahue}
+	
+	override method image(){
+		return "pantallaCasa.png"
+	}
+	
+	override method comprobarVictoria(){
+		if(entrenadoresAVencer.isEmpty()){
+			// TODO: acomodar el mensaje
+			jugador.ganar()
+			game.schedule(2000,{ pantallaDeVictoria.iniciar() })
+		}
+	}
+	
+	override method reset(){
+		entrenadoresAVencer.addAll(#{nahue})
+	}
 }
 
 object pantallaDeBatalla inherits Pantalla {
 	
+	var property pantallaAVolver
 	var property wollokmonAliado
 	var property wollokmonEnemigo
 	var property rivalActual
@@ -219,10 +254,10 @@ object pantallaDeBatalla inherits Pantalla {
 		} else {
 			turno = true
 			wollokmonAliado.terminarEfectos() // Deshace los efectos hacia el wollokmon aliado cuanto termina la batalla
-			pantallaPrincipal.entrenadorVencido(rivalActual)
+			pantallaAVolver.entrenadorVencido(rivalActual)
 			self.ganarWollokmon(rivalActual)
 			self.curarWollokmones()
-			pantallaPrincipal.iniciar()
+			pantallaAVolver.iniciar()
 		}
 	}
 	
@@ -301,6 +336,7 @@ class PantallaFinal inherits Pantalla {
 		game.schedule(5000, { pantallaCreditos.iniciar() })
 		//reset
 		pantallaPrincipal.reset()
+		pantallaInteriorCasa.reset()
 		jugador.reset()
 	}
 	
@@ -351,6 +387,18 @@ object mensajeCasa {
 	method position() {
 		return game.at(1,1)
 	}
+}
+
+object puerta {
+	method image(){
+		return "puertaAbierta.png"
+	}
+	
+	method position(){
+        return game.at(10,7)
+    }
+    
+    method iniciarPelea(rival){}
 }
 
 object rocola {
