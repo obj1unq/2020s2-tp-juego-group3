@@ -8,7 +8,8 @@ object jugador {
 	var property wollokmon = pepita
 	var property wollokmonesGanados = #{pepita}
 	var property position = game.center()
-	
+	var property pantallaActual
+
 	method reset(){
 		position = game.center()
 		wollokmon = pepita
@@ -23,18 +24,17 @@ object jugador {
 	
 	// De movimiento del jugador
 	method irASiSeMantieneEnLaPantalla(nuevaPosicion) {
-		if (self.estaDentroDeLaPantalla(nuevaPosicion)) {
+		if (self.estaDentroDeLaPantalla(nuevaPosicion) and not self.esPosicionProhibida(nuevaPosicion)) {
 			self.irA(nuevaPosicion)
 		}
 	}
 	
 	method irA(nuevaPosicion){
-		if (not self.esPosicionProhibida(nuevaPosicion))
 		position = nuevaPosicion
 	}
 	
 	method esPosicionProhibida(nuevaPosicion){
-		return posicionesProhibidas.esProhibida(nuevaPosicion)
+		return pantallaActual.esPosicionProhibida(nuevaPosicion)
 	}
 	
 	method estaDentroDeLaPantalla(nuevaPosicion) {
@@ -57,25 +57,7 @@ object jugador {
 	method tieneElWollokmon(_wollokmon){
 		return wollokmonesGanados.contains(_wollokmon)
 	}
-	
-}
 
-object posicionesProhibidas{
-	
-	const property posicionesProhibidas = #{game.at(7,6), game.at(7,7), game.at(7,8), game.at(7,9), game.at(8,6),
-		                                    game.at(8,9), game.at(9,6), game.at(9,8), game.at(9,9), game.at(9,10),
-		                                    game.at(10,8), game.at(10,9), game.at(10,10), game.at(11,7), 
-		                                    game.at(4,9), game.at(4,10), game.at(4,11), game.at(3,8), game.at(2,8),
-		                                    game.at(1,8), game.at(0,8),
-		                                    game.at(0,0), game.at(0,1), game.at(1,0), game.at(1,1), game.at(6,0),
-		                                    game.at(6,1), game.at(7,0), game.at(7,1), game.at(8,0), game.at(8,1),
-		                                    game.at(9,0), game.at(9,1), game.at(10,0), game.at(10,1), game.at(11,0),
-		                                    game.at(11,1) } 
-	
-	
-	method esProhibida(posicion){
-		return posicionesProhibidas.contains(posicion)
-	}
 }
 
 class Entrenador {
@@ -85,11 +67,10 @@ class Entrenador {
 	const property position
 	const property image
 	
-	method iniciarPelea(_pantallaAVolver) {
+	method iniciarPelea(){
 		pantallaDeBatalla.rivalActual(self)
-		pantallaDeBatalla.pantallaAVolver(_pantallaAVolver)
 		pantallaDeBatalla.iniciar()
-	}
+	}	
 }
 
 const fercho = new Entrenador(wollokmon = pikawu, position = game.at(4,5), image = "fercho.png")

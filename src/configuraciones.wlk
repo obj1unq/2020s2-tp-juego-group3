@@ -83,6 +83,8 @@ class PantallaDeExploracion inherits Pantalla {
 		
 		// Comprueba si quedan rivales a vencer o si ya se ganó el juego
 		self.comprobarVictoria()
+		
+		self.actualizarPantalla(self)
 	}
 	
 	method esEntrenadorAVencer(entrenador){
@@ -98,11 +100,21 @@ class PantallaDeExploracion inherits Pantalla {
 	
 	method configurarColisiones() {
 		game.onCollideDo(jugador, { rival => 
-				rival.iniciarPelea(self)
+	        rival.iniciarPelea()
 		})
 		game.onCollideDo(jugador, { rival =>
 			    pantallaInteriorCasa.iniciar()
 		})
+	}
+	
+	// para definir la pantalla a la cual volver luego de una batalla y para las posiciones prohibidas del jugador segun la pantalla actual
+	method actualizarPantalla(_pantalla){
+		jugador.pantallaActual(_pantalla)
+		pantallaDeBatalla.pantallaAVolver(_pantalla)
+	}
+	
+	method esPosicionProhibida(posicion){
+		return self.posicionesProhibidas().contains(posicion)
 	}
 	
 	override method configTeclas(){
@@ -118,12 +130,27 @@ class PantallaDeExploracion inherits Pantalla {
 	method comprobarVictoria()
 	method entrenadoresAVencer()
 	method reset()
+	method posicionesProhibidas()
+
 }
 
 object pantallaPrincipal inherits PantallaDeExploracion{
 	var property image = "pantallaPrincipal.png"
 	
 	var property entrenadoresAVencer = #{fercho, ivi, juan}
+	
+	method posicionesProhibidas(){
+		return   #{game.at(7,6), game.at(7,7), game.at(7,8), game.at(7,9), game.at(8,6),
+		           game.at(8,9), game.at(9,6), game.at(9,8), game.at(9,9), game.at(9,10),
+		           game.at(10,8), game.at(10,9), game.at(10,10), game.at(11,7), 
+		           game.at(4,9), game.at(4,10), game.at(4,11), game.at(3,8), game.at(2,8),
+		           game.at(1,8), game.at(0,8),
+		           game.at(0,0), game.at(0,1), game.at(1,0), game.at(1,1), game.at(6,0),
+		           game.at(6,1), game.at(7,0), game.at(7,1), game.at(8,0), game.at(8,1),
+		           game.at(9,0), game.at(9,1), game.at(10,0), game.at(10,1), game.at(11,0),
+		           game.at(11,1) }
+    } 
+    
 	
 	override method comprobarVictoria(){
 		if(entrenadoresAVencer.isEmpty()){
@@ -147,6 +174,19 @@ object pantallaPrincipal inherits PantallaDeExploracion{
 
 object pantallaInteriorCasa inherits PantallaDeExploracion{
 	var property entrenadoresAVencer = #{nahue}
+	
+	method posicionesProhibidas(){
+		return #{ game.at(1,8), game.at(2,8), game.at(3,8), game.at(4,8), game.at(5,8),
+			      game.at(6,8), game.at(7,8), game.at(8,8), game.at(9,8), game.at(9,8),
+			      game.at(0,0), game.at(0,1), game.at(0,2), game.at(0,3), game.at(0,4),
+			      game.at(0,5), game.at(0,6), game.at(0,5), game.at(0,6), game.at(0,7),
+			      game.at(0,8), game.at(1,0), game.at(2,0), game.at(3,0), game.at(4,0),
+			      game.at(5,0), game.at(6,0), game.at(7,0), game.at(8,0), game.at(9,0),
+			      game.at(10,0), game.at(11,0),game.at(10,8), game.at(11,1), game.at(11,2),
+			      game.at(11,3), game.at(11,4), game.at(11,5), game.at(11,6), game.at(11,7),
+			      game.at(11,8)
+		}
+	}
 	
 	override method image(){
 		return "pantallaCasa.png"
