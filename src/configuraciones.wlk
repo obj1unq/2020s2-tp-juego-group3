@@ -275,6 +275,7 @@ object pantallaDeBatalla inherits Pantalla {
 	
 	// Si se intenta hacer ataque especial y no hay mana se realiza un ataque base
 	method realizarAtaqueSegunMana(movimiento, ejecutor, rival) {
+		// Hacer polimorfismo, no tengo que consultar si es especial, hay que ejecutar el moviemiento como movimiento.ejecutar(ejecutor, rival)
 		if (movimiento.esEspecial() and ejecutor.manaActual() == 0) {
 			game.say(ejecutor, "No tengo mana para especial, uso ataque basico")
 			ataqueBase.ejecutar(ejecutor, rival)
@@ -357,12 +358,11 @@ object pantallaWollokmones inherits Pantalla {
 	}
 	
 	method cambiarWollokmonA(_wollokmon){
+		pantallaPrincipal.iniciar()
 		if (jugador.tieneElWollokmon(_wollokmon)){
-			pantallaPrincipal.iniciar()
 			jugador.wollokmon(_wollokmon)
 		}
 		else {
-			pantallaPrincipal.iniciar()
 		    game.say(jugador, "Aún no has ganado ese Wollokmon"  )
 		}
     }
