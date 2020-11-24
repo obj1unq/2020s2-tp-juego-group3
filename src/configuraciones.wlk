@@ -36,7 +36,7 @@ object menuInicial inherits Pantalla {
 		keyboard.num3().onPressDo({ pantallaCreditos.iniciar() })
 	}
 	
-	override method pista() {return 0}
+	override method pista() {return game.sound("pSound_menu1.wav")}
 }
 
 object pantallaTutorial inherits Pantalla {
@@ -47,7 +47,7 @@ object pantallaTutorial inherits Pantalla {
 		keyboard.any().onPressDo({ menuInicial.iniciar() })
 	}
 	
-	override method pista() {return 0}
+	override method pista() {return game.sound("pSound_menu1.wav")}
 }
 
 object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar el juego
@@ -58,12 +58,12 @@ object pantallaCreditos inherits Pantalla { // Se puede reutilizar al finalizar 
 		keyboard.any().onPressDo({ menuInicial.iniciar() })
 	}
 	
-	override method pista() {return 0}
+	override method pista() {return game.sound("pSound_menu1.wav")}
 }
 
 class PantallaDeExploracion inherits Pantalla {
 	
-	override method pista() {return 1}
+	override method pista() {return game.sound("pSound_principal.mp3")}
 	
 	override method iniciar(){
 		
@@ -217,7 +217,7 @@ object pantallaDeBatalla inherits Pantalla {
 	var property manaEnemigo
 	var turno = true
 	
-	override method pista() {return 2}
+	override method pista() {return game.sound("pSound_fight.wav")}
 	
 	override method iniciar(){ 
 		
@@ -347,7 +347,7 @@ object pantallaWollokmones inherits Pantalla {
 	
 	override method image(){ return "seleccionWollokmones.png"}
 	
-	override method pista(){ return 1 }
+	override method pista(){ return game.sound("pSound_principal.mp3") }
 	
 	override method configTeclas(){
 		keyboard.num1().onPressDo({ self.cambiarWollokmonA(pepita) })
@@ -387,7 +387,7 @@ class PantallaFinal inherits Pantalla {
 	
 	override method configTeclas(){}
 	
-	override method pista(){return 0}
+	override method pista(){return game.sound("pSound_menu1.wav")}
 }
 
 object pantallaDeVictoria inherits PantallaFinal {
@@ -443,12 +443,7 @@ object puerta {
 
 object rocola {
 	
-	const tracks = [
-		game.sound("pSound_menu1.wav"),
-		game.sound("pSound_principal.mp3"),
-		game.sound("pSound_fight.wav")
-	]
-	var track = tracks.get(0)
+	var track = game.sound("pSound_menu1.wav")
 	
 	method iniciar(){
 		track.shouldLoop(true)
@@ -456,37 +451,25 @@ object rocola {
 		game.schedule(100,{track.play()})
 	}
 	
-	method cambiarTrack(n){
+	method cambiarTrack(_track){
 		if(self.hayTrackSonando()){
-			if(self.hayCambioDeTrack(n)){
-				track.pause()
-				track = tracks.get(n)
+			if(self.hayCambioDeTrack(_track)){
+				track.stop()
+				track = _track
 				track.shouldLoop(true)
-				self.reproducirTrack()
+				track.play()
 			}
 		}else{
 			self.iniciar()
 		}
 	}
 	
-	method hayCambioDeTrack(n) {
-		return track != tracks.get(n) 
+	method hayCambioDeTrack(_track) {
+		return track != _track
 	}
 	
 	method hayTrackSonando(){
 		return track.played() and not track.paused()
-	}
-	
-	method trackEstaPausada(){
-		return track.played() and track.paused()
-	}
-	
-	method reproducirTrack() {
-		if(self.trackEstaPausada()){
-			track.resume()
-		}else{
-			track.play()
-		}
 	}
 	
 }
