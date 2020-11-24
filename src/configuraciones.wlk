@@ -227,6 +227,7 @@ object pantallaDeBatalla inherits Pantalla {
 		wollokmonAliado = jugador.wollokmon()
 		jugador.wollokmon().image(jugador.wollokmon().nombre() + "Jugable.png") // Setea la visual del wollokmon que corresponde de espaldas
 		wollokmonEnemigo = rivalActual.wollokmon()
+		rivalActual.wollokmon().image(rivalActual.wollokmon().nombre() + ".png")
 		
 		// Describe la vida
 		vidaEnemigo = new Vida(wollokmon = wollokmonEnemigo)
@@ -236,8 +237,9 @@ object pantallaDeBatalla inherits Pantalla {
 		manaEnemigo = new Mana(wollokmon = wollokmonEnemigo)
 		manaAliado = new Mana(wollokmon = wollokmonAliado)
 		
-		// Resetea el mana del wollokmon aliado en el caso de que no sea la primera batalla
+		// Resetea el mana del wollokmon en el caso de que no sea la primera batalla
 		wollokmonAliado.resetearMana()
+		wollokmonEnemigo.resetearMana()
 		
 		// Agrega lo visual de la pantalla de batalla
 		game.addVisual(wollokmonAliado)
