@@ -22,8 +22,8 @@ class Movimiento {
     method nombre()
     method efecto(ejecutor, rival){}
     method actualizarMana(ejecutor)
-    method esEspecial()
-    method esDefensa() = false
+    method costo() { return 0 }
+    method cartel(ejecutor, rival)
 
 }
 
@@ -44,9 +44,10 @@ object ataqueBase inherits Movimiento {
 	override method actualizarMana(ejecutor) {
 		ejecutor.alterarMana(1)
 	}
-	
-	override method esEspecial() { return false }
-  
+  	
+  	override method cartel(ejecutor, rival) {
+  		return ("ataque_" + ejecutor.nombre() + "_" + rival.nombre() + ".png")
+  	}
 }
 
 class Especiales inherits Movimiento {
@@ -65,7 +66,11 @@ class Especiales inherits Movimiento {
 		ejecutor.alterarMana(-1)
 	}
 	
-	override method esEspecial() { return true }
+	override method costo() { return 1 }
+	
+	override method cartel(ejecutor, rival) {
+    	return ("ataque_" + ejecutor.nombre() + "_" + self.nombre() + ".png")
+    }
 
 }
 
@@ -122,6 +127,7 @@ object viento inherits Especiales {
 	override method efecto(ejecutor, rival){
 		ejecutor.recibirEfecto(self.efecto())
 	}
+	
 }
 
 class Efectos {
@@ -150,6 +156,7 @@ class Efectos {
     method efectoASufrirPorTurno(wollokmonAfectado) {
     	self.efectoASufrir(wollokmonAfectado)
     }
+    
 }
 
 class EfectoRayo inherits Efectos{
@@ -219,12 +226,13 @@ object defensa inherits Movimiento {
     override method actualizarMana(ejecutor) {
     	ejecutor.alterarMana(1)
     }
-    override method esEspecial() { return false }
     
     method efecto(){
     	return new DefensaTemporal(turnosRestantes = 0)
     }
-    override method esDefensa() { return true }
+    override method cartel(ejecutor, rival) {
+    	return ("ataque_" + ejecutor.nombre() + "_" + self.nombre() + ".png")
+    }
 }
 
 class DefensaTemporal inherits Efectos {
@@ -246,12 +254,9 @@ object cartel {
 	method position() {
 		return game.at(1,1)
 	}
-	method mostrarCartel(ejecutor, rival, movimiento) {
-		if (movimiento.esEspecial() or movimiento.esDefensa()) {
-			imagen = ("ataque_" + ejecutor.nombre() + "_" + movimiento.nombre() + ".png")
-		} else {
-			imagen = ("ataque_" + ejecutor.nombre() + "_" + rival.nombre() + ".png")
-		}
+	method mostrarCartel(ejecutor, rival, movimiento) {	
+			imagen = movimiento.cartel(ejecutor, rival)
+	
 	}
 }
 

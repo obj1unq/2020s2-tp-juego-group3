@@ -37,8 +37,8 @@ class Wollokmon {
 		vidaActual = (vidaActual + nivelCura).min(vida)
 	}
 	
-	method movimientoAlAzar(){
-		return self.movimientos().anyOne()
+	method movimientoAlAzarQuePuedaUsar() {
+		return self.movimientos().filter({ movimiento => movimiento.costo() <= self.manaActual() }).anyOne()
 	}
 	
 	method movimientoNumero(n){
