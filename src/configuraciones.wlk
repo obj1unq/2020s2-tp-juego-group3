@@ -449,7 +449,7 @@ object rocola {
 	
 	method iniciar(){
 		track.shouldLoop(true)
-		track.volume(1)
+		track.volume(0.5)
 		game.schedule(100,{track.play()})
 	}
 	
@@ -458,6 +458,7 @@ object rocola {
 			if(self.hayCambioDeTrack(musica)){
 				track.pause()
 				track = musica.sonido()
+				track.volume(0.5)
 				track.shouldLoop(true)
 				self.reproducirTrack()
 			}
