@@ -103,7 +103,7 @@ class PantallaDeExploracion inherits Pantalla {
 	        rival.iniciarPelea()
 		})
 		game.onCollideDo(jugador, { rival =>
-			    pantallaInteriorCasa.iniciar()
+			pantallaInteriorCasa.iniciar()
 		})
 	}
 	
@@ -303,7 +303,14 @@ object pantallaDeBatalla inherits Pantalla {
 	}
 	
 	override method image(){
-		return "forest.png"
+		return if (self.esBatallaFinal()){
+			 "batallaFinal.png"
+		}
+		else "forest.png"
+	}
+	
+	method esBatallaFinal(){
+		return pantallaAVolver == pantallaInteriorCasa
 	}
 	
 	method ganarWollokmon(entrenador){
