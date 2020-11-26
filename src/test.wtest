@@ -1,0 +1,35 @@
+import wollok.game.*
+import configuraciones.*
+import entrenadores.*
+import wollokmones.*
+import ataques.*
+
+
+describe "Test Entrenador se mueve en Pantalla Principal" {
+	fixture {
+		game.clear()
+		game.width(12)
+		game.height(12)
+		pantallaPrincipal.iniciar()	
+	}
+	test "Esta en posicion de inicio de partida" {
+		assert.equals(jugador.position(), game.center())
+	}
+	test "Moverse a la derecha no se puede porque esta la casa que es posicion prohibida" {
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1))
+		assert.that(jugador.esPosicionProhibida(game.center().right(1)))
+		assert.equals(jugador.position(), game.at(6,6))
+	}
+	test "Moverse a la izquierda" {
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1))
+		assert.equals(jugador.position(), game.at(5,6))
+	}
+	test "Moverse hacia arriba" {
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(1))
+		assert.equals(jugador.position(), game.at(6,7))
+	}
+	test "Moverse hacia abajo" {
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1))
+		assert.equals(jugador.position(), game.at(6,5))
+	}
+}
