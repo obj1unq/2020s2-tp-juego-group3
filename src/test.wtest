@@ -32,4 +32,19 @@ describe "Test Entrenador se mueve en Pantalla Principal" {
 		jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1))
 		assert.equals(jugador.position(), game.at(6,5))
 	}
+	test "Colisiona con el Entrenador rival Fercho" {
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1))
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(2))
+		assert.equals(game.uniqueCollider(jugador), fercho)
+	}
+	test "Colisiona con el Entrenador rival Juan" {
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(4))
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(3))
+		assert.equals(game.uniqueCollider(jugador), juan)
+	}
+	test "Colisiona con el Entrenador rival Ivi" {
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(4))
+		jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1))
+		assert.equals(game.uniqueCollider(jugador), ivi)
+	}
 }
