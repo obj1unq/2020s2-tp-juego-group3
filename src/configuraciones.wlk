@@ -73,8 +73,6 @@ class PantallaDeExploracion inherits Pantalla {
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
 		
-		game.addVisual(seleccion)
-		
 		// Agrega solo a los entrenadores que faltan vencer
 		self.entrenadoresAVencer().forEach({entrenador => game.addVisual(entrenador)})
 		
@@ -265,7 +263,6 @@ object pantallaDeBatalla inherits Pantalla {
 		var movimientoEnemigo = wollokmonEnemigo.movimientoAlAzarQuePuedaUsar()  
 		self.validarAtaque(movimientoAliado, wollokmonAliado)
 		movimientoAliado.ejecutar(wollokmonAliado, wollokmonEnemigo)
-		//self.realizarAtaqueSegunMana(movimiento, wollokmonAliado, wollokmonEnemigo)
 		game.schedule(2000, { movimientoEnemigo.ejecutar(wollokmonEnemigo, wollokmonAliado) })
 		
 		// Baja la ronda de la lista de efectos en 1 y si esta llega a 0, el efecto se revierte

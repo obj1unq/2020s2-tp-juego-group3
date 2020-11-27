@@ -48,3 +48,44 @@ describe "Test Entrenador se mueve en Pantalla Principal" {
 		assert.equals(game.uniqueCollider(jugador), ivi)
 	}
 }
+
+describe "Test Mana de Wollokmon" {
+	fixture {
+		game.clear()
+		game.width(12)
+		game.height(12)
+		ivi.iniciarPelea()
+	}
+	test "Mana no se consume cuando se usa ataque base y esta full" {
+		assert.equals(jugador.wollokmon().manaActual(), 3)
+		pantallaDeBatalla.turno(0)
+		assert.equals(jugador.wollokmon().manaActual(), 3)
+	}
+	test "Mana aumenta cuando se usa ataque base y esta vacio" {
+		jugador.wollokmon().manaActual(0)
+		assert.equals(jugador.wollokmon().manaActual(), 0)
+		pantallaDeBatalla.turno(0)
+		assert.equals(jugador.wollokmon().manaActual(), 1)
+	}
+	test "Mana no se consume cuando se usa defensa y esta full" {
+		assert.equals(jugador.wollokmon().manaActual(), 3)
+		pantallaDeBatalla.turno(1)
+		assert.equals(jugador.wollokmon().manaActual(), 3)
+	}
+	test "Mana aumenta cuando se usa defensa y esta vacio" {
+		jugador.wollokmon().manaActual(0)
+		assert.equals(jugador.wollokmon().manaActual(), 0)
+		pantallaDeBatalla.turno(1)
+		assert.equals(jugador.wollokmon().manaActual(), 1)
+	}
+	test "Mana se consume cuando se usa ataque especial y esta full" {
+		assert.equals(jugador.wollokmon().manaActual(), 3)
+		pantallaDeBatalla.turno(2)
+		assert.equals(jugador.wollokmon().manaActual(), 2)
+	}
+	test "Mana no alcanza cuando se usa ataque especial y esta vacio" {
+		jugador.wollokmon().manaActual(0)
+		assert.equals(jugador.wollokmon().manaActual(), 0)
+		assert.throwsExceptionWithMessage("No tengo mana para especial", { pantallaDeBatalla.turno(2) })
+	}
+}
