@@ -228,7 +228,7 @@ object defensa inherits Movimiento {
     }
     
     method efecto(){
-    	return new DefensaTemporal(turnosRestantes = 0)
+    	return new DefensaTemporal(turnosRestantes = 2)
     }
     override method cartel(ejecutor, rival) {
     	return ("ataque_" + ejecutor.nombre() + "_" + self.nombre() + ".png")

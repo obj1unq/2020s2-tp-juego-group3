@@ -263,13 +263,13 @@ object pantallaDeBatalla inherits Pantalla {
 		var movimientoEnemigo = wollokmonEnemigo.movimientoAlAzarQuePuedaUsar()  
 		self.validarAtaque(movimientoAliado, wollokmonAliado)
 		movimientoAliado.ejecutar(wollokmonAliado, wollokmonEnemigo)
-		game.schedule(2000, { movimientoEnemigo.ejecutar(wollokmonEnemigo, wollokmonAliado) })
-		
+		game.schedule(2000,{wollokmonAliado.cumplirRonda()})
+		game.schedule(3000, { movimientoEnemigo.ejecutar(wollokmonEnemigo, wollokmonAliado)
+		})
 		// Baja la ronda de la lista de efectos en 1 y si esta llega a 0, el efecto se revierte
 		// luego destraba teclas para que pueda seguir jugando el jugador
 		game.schedule(4000,{
 			wollokmonEnemigo.cumplirRonda()
-			wollokmonAliado.cumplirRonda()
 			turno = true
 		})
 	}
@@ -335,12 +335,12 @@ object pantallaDeBatalla inherits Pantalla {
 		})
 		keyboard.s().onPressDo({ // Ataque especial
 			if(turno){
-				self.turno(1)
+				self.turno(2)
 			}
 		})
 		keyboard.d().onPressDo({ // Defensa
 			if(turno){
-				self.turno(2)
+				self.turno(1)
 			}
 		})
 		

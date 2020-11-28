@@ -114,6 +114,6 @@ class Mana {
 
 const pepita = new Wollokmon(nombre = "pepita", image = "pepita.png", ataque =10, defensa = 12, especial = 10, movimientos = [ataqueBase, defensa, viento], ataqueActual = 10, defensaActual = 12, especialActual = 10)
 const pikawu = new Wollokmon(nombre = "pikawu", image = "pikawu.png", ataque = 10, defensa = 10, especial = 12, movimientos = [ataqueBase, defensa, rayo], ataqueActual = 10, defensaActual = 10, especialActual = 12)
-const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 12, especial = 12, movimientos = [ataqueBase, defensa, fuego], ataqueActual = 10, defensaActual = 12, especialActual = 12)
-const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 12, defensa = 12, especial = 10, movimientos = [ataqueBase, defensa, agua], ataqueActual = 12, defensaActual = 12, especialActual = 10)
+const warmander = new Wollokmon(nombre = "warmander", image = "warmander.png", ataque = 10, defensa = 12, especial = 12, movimientos = [ataqueBase,defensa, fuego], ataqueActual = 10, defensaActual = 12, especialActual = 12)
+const swirtle = new Wollokmon(nombre = "swirtle", image = "swirtle.png", ataque = 12, defensa = 12, especial = 10, movimientos = [ataqueBase,defensa, agua], ataqueActual = 12, defensaActual = 12, especialActual = 10)
 const silvestre = new Wollokmon(nombre = "silvestre", image = "silvestre.png", ataque = 12, defensa = 12, especial = 12, movimientos = [ataqueBase, defensa, rayo, agua, fuego], ataqueActual = 12, defensaActual = 12, especialActual = 12)
