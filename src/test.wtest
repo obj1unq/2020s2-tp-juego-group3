@@ -223,5 +223,18 @@ describe "Test de efectos" {
         assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})
         
     }
+    
+    test "Efecto brisa curativa"{
+    	// con la brisa curativa no hay turnos, se cumple solamente al momento de ejecutarse.
+    	
+    	jugador.wollokmon(pepita)
+		nahue.iniciarPelea()
+		
+		jugador.wollokmon().recibirDanio(ataqueBase.danioEjercido(wollokmonEnemigo, jugador.wollokmon()))
+		assert.equals(90, jugador.wollokmon().vidaActual())
+		pantallaDeBatalla.turno(2)
+		assert.equals(100, jugador.wollokmon().vidaActual())
+	}
+        
 }
 
