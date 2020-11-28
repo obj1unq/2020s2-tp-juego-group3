@@ -137,7 +137,7 @@ object pantallaPrincipal inherits PantallaDeExploracion{
 	
 	var property entrenadoresAVencer = #{fercho, ivi, juan}
 	
-	method posicionesProhibidas(){
+	override method posicionesProhibidas(){
 		return   #{game.at(7,6), game.at(7,7), game.at(7,8), game.at(7,9), game.at(8,6),
 		           game.at(8,9), game.at(9,6), game.at(9,8), game.at(9,9), game.at(9,10),
 		           game.at(10,8), game.at(10,9), game.at(10,10), game.at(11,7), 
@@ -173,7 +173,7 @@ object pantallaPrincipal inherits PantallaDeExploracion{
 object pantallaInteriorCasa inherits PantallaDeExploracion{
 	var property entrenadoresAVencer = #{nahue}
 	
-	method posicionesProhibidas(){
+	override method posicionesProhibidas(){
 		return #{ game.at(1,8), game.at(2,8), game.at(3,8), game.at(4,8), game.at(5,8),
 			      game.at(6,8), game.at(7,8), game.at(8,8), game.at(9,8), game.at(9,8),
 			      game.at(0,0), game.at(0,1), game.at(0,2), game.at(0,3), game.at(0,4),

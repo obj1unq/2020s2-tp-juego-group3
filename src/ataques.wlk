@@ -77,7 +77,7 @@ class Especiales inherits Movimiento {
 object rayo inherits Especiales {
 	
 	override method efecto() { 
-		return new EfectoRayo(turnosRestantes = 4)
+		return new EfectoRayo(turnosRestantes = 3)
 	}
 	 
 	override method nombre(){
@@ -91,7 +91,7 @@ object rayo inherits Especiales {
 object fuego  inherits Especiales {
 	
 	override method efecto() { 
-		return new EfectoFuego(turnosRestantes = 4)
+		return new EfectoFuego(turnosRestantes = 2)
 	}
 	
 	override method nombre(){
@@ -181,7 +181,7 @@ class EfectoFuego inherits Efectos{
 	}
 	
 	override method efectoASufrirPorTurno(wollokmonAfectado){
-		wollokmonAfectado.recibirDanio(7)
+		wollokmonAfectado.recibirDanio(5)
 	}
 	
 	override method deshacerEfecto(wollokmonAfectado){}
