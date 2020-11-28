@@ -108,6 +108,10 @@ object agua inherits Especiales {
 	override method nombre(){
 		return "agua"
 	}
+	
+	override method efecto(ejecutor, rival){
+		ejecutor.recibirEfecto(self.efecto())
+	}
 }
 
 object viento inherits Especiales {
@@ -190,14 +194,14 @@ class EfectoFuego inherits Efectos{
 }
 
 class EfectoAgua inherits Efectos{
-	// el efecto de agual reduce el ataque del oponente a la mitad
+	// el efecto de agua aumenta en 5 la defensa del wollokmon que lo ejecuta
 	
 	override method efectoASufrir(wollokmonAfectado){
-		wollokmonAfectado.ataqueActual((wollokmonAfectado.ataque() / 2).roundUp())
+		wollokmonAfectado.defensaActual((wollokmonAfectado.defensa() + 5).roundUp())
 	}
 	
 	override method deshacerEfecto(wollokmonAfectado){
-		wollokmonAfectado.ataqueActual(wollokmonAfectado.ataque())
+		wollokmonAfectado.defensaActual(wollokmonAfectado.defensa())
 	}
 }
 
