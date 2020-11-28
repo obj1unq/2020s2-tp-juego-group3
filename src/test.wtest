@@ -57,35 +57,35 @@ describe "Test Mana de Wollokmon" {
 		ivi.iniciarPelea()
 	}
 	test "Mana no se consume cuando se usa ataque base y esta full" {
-		assert.equals(jugador.wollokmon().manaActual(), 3)
+		assert.equals(3, jugador.wollokmon().manaActual())
 		pantallaDeBatalla.turno(0)
-		assert.equals(jugador.wollokmon().manaActual(), 3)
+		assert.equals(3, jugador.wollokmon().manaActual())
 	}
 	test "Mana aumenta cuando se usa ataque base y esta vacio" {
 		jugador.wollokmon().manaActual(0)
-		assert.equals(jugador.wollokmon().manaActual(), 0)
+		assert.equals(0, jugador.wollokmon().manaActual())
 		pantallaDeBatalla.turno(0)
-		assert.equals(jugador.wollokmon().manaActual(), 1)
+		assert.equals(1, jugador.wollokmon().manaActual())
 	}
 	test "Mana no se consume cuando se usa defensa y esta full" {
-		assert.equals(jugador.wollokmon().manaActual(), 3)
+		assert.equals(3, jugador.wollokmon().manaActual())
 		pantallaDeBatalla.turno(1)
-		assert.equals(jugador.wollokmon().manaActual(), 3)
+		assert.equals(3, jugador.wollokmon().manaActual())
 	}
 	test "Mana aumenta cuando se usa defensa y esta vacio" {
 		jugador.wollokmon().manaActual(0)
-		assert.equals(jugador.wollokmon().manaActual(), 0)
+		assert.equals(0, jugador.wollokmon().manaActual())
 		pantallaDeBatalla.turno(1)
-		assert.equals(jugador.wollokmon().manaActual(), 1)
+		assert.equals(1, jugador.wollokmon().manaActual())
 	}
 	test "Mana se consume cuando se usa ataque especial y esta full" {
-		assert.equals(jugador.wollokmon().manaActual(), 3)
+		assert.equals(3, jugador.wollokmon().manaActual())
 		pantallaDeBatalla.turno(2)
-		assert.equals(jugador.wollokmon().manaActual(), 2)
+		assert.equals(2, jugador.wollokmon().manaActual())
 	}
 	test "Mana no alcanza cuando se usa ataque especial y esta vacio" {
 		jugador.wollokmon().manaActual(0)
-		assert.equals(jugador.wollokmon().manaActual(), 0)
+		assert.equals(0, jugador.wollokmon().manaActual())
 		assert.throwsExceptionWithMessage("No tengo mana para especial", { pantallaDeBatalla.turno(2) })
 	}
 }
@@ -97,39 +97,39 @@ describe "Test Vida de Wollokmon Rival" {
 	}
 	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque base" {
 		jugador.wollokmon(swirtle)
-		assert.equals(nahue.wollokmon().vidaActual(), 100)
-		nahue.wollokmon().recibirDanio(ataqueBase.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.ataqueActual()) - rival.defensaActual(); o sea -> 10 + 13 - 15 = 8
-		assert.equals(nahue.wollokmon().vidaActual(), 92)
+		assert.equals(100, nahue.wollokmon().vidaActual())
+		nahue.wollokmon().recibirDanio(ataqueBase.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.ataqueActual()) - rival.defensaActual(); o sea -> 10 + 12 - 12 = 10
+		assert.equals(90, nahue.wollokmon().vidaActual())
 	}
 	test "Wollokmon rival no pierde vida cuando Wollokmon jugable utiliza defensa" {
 		jugador.wollokmon(pepita)
-		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		assert.equals(100, nahue.wollokmon().vidaActual())
 		nahue.wollokmon().recibirDanio(defensa.danioEjercido(jugador.wollokmon(), nahue.wollokmon()))
-		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		assert.equals(100, nahue.wollokmon().vidaActual())
 	}
 	test "Wollokmon rival no pierde vida cuando Wollokmon jugable utiliza brisa curativa" {
 		jugador.wollokmon(pepita)
-		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		assert.equals(100, nahue.wollokmon().vidaActual())
 		nahue.wollokmon().recibirDanio(viento.danioEjercido(jugador.wollokmon(), nahue.wollokmon()))
-		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		assert.equals(100, nahue.wollokmon().vidaActual())
 	}
 	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque especial agua" {
 		jugador.wollokmon(swirtle)
 		assert.equals(nahue.wollokmon().vidaActual(), 100)
-		nahue.wollokmon().recibirDanio(agua.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 10 - 15 = 5
-		assert.equals(nahue.wollokmon().vidaActual(), 95)
+		nahue.wollokmon().recibirDanio(agua.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 10 - 12 = 8
+		assert.equals(92, nahue.wollokmon().vidaActual())
 	}
 	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque especial fuego" {
 		jugador.wollokmon(warmander)
-		assert.equals(nahue.wollokmon().vidaActual(), 100)
-		nahue.wollokmon().recibirDanio(fuego.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 14 - 15 = 9
-		assert.equals(nahue.wollokmon().vidaActual(), 91)
+		assert.equals(100, nahue.wollokmon().vidaActual())
+		nahue.wollokmon().recibirDanio(fuego.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 12 - 12 = 10
+		assert.equals(90, nahue.wollokmon().vidaActual())
 	}
 	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque especial rayo" {
 		jugador.wollokmon(pikawu)
-		assert.equals(nahue.wollokmon().vidaActual(), 100)
-		nahue.wollokmon().recibirDanio(rayo.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 12 - 15 = 7
-		assert.equals(nahue.wollokmon().vidaActual(), 93)
+		assert.equals(100, nahue.wollokmon().vidaActual())
+		nahue.wollokmon().recibirDanio(rayo.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 12 - 12 = 10
+		assert.equals(90, nahue.wollokmon().vidaActual())
 	}
 }
 
@@ -139,31 +139,89 @@ describe "Test Vida de Wollokmon Aliado" {
 		nahue.iniciarPelea() // Wollokmon rival : Silvestre es el de nahue, tiene todos los ataques especiales no curativos (agua, fuego, rayo)
 	}
 	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque base" {
-		assert.equals(jugador.wollokmon().vidaActual(), 100) // Pepita
-		jugador.wollokmon().recibirDanio(ataqueBase.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.ataqueActual()) - rival.defensaActual(); o sea -> 10 + 15 - 12 = 13
-		assert.equals(jugador.wollokmon().vidaActual(), 87)
+		assert.equals(100, jugador.wollokmon().vidaActual()) // Pepita
+		jugador.wollokmon().recibirDanio(ataqueBase.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.ataqueActual()) - rival.defensaActual(); o sea -> 10 + 12 - 12 = 10
+		assert.equals(90, jugador.wollokmon().vidaActual())
 	}
 	test "Wollokmon aliado no pierde vida cuando Wollokmon rival utiliza defensa" {
-		assert.equals(jugador.wollokmon().vidaActual(), 100) // Pepita
+		assert.equals(100, jugador.wollokmon().vidaActual()) // Pepita
 		jugador.wollokmon().recibirDanio(defensa.danioEjercido(nahue.wollokmon(), jugador.wollokmon()))
-		assert.equals(jugador.wollokmon().vidaActual(), 100)
+		assert.equals(100, jugador.wollokmon().vidaActual())
 	}
 	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque especial agua" {
 		jugador.wollokmon(pikawu)
-		assert.equals(jugador.wollokmon().vidaActual(), 100)
-		jugador.wollokmon().recibirDanio(agua.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 15 - 10 = 15
-		assert.equals(jugador.wollokmon().vidaActual(), 85)
+		assert.equals(100, jugador.wollokmon().vidaActual())
+		jugador.wollokmon().recibirDanio(agua.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 12 - 10 = 12
+		assert.equals(88, jugador.wollokmon().vidaActual())
 	}
 	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque especial fuego" {
 		jugador.wollokmon(swirtle)
 		assert.equals(jugador.wollokmon().vidaActual(), 100)
-		jugador.wollokmon().recibirDanio(fuego.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 15 - 12 = 13
-		assert.equals(jugador.wollokmon().vidaActual(), 87)
+		jugador.wollokmon().recibirDanio(fuego.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 112 - 12 = 10
+		assert.equals(90, jugador.wollokmon().vidaActual())
 	}
 	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque especial rayo" {
 		jugador.wollokmon(warmander)
-		assert.equals(jugador.wollokmon().vidaActual(), 100)
-		jugador.wollokmon().recibirDanio(rayo.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 15 - 15 = 10
-		assert.equals(jugador.wollokmon().vidaActual(), 90)
+		assert.equals(100, jugador.wollokmon().vidaActual())
+		jugador.wollokmon().recibirDanio(rayo.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 12 - 12 = 10
+		assert.equals(90, jugador.wollokmon().vidaActual())
 	}
 }
+
+describe "Test de efectos" {
+	
+    const wollokmonEnemigo = nahue.wollokmon()
+	
+	fixture {
+		game.clear()
+		game.width(12)
+		game.height(12)	
+	}
+	
+	test "Efecto y turnos de rayo"{
+		jugador.wollokmon(pikawu)
+		nahue.iniciarPelea()
+		
+		assert.equals(12, wollokmonEnemigo.defensaActual())  // la defensa actual es igual a la defensa del wollokmon
+		pantallaDeBatalla.turno(2)                           // se aplica el efecto
+		wollokmonEnemigo.cumplirRonda()
+		assert.equals(2, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
+		assert.equals(6, wollokmonEnemigo.defensaActual())   // la defensa actual disminuye a la mitad
+		wollokmonEnemigo.cumplirRonda()
+		assert.equals(1, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
+		assert.equals(6, wollokmonEnemigo.defensaActual())
+		wollokmonEnemigo.cumplirRonda()                      // termina el efecto
+		assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})   // ya no debería haber efecto en la lista de efectos recibidos al llegar a 0
+	    assert.equals(12, wollokmonEnemigo.defensaActual())  // la defensa actual vuelve a ser equivalente a la defensa fel wollokmon
+	}
+	
+	test "Efecto y turnos de Agua"{
+		jugador.wollokmon(swirtle)
+		nahue.iniciarPelea()
+		
+		assert.equals(12, wollokmonEnemigo.ataqueActual())  // el ataque base actual es igual al ataque base del wollokmon
+		pantallaDeBatalla.turno(2)                          // se aplica el efecto
+		wollokmonEnemigo.cumplirRonda()
+		assert.equals(6, wollokmonEnemigo.ataqueActual())   // el ataque base actual disminuye a la mitad
+		assert.equals(1, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
+		wollokmonEnemigo.cumplirRonda()                     // termina el efecto
+		assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})	
+		assert.equals(12, wollokmonEnemigo.ataqueActual())  // el ataque base actual vuelve a ser equivalente al ataque base del wollokmon
+	}
+	
+    test "Efecto y turnos de fuego"{
+    	jugador.wollokmon(warmander)
+		nahue.iniciarPelea()
+		
+		assert.equals(100, wollokmonEnemigo.vidaActual())
+		pantallaDeBatalla.turno(2)
+		wollokmonEnemigo.cumplirRonda()
+		assert.equals(95, wollokmonEnemigo.vidaActual())  // 100 - 5 (daño de efecto fuego) = 95
+        assert.equals(1, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
+        wollokmonEnemigo.cumplirRonda()
+        assert.equals(90, wollokmonEnemigo.vidaActual())  // 95 - 5 (daño de efecto fuego) = 90
+        assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})
+        
+    }
+}
+

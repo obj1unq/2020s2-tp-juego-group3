@@ -131,7 +131,7 @@ object viento inherits Especiales {
 }
 
 class Efectos {
-	var turnosRestantes
+	var property turnosRestantes
    // son los turnos restantes en los que sigue vigente el efecto (se inicializa en la instacia de cada especial)
 	
 	method restarRonda(){
@@ -174,7 +174,7 @@ class EfectoRayo inherits Efectos{
 }
 
 class EfectoFuego inherits Efectos{
-	// el efecto de fuego quita 7 puntos de vida al oponente al finalizar cada ronda
+	// el efecto de fuego quita 5 puntos de vida al oponente al finalizar cada ronda
 	
 	override method efectoASufrir(wollokmonAfectado){
 		
