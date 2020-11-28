@@ -89,3 +89,81 @@ describe "Test Mana de Wollokmon" {
 		assert.throwsExceptionWithMessage("No tengo mana para especial", { pantallaDeBatalla.turno(2) })
 	}
 }
+
+describe "Test Vida de Wollokmon Rival" {
+	fixture {
+		game.clear()
+		nahue.iniciarPelea() // Wollokmon rival : Silvestre es el de nahue, tiene todos los ataques especiales no curativos (agua, fuego, rayo)
+	}
+	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque base" {
+		jugador.wollokmon(swirtle)
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		nahue.wollokmon().recibirDanio(ataqueBase.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.ataqueActual()) - rival.defensaActual(); o sea -> 10 + 13 - 15 = 8
+		assert.equals(nahue.wollokmon().vidaActual(), 92)
+	}
+	test "Wollokmon rival no pierde vida cuando Wollokmon jugable utiliza defensa" {
+		jugador.wollokmon(pepita)
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		nahue.wollokmon().recibirDanio(defensa.danioEjercido(jugador.wollokmon(), nahue.wollokmon()))
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+	}
+	test "Wollokmon rival no pierde vida cuando Wollokmon jugable utiliza brisa curativa" {
+		jugador.wollokmon(pepita)
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		nahue.wollokmon().recibirDanio(viento.danioEjercido(jugador.wollokmon(), nahue.wollokmon()))
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+	}
+	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque especial agua" {
+		jugador.wollokmon(swirtle)
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		nahue.wollokmon().recibirDanio(agua.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 10 - 15 = 5
+		assert.equals(nahue.wollokmon().vidaActual(), 95)
+	}
+	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque especial fuego" {
+		jugador.wollokmon(warmander)
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		nahue.wollokmon().recibirDanio(fuego.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 14 - 15 = 9
+		assert.equals(nahue.wollokmon().vidaActual(), 91)
+	}
+	test "Wollokmon rival pierde vida cuando Wollokmon jugable realiza ataque especial rayo" {
+		jugador.wollokmon(pikawu)
+		assert.equals(nahue.wollokmon().vidaActual(), 100)
+		nahue.wollokmon().recibirDanio(rayo.danioEjercido(jugador.wollokmon(), nahue.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 12 - 15 = 7
+		assert.equals(nahue.wollokmon().vidaActual(), 93)
+	}
+}
+
+describe "Test Vida de Wollokmon Aliado" {
+	fixture {
+		game.clear()
+		nahue.iniciarPelea() // Wollokmon rival : Silvestre es el de nahue, tiene todos los ataques especiales no curativos (agua, fuego, rayo)
+	}
+	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque base" {
+		assert.equals(jugador.wollokmon().vidaActual(), 100) // Pepita
+		jugador.wollokmon().recibirDanio(ataqueBase.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.ataqueActual()) - rival.defensaActual(); o sea -> 10 + 15 - 12 = 13
+		assert.equals(jugador.wollokmon().vidaActual(), 87)
+	}
+	test "Wollokmon aliado no pierde vida cuando Wollokmon rival utiliza defensa" {
+		assert.equals(jugador.wollokmon().vidaActual(), 100) // Pepita
+		jugador.wollokmon().recibirDanio(defensa.danioEjercido(nahue.wollokmon(), jugador.wollokmon()))
+		assert.equals(jugador.wollokmon().vidaActual(), 100)
+	}
+	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque especial agua" {
+		jugador.wollokmon(pikawu)
+		assert.equals(jugador.wollokmon().vidaActual(), 100)
+		jugador.wollokmon().recibirDanio(agua.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 15 - 10 = 15
+		assert.equals(jugador.wollokmon().vidaActual(), 85)
+	}
+	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque especial fuego" {
+		jugador.wollokmon(swirtle)
+		assert.equals(jugador.wollokmon().vidaActual(), 100)
+		jugador.wollokmon().recibirDanio(fuego.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 15 - 12 = 13
+		assert.equals(jugador.wollokmon().vidaActual(), 87)
+	}
+	test "Wollokmon aliado pierde vida cuando Wollokmon rival realiza ataque especial rayo" {
+		jugador.wollokmon(warmander)
+		assert.equals(jugador.wollokmon().vidaActual(), 100)
+		jugador.wollokmon().recibirDanio(rayo.danioEjercido(nahue.wollokmon(), jugador.wollokmon())) // (10 + ejecutor.especialActual()) - rival.defensaActual(); o sea -> 10 + 15 - 15 = 10
+		assert.equals(jugador.wollokmon().vidaActual(), 90)
+	}
+}
