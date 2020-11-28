@@ -1,25 +1,37 @@
 # Wollokmon
 
+Trello: https://trello.com/b/Z5qdgAuf/wollokmon
+GitHub: https://github.com/obj1unq/2020s2-tp-juego-group3
+
 **Idea principal:**
-	Una especie de Pokémon donde contamos con un escenario principal y un escenario de pelea.
+	Una especie de Pokémon donde contamos con un escenario principal y dos escenarios de pelea.
 
 **Objetivo del juego:**
-	Derrotar al o los rivales que se encuentran en el escenario principal. Si el entrenador jugable es derrotado por un rival el juego se termina perdiendo. Si el entrenador jugable derrota a todos los rivales entonces gana el juego.
-
-**Escenario principal:**
+	Derrotar a  los rivales que se encuentran en los escenarios recorribles. Si el entrenador jugable es derrotado por un rival el juego se termina perdiendo. Si el entrenador jugable derrota a todos los rivales entonces gana el juego.
+	
+**Escenario principal y de boss:**
 	Nos encontramos con el Entrenador jugable que recorre el mapa y si colisiona con otro Entrenador rival comienza una pelea de wollokmones.
 
 **Escenario de pelea:**
 	Se da una pelea entre el wollokmon del personaje jugable y el del rival encontrado. 
+	Se puede hacer un ataque básico con la tecla A, un ataque especial propio del Wollokmon con la tecla S y un movimiento defensivo con la tecla D.
+
+**Otras pantallas:**
+	Se puede navegar por un menú inicial donde con la tecla 1 se comienza la partida, con la tecla 2 se puede ver un tutorial, y con la tecla 3 se puede ver los créditos. También hay pantalla de derrota y victoria.
 
 **Wollokmon:** 
-	Cuenta con sus respectivos ataques y stats.
+	Cuenta con sus respectivos ataques, vida, maná y stats.
+	Pepita, Pikawu, Swirtle, Warmander y Silvestre.
 
 **Entrenador jugable:** 
-	En un principio cuenta con un solo wollokmon para la pelea. En un futuro proyectamos poder incorporar los wollokmon de rivales derrotados para que se puedan utilizar en las peleas que faltan.
+	En un principio cuenta con un solo wollokmon para la pelea. A medida que va derrotando a los rivales obtiene los wollokmon de ellos para poder utilizar. Se selecciona en un menú de pantalla de recorrido con la tecla Enter.
 
 **Entrenador rival:** 
-	En un principio hay un solo rival pero la idea es que sean 3 ó 4. Cada uno cuenta con un wollokmon para la pelea.
+	Cada rival cuenta con un wollokmon para la pelea.
 
-### Teclas:
-De momento el jugador se mueve con las direccionales y su wollokmon ataca con la K y la J.
+
+
+## Integrantes:
+Insaurralde Juan Cruz
+Provvidenza Ivana
+Romero Fernando
