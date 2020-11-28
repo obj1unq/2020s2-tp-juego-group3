@@ -90,7 +90,6 @@ describe "Test Mana de Wollokmon" {
 	}
 }
 
-
 describe "Test Vida de Wollokmon Rival" {
 	fixture {
 		game.clear()
