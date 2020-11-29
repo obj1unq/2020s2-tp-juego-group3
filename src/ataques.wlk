@@ -5,7 +5,7 @@ import wollokmones.*
 class Movimiento {
 	
 	method ejecutar(ejecutor, rival){
-		game.say(ejecutor, "uso " + self.nombre())
+		//game.say(ejecutor, "uso " + self.nombre())
 		game.schedule(500, ({ 
 			cartel.mostrarCartel(ejecutor, rival, self)
 			game.addVisual(cartel)
@@ -138,7 +138,7 @@ class Efectos {
 	var property turnosRestantes
    // son los turnos restantes en los que sigue vigente el efecto (se inicializa en la instacia de cada especial)
 	
-	method restarRonda(){
+	method restarTurno(){
     	turnosRestantes -= 1
     }
     

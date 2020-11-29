@@ -58,7 +58,7 @@ class Wollokmon {
 	}
 	
 	method restarTurnoDeEfectos(){
-		efectosRecibidos.forEach({ efecto => efecto.restarRonda() })
+		efectosRecibidos.forEach({ efecto => efecto.restarTurno() })
 	}
 	
 	method cumplirEfectos(){
