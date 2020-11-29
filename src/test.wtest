@@ -171,6 +171,7 @@ describe "Test Vida de Wollokmon Aliado" {
 describe "Test de efectos" {
 	
     const wollokmonEnemigo = nahue.wollokmon()
+    var wollokmonAliado
 	
 	fixture {
 		game.clear()
@@ -199,14 +200,16 @@ describe "Test de efectos" {
 		jugador.wollokmon(swirtle)
 		nahue.iniciarPelea()
 		
-		assert.equals(12, wollokmonEnemigo.ataqueActual())  // el ataque base actual es igual al ataque base del wollokmon
+		wollokmonAliado = jugador.wollokmon()
+		
+		assert.equals(12, wollokmonAliado.defensaActual())  // la defensa base actual es igual a la defensa base del wollokmon
 		pantallaDeBatalla.turno(2)                          // se aplica el efecto
-		wollokmonEnemigo.cumplirRonda()
-		assert.equals(6, wollokmonEnemigo.ataqueActual())   // el ataque base actual disminuye a la mitad
-		assert.equals(1, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
-		wollokmonEnemigo.cumplirRonda()                     // termina el efecto
-		assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})	
-		assert.equals(12, wollokmonEnemigo.ataqueActual())  // el ataque base actual vuelve a ser equivalente al ataque base del wollokmon
+		wollokmonAliado.cumplirRonda()
+		assert.equals(17, wollokmonAliado.defensaActual())   // la defensa base actual aumenta en 5
+		assert.equals(1, wollokmonAliado.efectosRecibidos().first().turnosRestantes())
+		wollokmonAliado.cumplirRonda()                     // termina el efecto
+		assert.throwsException({wollokmonAliado.efectosRecibidos().first().turnosRestantes()})	
+		assert.equals(12, wollokmonAliado.defensaActual())  // la defensa base actual vuelve a ser equivalente a la defensa base del wollokmon
 	}
 	
     test "Efecto y turnos de fuego"{
