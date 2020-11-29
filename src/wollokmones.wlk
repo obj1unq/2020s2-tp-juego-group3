@@ -51,13 +51,13 @@ class Wollokmon {
 		efectosRecibidos.last().efectoASufrir(self)  //sufre el efecto 
 	}
     
-    method cumplirRonda(){
-		self.restarRondaDeEfectos()   // hace que cada efecto de la lista tenga una ronda menos
+    method cumplirTurno(){
+		self.restarTurnoDeEfectos()   // hace que cada efecto de la lista tenga una ronda menos
 		self.cumplirEfectos()         // si las rondas llegan a 0 ejecuta el deshacer efecto
 		self.sacarEfectosTerminados() // saca los efectos en 0 para que no se sigan ejecutando
 	}
 	
-	method restarRondaDeEfectos(){
+	method restarTurnoDeEfectos(){
 		efectosRecibidos.forEach({ efecto => efecto.restarRonda() })
 	}
 	

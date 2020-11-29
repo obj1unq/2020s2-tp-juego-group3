@@ -185,13 +185,13 @@ describe "Test de efectos" {
 		
 		assert.equals(12, wollokmonEnemigo.defensaActual())  // la defensa actual es igual a la defensa del wollokmon
 		pantallaDeBatalla.turno(2)                           // se aplica el efecto
-		wollokmonEnemigo.cumplirRonda()
+		wollokmonEnemigo.cumplirTurno()
 		assert.equals(2, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
 		assert.equals(6, wollokmonEnemigo.defensaActual())   // la defensa actual disminuye a la mitad
-		wollokmonEnemigo.cumplirRonda()
+		wollokmonEnemigo.cumplirTurno()
 		assert.equals(1, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
 		assert.equals(6, wollokmonEnemigo.defensaActual())
-		wollokmonEnemigo.cumplirRonda()                      // termina el efecto
+		wollokmonEnemigo.cumplirTurno()                      // termina el efecto
 		assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})   // ya no debería haber efecto en la lista de efectos recibidos al llegar a 0
 	    assert.equals(12, wollokmonEnemigo.defensaActual())  // la defensa actual vuelve a ser equivalente a la defensa fel wollokmon
 	}
@@ -204,10 +204,10 @@ describe "Test de efectos" {
 		
 		assert.equals(12, wollokmonAliado.defensaActual())  // la defensa base actual es igual a la defensa base del wollokmon
 		pantallaDeBatalla.turno(2)                          // se aplica el efecto
-		wollokmonAliado.cumplirRonda()
+		wollokmonAliado.cumplirTurno()
 		assert.equals(17, wollokmonAliado.defensaActual())   // la defensa base actual aumenta en 5
 		assert.equals(1, wollokmonAliado.efectosRecibidos().first().turnosRestantes())
-		wollokmonAliado.cumplirRonda()                     // termina el efecto
+		wollokmonAliado.cumplirTurno()                     // termina el efecto
 		assert.throwsException({wollokmonAliado.efectosRecibidos().first().turnosRestantes()})	
 		assert.equals(12, wollokmonAliado.defensaActual())  // la defensa base actual vuelve a ser equivalente a la defensa base del wollokmon
 	}
@@ -218,10 +218,10 @@ describe "Test de efectos" {
 		
 		assert.equals(100, wollokmonEnemigo.vidaActual())
 		pantallaDeBatalla.turno(2)
-		wollokmonEnemigo.cumplirRonda()
+		wollokmonEnemigo.cumplirTurno()
 		assert.equals(95, wollokmonEnemigo.vidaActual())  // 100 - 5 (daño de efecto fuego) = 95
         assert.equals(1, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
-        wollokmonEnemigo.cumplirRonda()
+        wollokmonEnemigo.cumplirTurno()
         assert.equals(90, wollokmonEnemigo.vidaActual())  // 95 - 5 (daño de efecto fuego) = 90
         assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})
         
