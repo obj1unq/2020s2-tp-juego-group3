@@ -1,11 +1,81 @@
 import wollok.game.*
 import wollokmones.*
 
+class Animacion {
+	
+	var property image
+	var indice = 0
+	
+	method animacion() //lista de 4 imagenes
+	
+	method ejecutarAnimacion(wollokmon){
+		self.siguienteImagen()
+		game.addVisualIn(self, wollokmon.position()) 
+		game.schedule(400, ({self.siguienteImagen()}))
+		game.schedule(800, ({self.siguienteImagen()}))
+		game.schedule(1200, ({self.siguienteImagen()}))
+		game.schedule(1500, ({
+			game.removeVisual(self)
+		}))
+	}
+	
+	method siguienteImagen(){
+		image = self.animacion().get(indice)
+		indice = (indice + 1) % 4
+	}
+	
+}
+
+object animacionGolpe inherits Animacion {
+	
+	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	
+}
+
+object animacionFuego inherits Animacion {
+	
+	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	
+	method animacionVeloz(wollokmon){
+		self.siguienteImagen()
+		game.addVisualIn(self, wollokmon.position()) 
+		game.schedule(20, ({self.siguienteImagen()}))
+		game.schedule(400, ({self.siguienteImagen()}))
+		game.schedule(60, ({self.siguienteImagen()}))
+		game.schedule(80, ({
+			game.removeVisual(self)
+		}))
+	}
+}
+
+object animacionAgua inherits Animacion {
+	
+	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	
+}
+
+object animacionViento inherits Animacion {
+	
+	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	
+}
+
+object animacionRayo inherits Animacion {
+	
+	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	
+}
+
+object animacionDefensa inherits Animacion {
+	
+	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	
+}
 
 class Movimiento {
 	
 	method ejecutar(ejecutor, rival){
-		//game.say(ejecutor, "uso " + self.nombre())
+		self.animacion(ejecutor, rival)
 		game.schedule(500, ({ 
 			cartel.mostrarCartel(ejecutor, rival, self)
 			game.addVisual(cartel)
@@ -18,6 +88,7 @@ class Movimiento {
 	    self.actualizarMana(ejecutor)
 	}
 	
+	method animacion(ejecutor, rival)
 	method danioEjercido(ejecutor, rival)
     method nombre()
     method efecto(ejecutor, rival){}
@@ -47,6 +118,10 @@ object ataqueBase inherits Movimiento {
   	
   	override method cartel(ejecutor, rival) {
   		return ("ataque_" + ejecutor.nombre() + "_" + rival.nombre() + ".png")
+  	}
+  	
+  	override method animacion(ejecutor, rival){
+  		animacionGolpe.ejecutarAnimacion(rival)
   	}
 }
 
@@ -84,6 +159,9 @@ object rayo inherits Especiales {
 		return "rayo"
 	} 
 	
+	override method animacion(ejecutor, rival){
+		animacionRayo.ejecutarAnimacion(rival)
+	}
 	// el ataque especial produce daño como un ataque base pero con el valor del especial
 	    
 }
@@ -97,6 +175,10 @@ object fuego  inherits Especiales {
 	override method nombre(){
 		return "fuego"
 	} 
+	
+	override method animacion(ejecutor, rival){
+		animacionFuego.ejecutarAnimacion(rival)
+	}
 }
 
 object agua inherits Especiales {
@@ -111,6 +193,10 @@ object agua inherits Especiales {
 	
 	override method efecto(ejecutor, rival){
 		ejecutor.recibirEfecto(self.efecto())
+	}
+	
+	override method animacion(ejecutor, rival){
+		animacionAgua.ejecutarAnimacion(rival)
 	}
 }
 
@@ -132,6 +218,9 @@ object viento inherits Especiales {
 		ejecutor.recibirEfecto(self.efecto())
 	}
 	
+	override method animacion(ejecutor, rival){
+		animacionRayo.ejecutarAnimacion(ejecutor)
+	}
 }
 
 class Efectos {
@@ -186,6 +275,7 @@ class EfectoFuego inherits Efectos{
 	
 	override method efectoASufrirPorTurno(wollokmonAfectado){
 		wollokmonAfectado.recibirDanio(5)
+		animacionFuego.animacionVeloz(wollokmonAfectado)
 	}
 	
 	override method deshacerEfecto(wollokmonAfectado){}
@@ -237,6 +327,10 @@ object defensa inherits Movimiento {
     override method cartel(ejecutor, rival) {
     	return ("ataque_" + ejecutor.nombre() + "_" + self.nombre() + ".png")
     }
+    
+    override method animacion(ejecutor, rival){
+		animacionDefensa.ejecutarAnimacion(ejecutor)
+	}
 }
 
 class DefensaTemporal inherits Efectos {
