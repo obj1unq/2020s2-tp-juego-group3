@@ -8,7 +8,6 @@ class Pantalla {
 	// Se carga a si misma y su contenido
 	method iniciar() { 
 		game.clear()
-		// self.configurarTeclas()
 		game.addVisual(self)
 		self.configTeclas()
 		rocola.cambiarTrack(self.pista())
@@ -72,6 +71,8 @@ class PantallaDeExploracion inherits Pantalla {
 		
 		//Agrega lo visual de la pantalla principal
 		game.addVisual(jugador)
+		
+		game.addVisual(seleccion)
 		
 		// Agrega solo a los entrenadores que faltan vencer
 		self.entrenadoresAVencer().forEach({entrenador => game.addVisual(entrenador)})
@@ -192,7 +193,6 @@ object pantallaInteriorCasa inherits PantallaDeExploracion{
 	
 	override method comprobarVictoria(){
 		if(entrenadoresAVencer.isEmpty()){
-			// TODO: acomodar el mensaje
 			jugador.ganar()
 			game.schedule(2000,{ pantallaDeVictoria.iniciar() })
 		}
