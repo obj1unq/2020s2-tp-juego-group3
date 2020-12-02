@@ -50,7 +50,7 @@ object animacionFuego inherits Animacion {
 
 object animacionAgua inherits Animacion {
 	
-	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	override method animacion() = ["agua1.png","agua2.png","agua3.png","agua4.png"]
 	
 }
 
