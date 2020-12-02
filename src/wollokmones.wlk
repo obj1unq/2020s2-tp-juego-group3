@@ -53,8 +53,8 @@ class Wollokmon {
     
     method cumplirTurno(){
 		self.restarTurnoDeEfectos()   // hace que cada efecto de la lista tenga una ronda menos
-		self.cumplirEfectos()         // si las rondas llegan a 0 ejecuta el deshacer efecto
 		self.sacarEfectosTerminados() // saca los efectos en 0 para que no se sigan ejecutando
+		self.cumplirEfectos()         // si las rondas llegan a 0 ejecuta el deshacer efecto
 	}
 	
 	method restarTurnoDeEfectos(){
@@ -62,13 +62,27 @@ class Wollokmon {
 	}
 	
 	method cumplirEfectos(){
-		efectosRecibidos.forEach({ efecto => efecto.efectoASufrirPorTurno(self) 
-			efecto.deshacerEfectoFinalizado(self)
+		self.efectosDistintos().forEach({ efecto => efecto.efectoASufrirPorTurno(self)})
+	}
+	
+	method efectosDistintos(){
+		const efectosSinDuplicados = []
+		efectosRecibidos.forEach({
+    			efecto =>
+        		if(not efectosSinDuplicados.map({_efecto => _efecto.nombre()}).contains(efecto.nombre())){
+            		efectosSinDuplicados.add(efecto)
+        		}
 		})
+		return efectosSinDuplicados
 	}
 	
 	method sacarEfectosTerminados(){
+		self.efectosTerminados().forEach({ efecto => efecto.deshacerEfectoFinalizado(self)})
 		efectosRecibidos.removeAllSuchThat({ efecto => efecto.finalizoEfecto() })
+	}
+	
+	method efectosTerminados() {
+		return efectosRecibidos.filter({efecto => efecto.finalizoEfecto()})
 	}
 	
 	// termina todos los efectos recibidos (para cuando termina una batalla no siga teniendo efecto en la siguiente)
@@ -76,6 +90,7 @@ class Wollokmon {
 		efectosRecibidos.forEach({ efecto => efecto.deshacerEfecto(self) })
 		efectosRecibidos.clear()
 	}
+	
 	method resetearMana() {
 		manaActual = 3
 	}

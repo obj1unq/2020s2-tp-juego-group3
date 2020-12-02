@@ -36,18 +36,21 @@ object animacionFuego inherits Animacion {
 	
 	override method animacion() = ["fuego1.png","fuego2.png","fuego3.png","fuego4.png"]
 	
-	method animacionVeloz(wollokmon){
+}
+
+object animacionQuemado inherits Animacion {
+	
+	override method animacion() = ["fuego1.png","fuego2.png","fuego3.png","fuego4.png"]
+	
+	override method ejecutarAnimacion(wollokmon){
 		self.siguienteImagen()
 		game.addVisualIn(self, wollokmon.position()) 
 		game.schedule(20, ({self.siguienteImagen()}))
-		game.schedule(400, ({self.siguienteImagen()}))
+		game.schedule(40, ({self.siguienteImagen()}))
 		game.schedule(60, ({self.siguienteImagen()}))
-		game.schedule(80, ({
-			game.removeVisual(self)
-		}))
+		game.schedule(80, ({game.removeVisual(self)}))
 	}
 }
-
 object animacionAgua inherits Animacion {
 	
 	override method animacion() = ["agua1.png","agua2.png","agua3.png","agua4.png"]
@@ -169,7 +172,7 @@ object rayo inherits Especiales {
 object fuego  inherits Especiales {
 	
 	override method efecto() { 
-		return new EfectoFuego(turnosRestantes = 2)
+		return new EfectoFuego(turnosRestantes = 3)
 	}
 	
 	override method nombre(){
@@ -227,6 +230,8 @@ class Efectos {
 	var property turnosRestantes
    // son los turnos restantes en los que sigue vigente el efecto (se inicializa en la instacia de cada especial)
 	
+	method nombre()
+	
 	method restarTurno(){
     	turnosRestantes -= 1
     }
@@ -256,6 +261,8 @@ class EfectoRayo inherits Efectos{
 	// el efecto del rayo baja la defensa del oponente a la mitad haciendo q reciba mas daños
 	// durante dos rondas de la batalla
 	
+	override method nombre(){return "Rayo"}
+	
 	override method efectoASufrir(wollokmonAfectado){
 		wollokmonAfectado.defensaActual((wollokmonAfectado.defensa() / 2 ).roundUp())
 	}
@@ -269,13 +276,15 @@ class EfectoRayo inherits Efectos{
 class EfectoFuego inherits Efectos{
 	// el efecto de fuego quita 5 puntos de vida al oponente al finalizar cada ronda
 	
+	override method nombre(){return "Fuego"}
+	
 	override method efectoASufrir(wollokmonAfectado){
 		
 	}
 	
 	override method efectoASufrirPorTurno(wollokmonAfectado){
 		wollokmonAfectado.recibirDanio(5)
-		animacionFuego.animacionVeloz(wollokmonAfectado)
+		animacionQuemado.ejecutarAnimacion(wollokmonAfectado)
 	}
 	
 	override method deshacerEfecto(wollokmonAfectado){}
@@ -285,6 +294,8 @@ class EfectoFuego inherits Efectos{
 
 class EfectoAgua inherits Efectos{
 	// el efecto de agua aumenta en 5 la defensa del wollokmon que lo ejecuta
+	
+	override method nombre(){return "Agua"}
 	
 	override method efectoASufrir(wollokmonAfectado){
 		wollokmonAfectado.defensaActual((wollokmonAfectado.defensa() + 5).roundUp())
@@ -296,6 +307,8 @@ class EfectoAgua inherits Efectos{
 }
 
 class EfectoViento inherits Efectos{
+	
+	override method nombre(){return "Viento"}
 	
 	override method efectoASufrir(wollokmonAfectado){
 		wollokmonAfectado.curarse(20)
@@ -334,6 +347,8 @@ object defensa inherits Movimiento {
 }
 
 class DefensaTemporal inherits Efectos {
+	
+	override method nombre(){return "Defensa"}
 	
     override method deshacerEfecto(wollokmonAfectado){
     	wollokmonAfectado.defensaActual(wollokmonAfectado.defensa())
