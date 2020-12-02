@@ -34,7 +34,7 @@ object animacionGolpe inherits Animacion {
 
 object animacionFuego inherits Animacion {
 	
-	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	override method animacion() = ["fuego1.png","fuego2.png","fuego3.png","fuego4.png"]
 	
 	method animacionVeloz(wollokmon){
 		self.siguienteImagen()
