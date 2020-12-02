@@ -62,7 +62,7 @@ object animacionViento inherits Animacion {
 
 object animacionRayo inherits Animacion {
 	
-	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	override method animacion() = ["rayo1.png","rayo2.png","rayo3.png","rayo4.png"]
 	
 }
 
@@ -219,7 +219,7 @@ object viento inherits Especiales {
 	}
 	
 	override method animacion(ejecutor, rival){
-		animacionRayo.ejecutarAnimacion(ejecutor)
+		animacionViento.ejecutarAnimacion(ejecutor)
 	}
 }
 
