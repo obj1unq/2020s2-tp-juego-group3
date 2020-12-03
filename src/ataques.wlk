@@ -28,7 +28,7 @@ class Animacion {
 
 object animacionGolpe inherits Animacion {
 	
-	override method animacion() = ["mana_0.png","mana_1.png","mana_2.png","mana_3.png"]
+	override method animacion() = ["basico1.png","basico2.png","basico3.png","basico4.png"]
 	
 }
 
