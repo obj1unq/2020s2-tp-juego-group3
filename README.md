@@ -1,7 +1,7 @@
 # Wollokmon
 
-Trello: https://trello.com/b/Z5qdgAuf/wollokmon
-GitHub: https://github.com/obj1unq/2020s2-tp-juego-group3
+GitHub: https://github.com/obj1unq/2020s2-tp-juego-group3  
+Se tomaron algunos recursos visuales gratuitos de https://www.spriters-resource.com/
 
 **Idea principal:**
 	Una especie de Pokémon donde contamos con un escenario principal y dos escenarios de pelea.
@@ -29,9 +29,16 @@ GitHub: https://github.com/obj1unq/2020s2-tp-juego-group3
 **Entrenador rival:** 
 	Cada rival cuenta con un wollokmon para la pelea.
 
+**Imagenes de muestra**  
+![Habitación casa](ImagenesDeMuestra/imagen1.png)
 
+![Batalla wollokmon](ImagenesDeMuestra/imagen2.png)
+
+![Batalla wollokmon](ImagenesDeMuestra/imagen3.png)
 
 ## Integrantes:
-Insaurralde Juan Cruz
-Provvidenza Ivana
-Romero Fernando
+Insaurralde Juan Cruz  
+Provvidenza Ivana  
+Romero Fernando  
+
+**Todos alumnos de la Universidad nacional de Quilmes**
