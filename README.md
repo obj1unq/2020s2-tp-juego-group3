@@ -30,11 +30,11 @@ Se tomaron algunos recursos visuales gratuitos de https://www.spriters-resource.
 	Cada rival cuenta con un wollokmon para la pelea.
 
 **Imagenes de muestra**  
-![Habitación casa](ImagenesDeMuestra/imagen1.png)
+![Habitación casa](https://raw.githubusercontent.com/obj1unq/2020s2-tp-juego-group3/master/ImagenesDeMuestra/Imagen1.png)
 
-![Batalla wollokmon](ImagenesDeMuestra/imagen2.png)
+![Batalla wollokmon](https://raw.githubusercontent.com/obj1unq/2020s2-tp-juego-group3/master/ImagenesDeMuestra/Imagen2.png)
 
-![Batalla wollokmon](ImagenesDeMuestra/imagen3.png)
+![Batalla wollokmon](https://raw.githubusercontent.com/obj1unq/2020s2-tp-juego-group3/master/ImagenesDeMuestra/Imagen3.png)
 
 ## Integrantes:
 Insaurralde Juan Cruz  
