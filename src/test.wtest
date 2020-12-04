@@ -221,10 +221,6 @@ describe "Test de efectos" {
 		wollokmonEnemigo.cumplirTurno()
 		assert.equals(95, wollokmonEnemigo.vidaActual())  // 100 - 5 (daño de efecto fuego) = 95
         assert.equals(2, wollokmonEnemigo.efectosRecibidos().first().turnosRestantes())
-        wollokmonEnemigo.cumplirTurno()
-        assert.equals(90, wollokmonEnemigo.vidaActual())  // 95 - 5 (daño de efecto fuego) = 90
-        assert.throwsException({wollokmonEnemigo.efectosRecibidos().first().turnosRestantes()})
-        
     }
     
     test "Efecto brisa curativa"{
