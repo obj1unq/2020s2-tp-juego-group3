@@ -11,6 +11,7 @@ class Pantalla {
 		game.addVisual(self)
 		self.configTeclas()
 		rocola.cambiarTrack(self.pista())
+		jugador.image("prota.png")
 	}
 	
 	// Siempre es la misma posicion de fondo
@@ -118,10 +119,18 @@ class PantallaDeExploracion inherits Pantalla {
 	
 	override method configTeclas(){
 		// Mover al jugador
-		keyboard.left().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1)) })
-		keyboard.right().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1)) })
-		keyboard.up().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(1)) })
-		keyboard.down().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1)) })
+		keyboard.left().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().left(1)) 
+									jugador.image("protaizq.png")
+		})
+		keyboard.right().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().right(1)) 
+									 jugador.image("protader.png")
+		})
+		keyboard.up().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().up(1)) 
+								  jugador.image("protaesp.png")
+		})
+		keyboard.down().onPressDo({ jugador.irASiSeMantieneEnLaPantalla(jugador.position().down(1)) 
+									jugador.image("prota.png")
+		})
 		// Mostrar la pantala de seleccion de wollokmones
 		keyboard.enter().onPressDo({ pantallaWollokmones.iniciar() })
 	}

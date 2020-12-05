@@ -9,17 +9,13 @@ object jugador {
 	var property wollokmonesGanados = #{pepita}
 	var property position = game.center()
 	var property pantallaActual
+	var property image = "prota.png"
 
 	method reset(){
 		position = game.center()
 		wollokmon = pepita
 		wollokmonesGanados.clear()
 		wollokmonesGanados.add(wollokmon)
-	}
-	
-	// De carga del jugador
-	method image() {
-		return "prota.png"
 	}
 	
 	// De movimiento del jugador
@@ -65,7 +61,7 @@ class Entrenador {
 	// Su wollokmon
 	var property wollokmon
 	const property position
-	const property image
+	var property image
 	
 	method iniciarPelea(){
 		pantallaDeBatalla.rivalActual(self)
